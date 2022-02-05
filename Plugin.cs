@@ -30,24 +30,15 @@ namespace PartyExtensions
         /// [Init] methods that use a Constructor or called before regular methods like InitWithConfig.
         /// Only use [Init] with one Constructor.
         /// </summary>
-        public Plugin(IPALogger logger)
+        public Plugin(IPALogger logger, Config conf)
         {
             Instance = this;
             Plugin.Log = logger;
             Plugin.Log?.Debug("Logger initialized.");
-        }
 
-        #region BSIPA Config
-        //Uncomment to use BSIPA's config
-        /*
-        [Init]
-        public void InitWithConfig(Config conf)
-        {
             Configuration.PluginConfig.Instance = conf.Generated<Configuration.PluginConfig>();
             Plugin.Log?.Debug("Config loaded");
         }
-        */
-        #endregion
 
 
         #region Disableable
