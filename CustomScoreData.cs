@@ -41,14 +41,14 @@ namespace PartyExtensions
 
         }
 
-        public CustomScoreData(string rank, int missed, int good_cuts, int bad_cuts, /*float left_acc, float right_acc,*/ GameplayModifiers modifiers, int longest_combo, long timestamp, string playername)
+        public CustomScoreData(string rank, int missed, int good_cuts, int bad_cuts, float left_acc, float right_acc, GameplayModifiers modifiers, int longest_combo, long timestamp, string playername)
         {
             this.rank = rank;
             this.missed = missed;
             this.good_cuts = good_cuts;
             this.bad_cuts = bad_cuts;
-            //this.left_acc = left_acc;
-            //this.right_acc = right_acc;
+            this.left_acc = left_acc;
+            this.right_acc = right_acc;
             this.modifiers = modifiers;
             this.longest_combo = longest_combo;
             this.timestamp = timestamp;
