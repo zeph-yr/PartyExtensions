@@ -17,8 +17,8 @@ namespace PartyExtensions
     {
         // TODO: If using Harmony, uncomment and change YourGitHub to the name of your GitHub account, or use the form "com.company.project.product"
         //       You must also add a reference to the Harmony assembly in the Libs folder.
-        // public const string HarmonyId = "com.github.YourGitHub.PartyExtensions";
-        // internal static readonly HarmonyLib.Harmony harmony = new HarmonyLib.Harmony(HarmonyId);
+         public const string HarmonyId = "com.github.YourGitHub.PartyExtensions";
+         internal static readonly HarmonyLib.Harmony harmony = new HarmonyLib.Harmony(HarmonyId);
 
         internal static Plugin Instance { get; private set; }
         internal static IPALogger Log { get; private set; }
@@ -50,7 +50,7 @@ namespace PartyExtensions
         public void OnEnable()
         {
             new GameObject("PartyExtensionsController").AddComponent<PartyExtensionsController>();
-            //ApplyHarmonyPatches();
+            ApplyHarmonyPatches();
         }
 
         /// <summary>
@@ -63,7 +63,7 @@ namespace PartyExtensions
         {
             if (PluginController != null)
                 GameObject.Destroy(PluginController);
-            //RemoveHarmonyPatches();
+            RemoveHarmonyPatches();
         }
 
         /*
@@ -82,7 +82,7 @@ namespace PartyExtensions
 
         // Uncomment the methods in this section if using Harmony
         #region Harmony
-        /*
+        
         /// <summary>
         /// Attempts to apply all the Harmony patches in this assembly.
         /// </summary>
@@ -108,7 +108,7 @@ namespace PartyExtensions
             try
             {
                 // Removes all patches with this HarmonyId
-                harmony.UnpatchAll(HarmonyId);
+                harmony.UnpatchSelf();
             }
             catch (Exception ex)
             {
@@ -116,7 +116,7 @@ namespace PartyExtensions
                 Plugin.Log?.Debug(ex);
             }
         }
-        */
+        
         #endregion
     }
 }

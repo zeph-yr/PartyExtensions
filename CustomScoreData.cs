@@ -19,21 +19,21 @@ namespace PartyExtensions
         // mods (speed+, ghost-blocks etc)
         // date/time when reached
 
-        internal string rank;
+        public string rank;
 
-        internal int missed;
-        internal int good_cuts;
-        internal int bad_cuts;
+        public int missed;
+        public int good_cuts;
+        public int bad_cuts;
 
-        internal float left_acc;
-        internal float right_acc;
+        public float left_acc;
+        public float right_acc;
 
-        internal GameplayModifiers modifiers;
+        public GameplayModifiers modifiers;
 
-        internal int longest_combo;
+        public int longest_combo;
 
-        internal long timestamp;
-        internal string playername;
+        public long timestamp;
+        public string playername;
 
         [JsonConstructor]
         public CustomScoreData()
@@ -54,9 +54,53 @@ namespace PartyExtensions
             this.timestamp = timestamp;
             this.playername = playername;
         }
+    }
 
+    class CustomPartyLeaderboard
+    {
+        public List<CustomScoreData> custom_score_list;
 
-
-
+        [JsonConstructor]
+        public CustomPartyLeaderboard()
+        {
+            this.custom_score_list = new List<CustomScoreData>();
+        }
     }
 }
+
+/*DEBUG @ 23:59:55 | PartyExtensions] level cleared
+[DEBUG @ 23:59:55 | PartyExtensions] final: 107.4318 103.6882
+[DEBUG @ 23:59:55 | PartyExtensions] {
+[DEBUG @ 23:59:55 | PartyExtensions]   "rank": "C",
+[DEBUG @ 23:59:55 | PartyExtensions]   "missed": 38,
+[DEBUG @ 23:59:55 | PartyExtensions]   "good_cuts": 545,
+[DEBUG @ 23:59:55 | PartyExtensions]   "bad_cuts": 1,
+[DEBUG @ 23:59:55 | PartyExtensions]   "left_acc": 107.431755,
+[DEBUG @ 23:59:55 | PartyExtensions]   "right_acc": 103.688171,
+[DEBUG @ 23:59:55 | PartyExtensions]   "modifiers": {
+[DEBUG @ 23:59:55 | PartyExtensions]     "energyType": 0,
+[DEBUG @ 23:59:55 | PartyExtensions]     "noFailOn0Energy": true,
+[DEBUG @ 23:59:55 | PartyExtensions]     "demoNoFail": false,
+[DEBUG @ 23:59:55 | PartyExtensions]     "instaFail": false,
+[DEBUG @ 23:59:55 | PartyExtensions]     "failOnSaberClash": false,
+[DEBUG @ 23:59:55 | PartyExtensions]     "enabledObstacleType": 0,
+[DEBUG @ 23:59:55 | PartyExtensions]     "demoNoObstacles": false,
+[DEBUG @ 23:59:55 | PartyExtensions]     "fastNotes": false,
+[DEBUG @ 23:59:55 | PartyExtensions]     "strictAngles": false,
+[DEBUG @ 23:59:55 | PartyExtensions]     "disappearingArrows": false,
+[DEBUG @ 23:59:55 | PartyExtensions]     "ghostNotes": false,
+[DEBUG @ 23:59:55 | PartyExtensions]     "noBombs": false,
+[DEBUG @ 23:59:55 | PartyExtensions]     "songSpeed": 0,
+[DEBUG @ 23:59:55 | PartyExtensions]     "noArrows": false,
+[DEBUG @ 23:59:55 | PartyExtensions]     "proMode": false,
+[DEBUG @ 23:59:55 | PartyExtensions]     "zenMode": false,
+[DEBUG @ 23:59:55 | PartyExtensions]     "smallCubes": false,
+[DEBUG @ 23:59:55 | PartyExtensions]     "songSpeedMul": 1.0,
+[DEBUG @ 23:59:55 | PartyExtensions]     "cutAngleTolerance": 60.0,
+[DEBUG @ 23:59:55 | PartyExtensions]     "notesUniformScale": 1.0
+[DEBUG @ 23:59:55 | PartyExtensions]   },
+[DEBUG @ 23:59:55 | PartyExtensions]   "longest_combo": 195,
+[DEBUG @ 23:59:55 | PartyExtensions]   "timestamp": 637797887951893649,
+[DEBUG @ 23:59:55 | PartyExtensions]   "playername": ""
+[DEBUG @ 23:59:55 | PartyExtensions] }
+*/

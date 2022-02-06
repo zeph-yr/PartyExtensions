@@ -1,12 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
+
 
 namespace PartyExtensions
 {
@@ -26,6 +21,8 @@ namespace PartyExtensions
 
         internal static float final_left_acc = 0f;
         internal static float final_right_acc = 0f;
+
+        internal static CustomPartyLeaderboard partyLeaderboard;
 
 
         // These methods are automatically called by Unity, you should remove any you aren't using.
@@ -62,18 +59,13 @@ namespace PartyExtensions
         private void OnEnable()
         {
             BS_Utils.Utilities.BSEvents.gameSceneLoaded += BSEvents_gameSceneLoaded;
-
             BS_Utils.Utilities.BSEvents.noteWasCut += BSEvents_noteWasCut;
 
-            BS_Utils.Utilities.BSEvents.LevelFinished += BSEvents_LevelFinished;
             BS_Utils.Utilities.BSEvents.levelCleared += BSEvents_levelCleared;
 
+            partyLeaderboard = new CustomPartyLeaderboard();
         }
 
-        private static void BSEvents_LevelFinished(object sender, BS_Utils.Utilities.LevelFinishedEventArgs e)
-        {
-            Plugin.Log.Debug("level finished");
-        }
 
         private static void BSEvents_levelCleared(StandardLevelScenesTransitionSetupDataSO arg1, LevelCompletionResults arg2)
         {
@@ -86,8 +78,14 @@ namespace PartyExtensions
 
 
             CustomScoreData customScore = new CustomScoreData(arg2.rank.ToString(), arg2.missedCount, arg2.goodCutsCount, arg2.badCutsCount, final_left_acc, final_right_acc, arg2.gameplayModifiers, arg2.maxCombo, DateTime.Now.Ticks, "");
+            
+            string a = JsonConvert.SerializeObject(customScore, Formatting.Indented);
+            Plugin.Log.Debug(a);
 
-            Plugin.Log.Debug(JsonConvert.SerializeObject(customScore));
+            partyLeaderboard.custom_score_list.Add(customScore);
+
+            Plugin.Log.Debug(JsonConvert.SerializeObject(partyLeaderboard, Formatting.Indented));
+
         }
 
         private static void BSEvents_gameSceneLoaded()
@@ -102,9 +100,6 @@ namespace PartyExtensions
 
             right_acc = 0;
             right_hits = 0;
-
-            
-
         }
 
         int preswing;
@@ -136,15 +131,6 @@ namespace PartyExtensions
                 dist = arg2.cutDistanceToCenter;
                 arg2.swingRatingCounter.RegisterDidFinishReceiver(this);
             }
-
-            /*else if (arg1 != null && arg1.colorType == ColorType.ColorB)
-            {
-                dist = arg2.cutDistanceToCenter;
-                color = "B";
-
-                arg2.swingRatingCounter.RegisterDidFinishReceiver(this);
-            }*/
-
         }
 
         public void HandleSaberSwingRatingCounterDidFinish(ISaberSwingRatingCounter saberSwingRatingCounter)
@@ -157,15 +143,15 @@ namespace PartyExtensions
                 left_hits++;
             }
 
-            else
+            else if (color == "B")
             {
                 right_acc += (preswing + postswing + center);
                 right_hits++;
             }
 
-            Plugin.Log.Debug($"-----------------------------------------------------------------------");
-            Plugin.Log.Debug($"left: {left_acc} | {preswing} {postswing} {center} | {left_hits}");
-            Plugin.Log.Debug($"right: {right_acc} | {preswing} {postswing} {center} | {right_hits}");
+            //Plugin.Log.Debug($"-----------------------------------------------------------------------");
+            //Plugin.Log.Debug($"left: {left_acc} | {preswing} {postswing} {center} | {left_hits}");
+            //Plugin.Log.Debug($"right: {right_acc} | {preswing} {postswing} {center} | {right_hits}");
         }
 
 
@@ -217,3 +203,288 @@ namespace PartyExtensions
         #endregion
     }
 }
+
+/*[DEBUG @ 23:29:26 | PartyExtensions] left: 1380 | 70 15 11 | 12
+[DEBUG @ 23:29:26 | PartyExtensions] right: 3026 | 70 15 11 | 29
+[DEBUG @ 23:29:26 | PartyExtensions] -----------------------------------------------------------------------
+[DEBUG @ 23:29:26 | PartyExtensions] left: 1380 | 70 30 11 | 12
+[DEBUG @ 23:29:26 | PartyExtensions] right: 3137 | 70 30 11 | 30
+[DEBUG @ 23:29:27 | PartyExtensions] -----------------------------------------------------------------------
+[DEBUG @ 23:29:27 | PartyExtensions] left: 1380 | 70 30 11 | 12
+[DEBUG @ 23:29:27 | PartyExtensions] right: 3248 | 70 30 11 | 31
+[DEBUG @ 23:29:27 | PartyExtensions] -----------------------------------------------------------------------
+[DEBUG @ 23:29:27 | PartyExtensions] left: 1380 | 70 30 11 | 12
+[DEBUG @ 23:29:27 | PartyExtensions] right: 3359 | 70 30 11 | 32
+[DEBUG @ 23:29:27 | PartyExtensions] -----------------------------------------------------------------------
+[DEBUG @ 23:29:27 | PartyExtensions] left: 1380 | 70 30 2 | 12
+[DEBUG @ 23:29:27 | PartyExtensions] right: 3461 | 70 30 2 | 33
+[DEBUG @ 23:29:27 | PartyExtensions] -----------------------------------------------------------------------
+[DEBUG @ 23:29:27 | PartyExtensions] left: 1380 | 70 21 2 | 12
+[DEBUG @ 23:29:27 | PartyExtensions] right: 3554 | 70 21 2 | 34
+[DEBUG @ 23:29:27 | PartyExtensions] -----------------------------------------------------------------------
+[DEBUG @ 23:29:27 | PartyExtensions] left: 1495 | 70 30 15 | 13
+[DEBUG @ 23:29:27 | PartyExtensions] right: 3554 | 70 30 15 | 34
+[DEBUG @ 23:29:27 | PartyExtensions] -----------------------------------------------------------------------
+[DEBUG @ 23:29:27 | PartyExtensions] left: 1610 | 70 30 15 | 14
+[DEBUG @ 23:29:27 | PartyExtensions] right: 3554 | 70 30 15 | 34
+[DEBUG @ 23:29:28 | BS_Utils] Triggering LevelFinishEvent.
+[DEBUG @ 23:29:28 | BS_Utils] Solo/Party mode level finished.
+[DEBUG @ 23:29:28 | BS_Utils] Solo/Party mode level finished.
+[DEBUG @ 23:29:28 | PartyExtensions] level finished
+[INFO @ 23:29:28 | BeatSaviorData] BSD : Song stats saved successfully.
+[DEBUG @ 23:29:29 | PartyExtensions] level cleared
+[DEBUG @ 23:29:29 | PartyExtensions] final: 115 104.5294
+
+[DEBUG @ 23:50:06 | PartyExtensions] level cleared
+[DEBUG @ 23:50:06 | PartyExtensions] final: 115 103.2453
+[DEBUG @ 23:50:06 | PartyExtensions] {
+[DEBUG @ 23:50:06 | PartyExtensions]   "rank": "SS",
+[DEBUG @ 23:50:06 | PartyExtensions]   "missed": 0,
+[DEBUG @ 23:50:06 | PartyExtensions]   "good_cuts": 95,
+[DEBUG @ 23:50:06 | PartyExtensions]   "bad_cuts": 0,
+[DEBUG @ 23:50:06 | PartyExtensions]   "left_acc": 115.0,
+[DEBUG @ 23:50:06 | PartyExtensions]   "right_acc": 103.245285,
+[DEBUG @ 23:50:06 | PartyExtensions]   "longest_combo": 95,
+[DEBUG @ 23:50:06 | PartyExtensions]   "timestamp": 637797882069234481,
+[DEBUG @ 23:50:06 | PartyExtensions]   "playername": ""
+[DEBUG @ 23:50:06 | PartyExtensions] }
+[DEBUG @ 23:50:06 | PartyExtensions] stuff: SS0950 
+*/
+
+/*
+[DEBUG @ 01:51:30 | PartyExtensions] {
+[DEBUG @ 01:51:30 | PartyExtensions]   "custom_score_list": [
+[DEBUG @ 01:51:30 | PartyExtensions]     {
+[DEBUG @ 01:51:30 | PartyExtensions]       "rank": "SS",
+[DEBUG @ 01:51:30 | PartyExtensions]       "missed": 0,
+[DEBUG @ 01:51:30 | PartyExtensions]       "good_cuts": 744,
+[DEBUG @ 01:51:30 | PartyExtensions]       "bad_cuts": 0,
+[DEBUG @ 01:51:30 | PartyExtensions]       "left_acc": 114.25338,
+[DEBUG @ 01:51:30 | PartyExtensions]       "right_acc": 114.629463,
+[DEBUG @ 01:51:30 | PartyExtensions]       "modifiers": {
+[DEBUG @ 01:51:30 | PartyExtensions]         "energyType": 0,
+[DEBUG @ 01:51:30 | PartyExtensions]         "noFailOn0Energy": true,
+[DEBUG @ 01:51:30 | PartyExtensions]         "demoNoFail": false,
+[DEBUG @ 01:51:30 | PartyExtensions]         "instaFail": false,
+[DEBUG @ 01:51:30 | PartyExtensions]         "failOnSaberClash": false,
+[DEBUG @ 01:51:30 | PartyExtensions]         "enabledObstacleType": 0,
+[DEBUG @ 01:51:30 | PartyExtensions]         "demoNoObstacles": false,
+[DEBUG @ 01:51:30 | PartyExtensions]         "fastNotes": false,
+[DEBUG @ 01:51:30 | PartyExtensions]         "strictAngles": false,
+[DEBUG @ 01:51:30 | PartyExtensions]         "disappearingArrows": false,
+[DEBUG @ 01:51:30 | PartyExtensions]         "ghostNotes": true,
+[DEBUG @ 01:51:30 | PartyExtensions]         "noBombs": false,
+[DEBUG @ 01:51:30 | PartyExtensions]         "songSpeed": 3,
+[DEBUG @ 01:51:30 | PartyExtensions]         "noArrows": false,
+[DEBUG @ 01:51:30 | PartyExtensions]         "proMode": false,
+[DEBUG @ 01:51:30 | PartyExtensions]         "zenMode": false,
+[DEBUG @ 01:51:30 | PartyExtensions]         "smallCubes": false,
+[DEBUG @ 01:51:30 | PartyExtensions]         "songSpeedMul": 1.5,
+[DEBUG @ 01:51:30 | PartyExtensions]         "cutAngleTolerance": 60.0,
+[DEBUG @ 01:51:30 | PartyExtensions]         "notesUniformScale": 1.0
+[DEBUG @ 01:51:30 | PartyExtensions]       },
+[DEBUG @ 01:51:30 | PartyExtensions]       "longest_combo": 744,
+[DEBUG @ 01:51:30 | PartyExtensions]       "timestamp": 637797932373460591,
+[DEBUG @ 01:51:30 | PartyExtensions]       "playername": ""
+[DEBUG @ 01:51:30 | PartyExtensions]     },
+[DEBUG @ 01:51:30 | PartyExtensions]     {
+[DEBUG @ 01:51:30 | PartyExtensions]       "rank": "B",
+[DEBUG @ 01:51:30 | PartyExtensions]       "missed": 40,
+[DEBUG @ 01:51:30 | PartyExtensions]       "good_cuts": 2415,
+[DEBUG @ 01:51:30 | PartyExtensions]       "bad_cuts": 2,
+[DEBUG @ 01:51:30 | PartyExtensions]       "left_acc": 111.831055,
+[DEBUG @ 01:51:30 | PartyExtensions]       "right_acc": 111.971245,
+[DEBUG @ 01:51:30 | PartyExtensions]       "modifiers": {
+[DEBUG @ 01:51:30 | PartyExtensions]         "energyType": 0,
+[DEBUG @ 01:51:30 | PartyExtensions]         "noFailOn0Energy": true,
+[DEBUG @ 01:51:30 | PartyExtensions]         "demoNoFail": false,
+[DEBUG @ 01:51:30 | PartyExtensions]         "instaFail": false,
+[DEBUG @ 01:51:30 | PartyExtensions]         "failOnSaberClash": false,
+[DEBUG @ 01:51:30 | PartyExtensions]         "enabledObstacleType": 0,
+[DEBUG @ 01:51:30 | PartyExtensions]         "demoNoObstacles": false,
+[DEBUG @ 01:51:30 | PartyExtensions]         "fastNotes": false,
+[DEBUG @ 01:51:30 | PartyExtensions]         "strictAngles": false,
+[DEBUG @ 01:51:30 | PartyExtensions]         "disappearingArrows": false,
+[DEBUG @ 01:51:30 | PartyExtensions]         "ghostNotes": true,
+[DEBUG @ 01:51:30 | PartyExtensions]         "noBombs": false,
+[DEBUG @ 01:51:30 | PartyExtensions]         "songSpeed": 3,
+[DEBUG @ 01:51:30 | PartyExtensions]         "noArrows": false,
+[DEBUG @ 01:51:30 | PartyExtensions]         "proMode": false,
+[DEBUG @ 01:51:30 | PartyExtensions]         "zenMode": false,
+[DEBUG @ 01:51:30 | PartyExtensions]         "smallCubes": false,
+[DEBUG @ 01:51:30 | PartyExtensions]         "songSpeedMul": 1.5,
+[DEBUG @ 01:51:30 | PartyExtensions]         "cutAngleTolerance": 60.0,
+[DEBUG @ 01:51:30 | PartyExtensions]         "notesUniformScale": 1.0
+[DEBUG @ 01:51:30 | PartyExtensions]       },
+[DEBUG @ 01:51:30 | PartyExtensions]       "longest_combo": 739,
+[DEBUG @ 01:51:30 | PartyExtensions]       "timestamp": 637797934807592494,
+[DEBUG @ 01:51:30 | PartyExtensions]       "playername": ""
+[DEBUG @ 01:51:30 | PartyExtensions]     },
+[DEBUG @ 01:51:30 | PartyExtensions]     {
+[DEBUG @ 01:51:30 | PartyExtensions]       "rank": "E",
+[DEBUG @ 01:51:30 | PartyExtensions]       "missed": 465,
+[DEBUG @ 01:51:30 | PartyExtensions]       "good_cuts": 0,
+[DEBUG @ 01:51:30 | PartyExtensions]       "bad_cuts": 0,
+[DEBUG @ 01:51:30 | PartyExtensions]       "left_acc": "NaN",
+[DEBUG @ 01:51:30 | PartyExtensions]       "right_acc": "NaN",
+[DEBUG @ 01:51:30 | PartyExtensions]       "modifiers": {
+[DEBUG @ 01:51:30 | PartyExtensions]         "energyType": 0,
+[DEBUG @ 01:51:30 | PartyExtensions]         "noFailOn0Energy": true,
+[DEBUG @ 01:51:30 | PartyExtensions]         "demoNoFail": false,
+[DEBUG @ 01:51:30 | PartyExtensions]         "instaFail": false,
+[DEBUG @ 01:51:30 | PartyExtensions]         "failOnSaberClash": false,
+[DEBUG @ 01:51:30 | PartyExtensions]         "enabledObstacleType": 0,
+[DEBUG @ 01:51:30 | PartyExtensions]         "demoNoObstacles": false,
+[DEBUG @ 01:51:30 | PartyExtensions]         "fastNotes": false,
+[DEBUG @ 01:51:30 | PartyExtensions]         "strictAngles": false,
+[DEBUG @ 01:51:30 | PartyExtensions]         "disappearingArrows": false,
+[DEBUG @ 01:51:30 | PartyExtensions]         "ghostNotes": false,
+[DEBUG @ 01:51:30 | PartyExtensions]         "noBombs": false,
+[DEBUG @ 01:51:30 | PartyExtensions]         "songSpeed": 0,
+[DEBUG @ 01:51:30 | PartyExtensions]         "noArrows": false,
+[DEBUG @ 01:51:30 | PartyExtensions]         "proMode": false,
+[DEBUG @ 01:51:30 | PartyExtensions]         "zenMode": false,
+[DEBUG @ 01:51:30 | PartyExtensions]         "smallCubes": false,
+[DEBUG @ 01:51:30 | PartyExtensions]         "songSpeedMul": 1.0,
+[DEBUG @ 01:51:30 | PartyExtensions]         "cutAngleTolerance": 60.0,
+[DEBUG @ 01:51:30 | PartyExtensions]         "notesUniformScale": 1.0
+[DEBUG @ 01:51:30 | PartyExtensions]       },
+[DEBUG @ 01:51:30 | PartyExtensions]       "longest_combo": 0,
+[DEBUG @ 01:51:30 | PartyExtensions]       "timestamp": 637797939780572055,
+[DEBUG @ 01:51:30 | PartyExtensions]       "playername": ""
+[DEBUG @ 01:51:30 | PartyExtensions]     },
+[DEBUG @ 01:51:30 | PartyExtensions]     {
+[DEBUG @ 01:51:30 | PartyExtensions]       "rank": "E",
+[DEBUG @ 01:51:30 | PartyExtensions]       "missed": 892,
+[DEBUG @ 01:51:30 | PartyExtensions]       "good_cuts": 0,
+[DEBUG @ 01:51:30 | PartyExtensions]       "bad_cuts": 0,
+[DEBUG @ 01:51:30 | PartyExtensions]       "left_acc": "NaN",
+[DEBUG @ 01:51:30 | PartyExtensions]       "right_acc": "NaN",
+[DEBUG @ 01:51:30 | PartyExtensions]       "modifiers": {
+[DEBUG @ 01:51:30 | PartyExtensions]         "energyType": 0,
+[DEBUG @ 01:51:30 | PartyExtensions]         "noFailOn0Energy": true,
+[DEBUG @ 01:51:30 | PartyExtensions]         "demoNoFail": false,
+[DEBUG @ 01:51:30 | PartyExtensions]         "instaFail": false,
+[DEBUG @ 01:51:30 | PartyExtensions]         "failOnSaberClash": false,
+[DEBUG @ 01:51:30 | PartyExtensions]         "enabledObstacleType": 0,
+[DEBUG @ 01:51:30 | PartyExtensions]         "demoNoObstacles": false,
+[DEBUG @ 01:51:30 | PartyExtensions]         "fastNotes": false,
+[DEBUG @ 01:51:30 | PartyExtensions]         "strictAngles": false,
+[DEBUG @ 01:51:30 | PartyExtensions]         "disappearingArrows": false,
+[DEBUG @ 01:51:30 | PartyExtensions]         "ghostNotes": false,
+[DEBUG @ 01:51:30 | PartyExtensions]         "noBombs": false,
+[DEBUG @ 01:51:30 | PartyExtensions]         "songSpeed": 0,
+[DEBUG @ 01:51:30 | PartyExtensions]         "noArrows": false,
+[DEBUG @ 01:51:30 | PartyExtensions]         "proMode": false,
+[DEBUG @ 01:51:30 | PartyExtensions]         "zenMode": false,
+[DEBUG @ 01:51:30 | PartyExtensions]         "smallCubes": false,
+[DEBUG @ 01:51:30 | PartyExtensions]         "songSpeedMul": 1.0,
+[DEBUG @ 01:51:30 | PartyExtensions]         "cutAngleTolerance": 60.0,
+[DEBUG @ 01:51:30 | PartyExtensions]         "notesUniformScale": 1.0
+[DEBUG @ 01:51:30 | PartyExtensions]       },
+[DEBUG @ 01:51:30 | PartyExtensions]       "longest_combo": 0,
+[DEBUG @ 01:51:30 | PartyExtensions]       "timestamp": 637797944485704322,
+[DEBUG @ 01:51:30 | PartyExtensions]       "playername": ""
+[DEBUG @ 01:51:30 | PartyExtensions]     },
+[DEBUG @ 01:51:30 | PartyExtensions]     {
+[DEBUG @ 01:51:30 | PartyExtensions]       "rank": "SS",
+[DEBUG @ 01:51:30 | PartyExtensions]       "missed": 3,
+[DEBUG @ 01:51:30 | PartyExtensions]       "good_cuts": 489,
+[DEBUG @ 01:51:30 | PartyExtensions]       "bad_cuts": 0,
+[DEBUG @ 01:51:30 | PartyExtensions]       "left_acc": 114.74884,
+[DEBUG @ 01:51:30 | PartyExtensions]       "right_acc": 114.890511,
+[DEBUG @ 01:51:30 | PartyExtensions]       "modifiers": {
+[DEBUG @ 01:51:30 | PartyExtensions]         "energyType": 0,
+[DEBUG @ 01:51:30 | PartyExtensions]         "noFailOn0Energy": true,
+[DEBUG @ 01:51:30 | PartyExtensions]         "demoNoFail": false,
+[DEBUG @ 01:51:30 | PartyExtensions]         "instaFail": false,
+[DEBUG @ 01:51:30 | PartyExtensions]         "failOnSaberClash": false,
+[DEBUG @ 01:51:30 | PartyExtensions]         "enabledObstacleType": 0,
+[DEBUG @ 01:51:30 | PartyExtensions]         "demoNoObstacles": false,
+[DEBUG @ 01:51:30 | PartyExtensions]         "fastNotes": false,
+[DEBUG @ 01:51:30 | PartyExtensions]         "strictAngles": false,
+[DEBUG @ 01:51:30 | PartyExtensions]         "disappearingArrows": false,
+[DEBUG @ 01:51:30 | PartyExtensions]         "ghostNotes": false,
+[DEBUG @ 01:51:30 | PartyExtensions]         "noBombs": false,
+[DEBUG @ 01:51:30 | PartyExtensions]         "songSpeed": 0,
+[DEBUG @ 01:51:30 | PartyExtensions]         "noArrows": false,
+[DEBUG @ 01:51:30 | PartyExtensions]         "proMode": false,
+[DEBUG @ 01:51:30 | PartyExtensions]         "zenMode": false,
+[DEBUG @ 01:51:30 | PartyExtensions]         "smallCubes": false,
+[DEBUG @ 01:51:30 | PartyExtensions]         "songSpeedMul": 1.0,
+[DEBUG @ 01:51:30 | PartyExtensions]         "cutAngleTolerance": 60.0,
+[DEBUG @ 01:51:30 | PartyExtensions]         "notesUniformScale": 1.0
+[DEBUG @ 01:51:30 | PartyExtensions]       },
+[DEBUG @ 01:51:30 | PartyExtensions]       "longest_combo": 216,
+[DEBUG @ 01:51:30 | PartyExtensions]       "timestamp": 637797947818548569,
+[DEBUG @ 01:51:30 | PartyExtensions]       "playername": ""
+[DEBUG @ 01:51:30 | PartyExtensions]     },
+[DEBUG @ 01:51:30 | PartyExtensions]     {
+[DEBUG @ 01:51:30 | PartyExtensions]       "rank": "SSS",
+[DEBUG @ 01:51:30 | PartyExtensions]       "missed": 0,
+[DEBUG @ 01:51:30 | PartyExtensions]       "good_cuts": 580,
+[DEBUG @ 01:51:30 | PartyExtensions]       "bad_cuts": 0,
+[DEBUG @ 01:51:30 | PartyExtensions]       "left_acc": 115.0,
+[DEBUG @ 01:51:30 | PartyExtensions]       "right_acc": 115.0,
+[DEBUG @ 01:51:30 | PartyExtensions]       "modifiers": {
+[DEBUG @ 01:51:30 | PartyExtensions]         "energyType": 0,
+[DEBUG @ 01:51:30 | PartyExtensions]         "noFailOn0Energy": true,
+[DEBUG @ 01:51:30 | PartyExtensions]         "demoNoFail": false,
+[DEBUG @ 01:51:30 | PartyExtensions]         "instaFail": false,
+[DEBUG @ 01:51:30 | PartyExtensions]         "failOnSaberClash": false,
+[DEBUG @ 01:51:30 | PartyExtensions]         "enabledObstacleType": 0,
+[DEBUG @ 01:51:30 | PartyExtensions]         "demoNoObstacles": false,
+[DEBUG @ 01:51:30 | PartyExtensions]         "fastNotes": false,
+[DEBUG @ 01:51:30 | PartyExtensions]         "strictAngles": false,
+[DEBUG @ 01:51:30 | PartyExtensions]         "disappearingArrows": false,
+[DEBUG @ 01:51:30 | PartyExtensions]         "ghostNotes": false,
+[DEBUG @ 01:51:30 | PartyExtensions]         "noBombs": false,
+[DEBUG @ 01:51:30 | PartyExtensions]         "songSpeed": 0,
+[DEBUG @ 01:51:30 | PartyExtensions]         "noArrows": false,
+[DEBUG @ 01:51:30 | PartyExtensions]         "proMode": false,
+[DEBUG @ 01:51:30 | PartyExtensions]         "zenMode": false,
+[DEBUG @ 01:51:30 | PartyExtensions]         "smallCubes": false,
+[DEBUG @ 01:51:30 | PartyExtensions]         "songSpeedMul": 1.0,
+[DEBUG @ 01:51:30 | PartyExtensions]         "cutAngleTolerance": 60.0,
+[DEBUG @ 01:51:30 | PartyExtensions]         "notesUniformScale": 1.0
+[DEBUG @ 01:51:30 | PartyExtensions]       },
+[DEBUG @ 01:51:30 | PartyExtensions]       "longest_combo": 580,
+[DEBUG @ 01:51:30 | PartyExtensions]       "timestamp": 637797951485156329,
+[DEBUG @ 01:51:30 | PartyExtensions]       "playername": ""
+[DEBUG @ 01:51:30 | PartyExtensions]     },
+[DEBUG @ 01:51:30 | PartyExtensions]     {
+[DEBUG @ 01:51:30 | PartyExtensions]       "rank": "E",
+[DEBUG @ 01:51:30 | PartyExtensions]       "missed": 1394,
+[DEBUG @ 01:51:30 | PartyExtensions]       "good_cuts": 0,
+[DEBUG @ 01:51:30 | PartyExtensions]       "bad_cuts": 0,
+[DEBUG @ 01:51:30 | PartyExtensions]       "left_acc": "NaN",
+[DEBUG @ 01:51:30 | PartyExtensions]       "right_acc": "NaN",
+[DEBUG @ 01:51:30 | PartyExtensions]       "modifiers": {
+[DEBUG @ 01:51:30 | PartyExtensions]         "energyType": 0,
+[DEBUG @ 01:51:30 | PartyExtensions]         "noFailOn0Energy": true,
+[DEBUG @ 01:51:30 | PartyExtensions]         "demoNoFail": false,
+[DEBUG @ 01:51:30 | PartyExtensions]         "instaFail": false,
+[DEBUG @ 01:51:30 | PartyExtensions]         "failOnSaberClash": false,
+[DEBUG @ 01:51:30 | PartyExtensions]         "enabledObstacleType": 0,
+[DEBUG @ 01:51:30 | PartyExtensions]         "demoNoObstacles": false,
+[DEBUG @ 01:51:30 | PartyExtensions]         "fastNotes": false,
+[DEBUG @ 01:51:30 | PartyExtensions]         "strictAngles": false,
+[DEBUG @ 01:51:30 | PartyExtensions]         "disappearingArrows": false,
+[DEBUG @ 01:51:30 | PartyExtensions]         "ghostNotes": false,
+[DEBUG @ 01:51:30 | PartyExtensions]         "noBombs": false,
+[DEBUG @ 01:51:30 | PartyExtensions]         "songSpeed": 0,
+[DEBUG @ 01:51:30 | PartyExtensions]         "noArrows": false,
+[DEBUG @ 01:51:30 | PartyExtensions]         "proMode": false,
+[DEBUG @ 01:51:30 | PartyExtensions]         "zenMode": false,
+[DEBUG @ 01:51:30 | PartyExtensions]         "smallCubes": false,
+[DEBUG @ 01:51:30 | PartyExtensions]         "songSpeedMul": 1.0,
+[DEBUG @ 01:51:30 | PartyExtensions]         "cutAngleTolerance": 60.0,
+[DEBUG @ 01:51:30 | PartyExtensions]         "notesUniformScale": 1.0
+[DEBUG @ 01:51:30 | PartyExtensions]       },
+[DEBUG @ 01:51:30 | PartyExtensions]       "longest_combo": 0,
+[DEBUG @ 01:51:30 | PartyExtensions]       "timestamp": 637797954900511620,
+[DEBUG @ 01:51:30 | PartyExtensions]       "playername": ""
+[DEBUG @ 01:51:30 | PartyExtensions]     }
+[DEBUG @ 01:51:30 | PartyExtensions]   ]
+[DEBUG @ 01:51:30 | PartyExtensions] }
+*/
