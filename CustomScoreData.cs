@@ -80,15 +80,29 @@ namespace PartyExtensions
 
         public CustomLeaderboard()
         {
-            this.leaderboard_id = "";
-            this.map_scores = new List<CustomScoreData>();
+            leaderboard_id = "";
+            map_scores = new List<CustomScoreData>();
+        }
+
+        public CustomLeaderboard(string id)
+        {
+            leaderboard_id = id;
+            map_scores = new List<CustomScoreData>();
         }
 
         [JsonConstructor]
         public CustomLeaderboard(string id, List<CustomScoreData> map_scores)
         {
             this.leaderboard_id = id;
-            this.map_scores = map_scores;
+
+            if (map_scores == null)
+            {
+                this.map_scores = new List<CustomScoreData>();
+            }
+            else
+            {
+                this.map_scores = map_scores;
+            }
         }
     }
 

@@ -16,6 +16,8 @@ namespace PartyExtensions.Configuration
 
         public virtual CustomScoreData map_score { get; set; } = new CustomScoreData();
 
+        public virtual CustomLeaderboard map_leaderboard { get; set; } = new CustomLeaderboard();
+
         /// <summary>
         /// This is called whenever BSIPA reads the config from disk (including when file changes are detected).
         /// </summary>

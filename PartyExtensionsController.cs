@@ -23,8 +23,6 @@ namespace PartyExtensions
         internal static float final_left_acc = 0f;
         internal static float final_right_acc = 0f;
 
-        internal static CustomLeaderboard partyLeaderboard;
-
 
         // These methods are automatically called by Unity, you should remove any you aren't using.
         #region Monobehaviour Messages
@@ -77,19 +75,25 @@ namespace PartyExtensions
             Plugin.Log.Debug($"final: {final_left_acc} {final_right_acc}");
 
             Plugin.Log.Debug("Read Config:");
-            Plugin.Log.Debug("left acc:" + PluginConfig.Instance.map_score.left_acc);
+            Plugin.Log.Debug("map_score. left acc:" + PluginConfig.Instance.map_score.left_acc);
+            Plugin.Log.Debug("map_leaderboard. id:" + PluginConfig.Instance.map_leaderboard.leaderboard_id);
 
 
-            CustomScoreData customScore = new CustomScoreData(arg2.rank.ToString(), arg2.missedCount, arg2.goodCutsCount, arg2.badCutsCount, final_left_acc, final_right_acc, arg2.gameplayModifiers, arg2.maxCombo, DateTime.Now.Ticks, "zeph");
-            
-            string a = JsonConvert.SerializeObject(customScore, Formatting.Indented);
-            Plugin.Log.Debug(a);
+            CustomScoreData map_score = new CustomScoreData(arg2.rank.ToString(), arg2.missedCount, arg2.goodCutsCount, arg2.badCutsCount, final_left_acc, final_right_acc, arg2.gameplayModifiers, arg2.maxCombo, DateTime.Now.Ticks, "zeph");
+            Plugin.Log.Debug(JsonConvert.SerializeObject(map_score, Formatting.Indented));
 
             Plugin.Log.Debug("Write map score");
-            PluginConfig.Instance.map_score = customScore;
+            PluginConfig.Instance.map_score = map_score;
 
-            //partyLeaderboard = new CustomLeaderboard();
-            //partyLeaderboard.map_scores.Add(customScore);
+            CustomLeaderboard map_leaderboard = new CustomLeaderboard("this map");
+            map_leaderboard.map_scores.Add(map_score);
+
+            Plugin.Log.Debug("Write map leaderboard");
+            PluginConfig.Instance.map_leaderboard = map_leaderboard;
+
+            Plugin.Log.Debug(JsonConvert.SerializeObject(map_leaderboard, Formatting.Indented));
+
+            Plugin.Log.Debug("map_leaderboard: " + PluginConfig.Instance.map_leaderboard.map_scores[0].left_acc); //This data is stored but not being serialized properly
 
             //Plugin.Log.Debug(JsonConvert.SerializeObject(partyLeaderboard, Formatting.Indented));
 
