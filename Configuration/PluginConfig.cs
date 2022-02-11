@@ -1,6 +1,7 @@
 ﻿
 using System.Runtime.CompilerServices;
 using IPA.Config.Stores;
+using IPA.Config.Stores.Attributes;
 
 [assembly: InternalsVisibleTo(GeneratedStore.AssemblyVisibilityTarget)]
 namespace PartyExtensions.Configuration
@@ -9,7 +10,11 @@ namespace PartyExtensions.Configuration
     {
         public static PluginConfig Instance { get; set; }
 
-        public virtual CustomScoreData scoreData { get; set; }
+        //[UseConverter(typeof(CustomLeaderboardCollection))]
+        //[NonNullable]
+        //public virtual CustomLeaderboardCollection party_data { get; set; } = new CustomLeaderboardCollection();
+
+        public virtual CustomScoreData map_score { get; set; } = new CustomScoreData();
 
         /// <summary>
         /// This is called whenever BSIPA reads the config from disk (including when file changes are detected).

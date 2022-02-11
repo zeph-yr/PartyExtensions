@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using PartyExtensions.Configuration;
 using System;
 using UnityEngine;
 
@@ -22,7 +23,7 @@ namespace PartyExtensions
         internal static float final_left_acc = 0f;
         internal static float final_right_acc = 0f;
 
-        internal static CustomPartyLeaderboard partyLeaderboard;
+        internal static CustomLeaderboard partyLeaderboard;
 
 
         // These methods are automatically called by Unity, you should remove any you aren't using.
@@ -63,7 +64,6 @@ namespace PartyExtensions
 
             BS_Utils.Utilities.BSEvents.levelCleared += BSEvents_levelCleared;
 
-            partyLeaderboard = new CustomPartyLeaderboard();
         }
 
 
@@ -76,16 +76,27 @@ namespace PartyExtensions
 
             Plugin.Log.Debug($"final: {final_left_acc} {final_right_acc}");
 
+            Plugin.Log.Debug("Read Config:");
+            Plugin.Log.Debug("left acc:" + PluginConfig.Instance.map_score.left_acc);
 
-            CustomScoreData customScore = new CustomScoreData(arg2.rank.ToString(), arg2.missedCount, arg2.goodCutsCount, arg2.badCutsCount, final_left_acc, final_right_acc, arg2.gameplayModifiers, arg2.maxCombo, DateTime.Now.Ticks, "");
+
+            CustomScoreData customScore = new CustomScoreData(arg2.rank.ToString(), arg2.missedCount, arg2.goodCutsCount, arg2.badCutsCount, final_left_acc, final_right_acc, arg2.gameplayModifiers, arg2.maxCombo, DateTime.Now.Ticks, "zeph");
             
             string a = JsonConvert.SerializeObject(customScore, Formatting.Indented);
             Plugin.Log.Debug(a);
 
-            partyLeaderboard.custom_score_list.Add(customScore);
+            Plugin.Log.Debug("Write map score");
+            PluginConfig.Instance.map_score = customScore;
 
-            Plugin.Log.Debug(JsonConvert.SerializeObject(partyLeaderboard, Formatting.Indented));
+            //partyLeaderboard = new CustomLeaderboard();
+            //partyLeaderboard.map_scores.Add(customScore);
 
+            //Plugin.Log.Debug(JsonConvert.SerializeObject(partyLeaderboard, Formatting.Indented));
+
+            //PluginConfig.Instance.party_data.map_leaderboards.Add("map_name", partyLeaderboard);
+
+            //Plugin.Log.Debug(PluginConfig.Instance.party_data.map_leaderboards["map_name"].leaderboard_id);
+            //Plugin.Log.Debug(PluginConfig.Instance.party_data.map_leaderboards["map_name"].map_scores[0].left_acc.ToString());
         }
 
         private static void BSEvents_gameSceneLoaded()

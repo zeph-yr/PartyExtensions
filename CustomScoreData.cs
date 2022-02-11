@@ -35,35 +35,76 @@ namespace PartyExtensions
         public long timestamp;
         public string playername;
 
-        [JsonConstructor]
         public CustomScoreData()
         {
+            this.playername = "";
 
+            this.rank = "";
+
+            this.left_acc = 0f;
+            this.right_acc = 0f;
+
+            this.good_cuts = 0;
+            this.bad_cuts = 0;
+            this.missed = 0;
+            this.longest_combo = 0;
+
+            this.modifiers = null;
+            this.timestamp = 0;
         }
 
+        [JsonConstructor]
         public CustomScoreData(string rank, int missed, int good_cuts, int bad_cuts, float left_acc, float right_acc, GameplayModifiers modifiers, int longest_combo, long timestamp, string playername)
         {
+            this.playername = playername;
+
             this.rank = rank;
-            this.missed = missed;
-            this.good_cuts = good_cuts;
-            this.bad_cuts = bad_cuts;
+            
             this.left_acc = left_acc;
             this.right_acc = right_acc;
-            this.modifiers = modifiers;
+
+            this.good_cuts = good_cuts;
+            this.bad_cuts = bad_cuts;
+            this.missed = missed;
             this.longest_combo = longest_combo;
+
+            this.modifiers = modifiers;
             this.timestamp = timestamp;
-            this.playername = playername;
         }
     }
 
-    class CustomPartyLeaderboard
+    class CustomLeaderboard
     {
-        public List<CustomScoreData> custom_score_list;
+        public string leaderboard_id;
+        public List<CustomScoreData> map_scores;
+
+        public CustomLeaderboard()
+        {
+            this.leaderboard_id = "";
+            this.map_scores = new List<CustomScoreData>();
+        }
 
         [JsonConstructor]
-        public CustomPartyLeaderboard()
+        public CustomLeaderboard(string id, List<CustomScoreData> map_scores)
         {
-            this.custom_score_list = new List<CustomScoreData>();
+            this.leaderboard_id = id;
+            this.map_scores = map_scores;
+        }
+    }
+
+    class CustomLeaderboardCollection
+    {
+        public Dictionary<string, CustomLeaderboard> map_leaderboards;
+
+        public CustomLeaderboardCollection()
+        {
+            this.map_leaderboards = new Dictionary<string, CustomLeaderboard>();
+        }
+
+        [JsonConstructor]
+        public CustomLeaderboardCollection(Dictionary<string, CustomLeaderboard> map_leaderboards)
+        {
+            this.map_leaderboards = map_leaderboards;
         }
     }
 }

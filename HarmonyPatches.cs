@@ -11,6 +11,7 @@ namespace PartyExtensions
     {
         static void Prefix(string leaderboardId, LocalLeaderboardsModel.LeaderboardType leaderboardType, string playerName, int score, bool fullCombo, ref LocalLeaderboardsModel __instance, out int __state)
         {
+
             Plugin.Log.Debug("Prefix Start");
             Plugin.Log.Debug("Data: " + leaderboardId + playerName + score + fullCombo);
 
