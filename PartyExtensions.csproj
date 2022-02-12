@@ -50,6 +50,11 @@
       <Private>False</Private>
       <SpecificVersion>False</SpecificVersion>
     </Reference>
+    <Reference Include="BSML">
+      <HintPath>$(BeatSaberDir)\Plugins\BSML.dll</HintPath>
+      <Private>False</Private>
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
     <Reference Include="BS_Utils">
       <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Beat Saber\Plugins\BS_Utils.dll</HintPath>
     </Reference>
@@ -115,6 +120,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ButtonController.cs" />
+    <Compile Include="ButtonViewController.cs" />
     <Compile Include="CustomScoreData.cs" />
     <Compile Include="HarmonyPatches.cs" />
     <Compile Include="Plugin.cs" />
@@ -126,6 +133,9 @@
     <EmbeddedResource Include="manifest.json" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="ButtonViewController.bsml">
+      <DependentUpon>ButtonViewController.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Directory.Build.props" Condition="Exists('Directory.Build.props')" />
     <None Include="Directory.Build.targets" Condition="Exists('Directory.Build.targets')" />
     <None Include="PartyExtensions.csproj.user" Condition="Exists('PartyExtensions.csproj.user')" />

@@ -203,24 +203,64 @@ namespace PartyExtensions
     {
         static void Postfix(string leaderboardId, LocalLeaderboardsModel __instance)
         {
+            Plugin.Log.Debug("Update daily learderboard");
+
             long num = __instance.GetCurrentTimestamp() - 86400L;
 
             if (PartyData.daily_scores.ContainsKey(leaderboardId))
             {
                 for (int i = PartyData.daily_scores[leaderboardId].map_scores.Count - 1; i >= 0; i--)
                 {
-                    if (PartyData.daily_scores[leaderboardId].map_scores[i].timestamp < num)
+                    if (PartyData.daily_scores[leaderboardId].map_scores[i].timestamp < num && PartyData.daily_scores[leaderboardId].map_scores[i].timestamp >= 1)
                     {
                         PartyData.daily_scores[leaderboardId].map_scores.RemoveAt(i);
                     }
                 }
             }
+
+            PartyData.Write_Daily();
         }
     }
 
+    /*[HarmonyPatch(typeof(LocalLeaderboardsModel), "ClearLeaderboard")]
+    public class ClearLeaderboardPatch
+    {
+        static void Postfix(string leaderboardId)
+        {
+            Plugin.Log.Debug("Clear leaderboard: " + leaderboardId);
 
+            if (PartyData.all_scores.ContainsKey(leaderboardId))
+            {
+                Plugin.Log.Debug("Clear all scores");
 
+                PartyData.all_scores.Remove(leaderboardId);
+                PartyData.Write_All();
+            }
 
+            if (PartyData.daily_scores.ContainsKey(leaderboardId))
+            {
+                Plugin.Log.Debug("Clear daily scores");
+
+                PartyData.daily_scores.Remove(leaderboardId);
+                PartyData.Write_Daily();
+            }
+        }
+    }*/
+
+    [HarmonyPatch(typeof(LocalLeaderboardsModel), "ClearAllLeaderboards")]
+    public class ClearAllPatch
+    {
+        static void Postfix()
+        {
+            Plugin.Log.Debug("Nuke all party data");
+
+            PartyData.all_scores = new Dictionary<string, CustomLeaderboard>();
+            PartyData.Write_All();
+
+            PartyData.daily_scores = new Dictionary<string, CustomLeaderboard>();
+            PartyData.Write_Daily();
+        }
+    }
 }
 
 
