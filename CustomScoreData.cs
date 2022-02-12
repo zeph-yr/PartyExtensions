@@ -11,7 +11,10 @@ namespace PartyExtensions
 {
     class PartyData
     {
+        internal static bool is_written = false;
+
         internal static CustomScoreData test_score;
+        internal static CustomLeaderboard test_leaderboard;
         internal static Dictionary<string, CustomLeaderboard> party_data;
 
 
@@ -25,7 +28,8 @@ namespace PartyExtensions
             {
                 Plugin.Log.Debug("Create file");
 
-                test_score = new CustomScoreData();
+                //test_score = new CustomScoreData();
+                test_leaderboard = new CustomLeaderboard();
                 //party_data = new Dictionary<string, CustomLeaderboard>();
 
                 Write();
@@ -38,7 +42,8 @@ namespace PartyExtensions
                 string json_string = File.ReadAllText(file_path);
                 Plugin.Log.Debug(json_string);
 
-                test_score = JsonConvert.DeserializeObject<CustomScoreData>(json_string);
+                //test_score = JsonConvert.DeserializeObject<CustomScoreData>(json_string);
+                test_leaderboard = JsonConvert.DeserializeObject<CustomLeaderboard>(json_string);
                 //party_data = JsonConvert.DeserializeObject<Dictionary<string, CustomLeaderboard>>(file_path);
             }
         }
@@ -47,13 +52,13 @@ namespace PartyExtensions
         {
             Plugin.Log.Debug("Write file");
 
-            string json_string = JsonConvert.SerializeObject(test_score);
+            //string json_string = JsonConvert.SerializeObject(test_score);
+            string json_string = JsonConvert.SerializeObject(test_leaderboard);
             //string json_string = JsonConvert.SerializeObject(party_data);
 
             Plugin.Log.Debug(json_string);
             File.WriteAllText(file_path, json_string);
         }
-
     }
 
     class CustomScoreData
@@ -126,16 +131,26 @@ namespace PartyExtensions
         public string leaderboard_id;
         public List<CustomScoreData> map_scores;
 
+        private void Fill()
+        {
+            for (int i = 0; i < 10; i++)
+            {
+                map_scores.Add(new CustomScoreData());
+            }
+        }
+
         public CustomLeaderboard()
         {
             leaderboard_id = "";
             map_scores = new List<CustomScoreData>();
+            Fill();
         }
 
         public CustomLeaderboard(string id)
         {
             leaderboard_id = id;
             map_scores = new List<CustomScoreData>();
+            Fill();
         }
 
         [JsonConstructor]
@@ -146,6 +161,7 @@ namespace PartyExtensions
             if (map_scores == null)
             {
                 this.map_scores = new List<CustomScoreData>();
+                Fill();
             }
             else
             {

@@ -115,6 +115,8 @@ namespace PartyExtensions
 
             right_acc = 0;
             right_hits = 0;
+
+            PartyData.is_written = false;
         }
 
         int preswing;
