@@ -31,18 +31,19 @@ namespace PartyExtensions
                 }
             }
 
-            __state = i;
-
-            Plugin.Log.Debug("Prefix __state: " + __state);
-
-
             /*else
             {
-                leaderboardData = new LocalLeaderboardsModel.LeaderboardData();
-                leaderboardData._leaderboardId = leaderboardId;
-                leaderboardData._scores = new List<LocalLeaderboardsModel.ScoreData>(10); //__instance._maxNumberOfScoresInLeaderboard);
-                __instance.GetLeaderboardsData(leaderboardType).Add(leaderboardData);
+                //leaderboardData = new LocalLeaderboardsModel.LeaderboardData();
+                //leaderboardData._leaderboardId = leaderboardId;
+                //leaderboardData._scores = new List<LocalLeaderboardsModel.ScoreData>(10); //__instance._maxNumberOfScoresInLeaderboard);
+                //__instance.GetLeaderboardsData(leaderboardType).Add(leaderboardData);
+
+                CustomLeaderboard new_leaderboard = new CustomLeaderboard(leaderboardId);
+                PartyData.test_dict.Add(leaderboardId, new_leaderboard);
             }*/
+
+            __state = i;
+            Plugin.Log.Debug("Prefix __state: " + __state);
         }
 
         static void Postfix(string leaderboardId, LocalLeaderboardsModel.LeaderboardType leaderboardType, string playerName, int score, bool fullCombo, ref LocalLeaderboardsModel __instance, int __state)
@@ -67,8 +68,8 @@ namespace PartyExtensions
 
                 //LocalLeaderboardsModel.ScoreData scoreData = Plugin.test_score;
 
+                // Overflow fun KEKW
                 int a = 1000000000;
-
                 a += 2000000000;
 
                 ExtendedScoreData scoreData = new ExtendedScoreData(a, "Zephyr", true, __instance.GetCurrentTimestamp(), 500);
@@ -98,7 +99,8 @@ namespace PartyExtensions
                     PartyData.is_written = true;
                 }*/
 
-                if (! PartyData.is_written)
+                // Testing adding to dictionary
+                /*if (! PartyData.is_written)
                 {
                     CustomLeaderboard temp = new CustomLeaderboard();
 
@@ -110,6 +112,29 @@ namespace PartyExtensions
 
                     PartyData.Write();
 
+                    PartyData.is_written = true;
+                }*/
+
+                if (! PartyData.is_written)
+                {
+                    if (PartyData.test_dict.ContainsKey(leaderboardId))
+                    {
+                        PartyData.test_dict[leaderboardId].map_scores.Insert(__state, PartyData.test_score);
+                        PartyData.test_dict[leaderboardId].map_scores.RemoveAt(9);                        
+                    }
+
+                    else
+                    {
+                        CustomLeaderboard temp = new CustomLeaderboard();
+
+                        temp.leaderboard_id = leaderboardId;
+                        temp.map_scores.Insert(__state, PartyData.test_score);
+                        temp.map_scores.RemoveAt(9);
+
+                        PartyData.test_dict.Add(leaderboardId, temp);
+                    }
+
+                    PartyData.Write();
                     PartyData.is_written = true;
                 }
 
