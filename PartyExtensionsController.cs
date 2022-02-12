@@ -85,22 +85,19 @@ namespace PartyExtensions
             Plugin.Log.Debug("Write map score");
             PluginConfig.Instance.map_score = map_score;
 
-            CustomLeaderboard map_leaderboard = new CustomLeaderboard("this map");
-            map_leaderboard.map_scores.Add(map_score);
+            //CustomLeaderboard map_leaderboard = new CustomLeaderboard("this map");
+            //map_leaderboard.map_scores.Add(map_score);
+            //Plugin.Log.Debug(JsonConvert.SerializeObject(map_leaderboard, Formatting.Indented));
 
             Plugin.Log.Debug("Write map leaderboard");
-            PluginConfig.Instance.map_leaderboard = map_leaderboard;
+            //PluginConfig.Instance.map_leaderboard = map_leaderboard;
 
-            Plugin.Log.Debug(JsonConvert.SerializeObject(map_leaderboard, Formatting.Indented));
+
+            PluginConfig.Instance.map_leaderboard = new CustomLeaderboard("this map");
+            PluginConfig.Instance.map_leaderboard.map_scores.Add(map_score);
 
             Plugin.Log.Debug("map_leaderboard: " + PluginConfig.Instance.map_leaderboard.map_scores[0].left_acc); //This data is stored but not being serialized properly
 
-            //Plugin.Log.Debug(JsonConvert.SerializeObject(partyLeaderboard, Formatting.Indented));
-
-            //PluginConfig.Instance.party_data.map_leaderboards.Add("map_name", partyLeaderboard);
-
-            //Plugin.Log.Debug(PluginConfig.Instance.party_data.map_leaderboards["map_name"].leaderboard_id);
-            //Plugin.Log.Debug(PluginConfig.Instance.party_data.map_leaderboards["map_name"].map_scores[0].left_acc.ToString());
         }
 
         private static void BSEvents_gameSceneLoaded()

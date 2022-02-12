@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,6 +9,53 @@ using Newtonsoft.Json;
 
 namespace PartyExtensions
 {
+    class PartyData
+    {
+        internal static CustomScoreData test_score;
+        internal static Dictionary<string, CustomLeaderboard> party_data;
+
+
+        internal static string file_path = @"C:\Program Files (x86)\Steam\steamapps\common\Beat Saber\UserData\PartyExtensions\LocalScores.json";
+
+        public static void Read()
+        {
+            Plugin.Log.Debug("Read");
+
+            if (!File.Exists(file_path))
+            {
+                Plugin.Log.Debug("Create file");
+
+                test_score = new CustomScoreData();
+                //party_data = new Dictionary<string, CustomLeaderboard>();
+
+                Write();
+            }
+
+            else
+            {
+                Plugin.Log.Debug("File exists");
+
+                string json_string = File.ReadAllText(file_path);
+                Plugin.Log.Debug(json_string);
+
+                test_score = JsonConvert.DeserializeObject<CustomScoreData>(json_string);
+                //party_data = JsonConvert.DeserializeObject<Dictionary<string, CustomLeaderboard>>(file_path);
+            }
+        }
+
+        public static void Write()
+        {
+            Plugin.Log.Debug("Write file");
+
+            string json_string = JsonConvert.SerializeObject(test_score);
+            //string json_string = JsonConvert.SerializeObject(party_data);
+
+            Plugin.Log.Debug(json_string);
+            File.WriteAllText(file_path, json_string);
+        }
+
+    }
+
     class CustomScoreData
     {
         // points - base

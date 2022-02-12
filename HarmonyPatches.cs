@@ -84,6 +84,8 @@ namespace PartyExtensions
                 //Plugin.Log.Debug("PostFix __playername: " + Plugin.test_score._playerName);
 
                 Plugin.Log.Debug("PostFix __state: " + __state);
+
+                PartyData.Write();
             }
 
             /*this._lastScorePositions[leaderboardType] = i;

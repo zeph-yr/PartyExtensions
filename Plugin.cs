@@ -24,6 +24,8 @@ namespace PartyExtensions
         internal static IPALogger Log { get; private set; }
         internal static PartyExtensionsController PluginController { get { return PartyExtensionsController.Instance; } }
 
+
+
         [Init]
         /// <summary>
         /// Called when the plugin is first loaded by IPA (either when the game starts or when the plugin is enabled if it starts disabled).
@@ -38,6 +40,7 @@ namespace PartyExtensions
 
             Configuration.PluginConfig.Instance = conf.Generated<Configuration.PluginConfig>();
             Plugin.Log?.Debug("Config loaded");
+
         }
 
 
@@ -49,6 +52,8 @@ namespace PartyExtensions
         [OnEnable]
         public void OnEnable()
         {
+            PartyData.Read();
+
             new GameObject("PartyExtensionsController").AddComponent<PartyExtensionsController>();
             ApplyHarmonyPatches();
         }
