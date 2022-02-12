@@ -1,4 +1,4 @@
-﻿
+﻿/*
 using System.Runtime.CompilerServices;
 using IPA.Config.Stores;
 using IPA.Config.Stores.Attributes;
@@ -42,4 +42,4 @@ namespace PartyExtensions.Configuration
             // This instance's members populated from other
         }
     }
-}
+}*/

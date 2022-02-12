@@ -5,13 +5,11 @@ using System.Collections.Generic;
 
 namespace PartyExtensions
 {
-    //[HarmonyPatch(typeof(LocalLeaderboardsModel), "AddScore")]
     [HarmonyPatch(typeof(LocalLeaderboardsModel), "AddScore", new Type[] { typeof(string), typeof(LocalLeaderboardsModel.LeaderboardType), typeof(string), typeof(int), typeof(bool) })]
     public class AddScorePatch
     {
         static void Prefix(string leaderboardId, LocalLeaderboardsModel.LeaderboardType leaderboardType, string playerName, int score, bool fullCombo, ref LocalLeaderboardsModel __instance, out int __state)
         {
-
             Plugin.Log.Debug("Prefix Start");
             Plugin.Log.Debug("Data: " + leaderboardId + playerName + score + fullCombo);
 
@@ -22,7 +20,7 @@ namespace PartyExtensions
                 List<LocalLeaderboardsModel.ScoreData> scores = leaderboardData._scores;
                 for (i = 0; i < scores.Count; i++)
                 {
-                    Plugin.Log.Debug("LeaderboardData: " + scores[i]._score);
+                    //Plugin.Log.Debug("LeaderboardData: " + scores[i]._score);
 
                     if (scores[i]._score < score)
                     {
@@ -31,15 +29,13 @@ namespace PartyExtensions
                 }
             }
 
+            // Original
             /*else
             {
                 //leaderboardData = new LocalLeaderboardsModel.LeaderboardData();
                 //leaderboardData._leaderboardId = leaderboardId;
                 //leaderboardData._scores = new List<LocalLeaderboardsModel.ScoreData>(10); //__instance._maxNumberOfScoresInLeaderboard);
                 //__instance.GetLeaderboardsData(leaderboardType).Add(leaderboardData);
-
-                CustomLeaderboard new_leaderboard = new CustomLeaderboard(leaderboardId);
-                PartyData.test_dict.Add(leaderboardId, new_leaderboard);
             }*/
 
             __state = i;
@@ -66,72 +62,46 @@ namespace PartyExtensions
                     scores2.RemoveAt(scores2.Count - 1);
                 }*/
 
-                //LocalLeaderboardsModel.ScoreData scoreData = Plugin.test_score;
 
+                // How to best player in the world
+                /*
                 // Overflow fun KEKW
-                int a = 1000000000;
-                a += 2000000000;
+                //int a = 1000000000;
+                //a += 2000000000;
 
                 ExtendedScoreData scoreData = new ExtendedScoreData(a, "Zephyr", true, __instance.GetCurrentTimestamp(), 500);
-
-                //2,147,483,648
 
                 LocalLeaderboardsModel.LeaderboardData leaderboardData = __instance.GetLeaderboardData(leaderboardId, leaderboardType);
                 List<LocalLeaderboardsModel.ScoreData> scores2 = leaderboardData._scores;
 
                 scores2.RemoveAt(__state);
                 scores2.Insert(__state, scoreData);
+                */
 
-                //Plugin.Log.Debug("PostFix __playername: " + Plugin.test_score._playerName);
-
-                Plugin.Log.Debug("PostFix __state: " + __state);
-
-
-                // Testing single map's leaderboard
-                /*if (! PartyData.is_written)
-                {
-                    PartyData.test_leaderboard.leaderboard_id = leaderboardData._leaderboardId;
-                    PartyData.test_leaderboard.map_scores.Insert(__state, PartyData.test_score);
-                    PartyData.test_leaderboard.map_scores.RemoveAt(9);
-
-                    PartyData.Write();
-
-                    PartyData.is_written = true;
-                }*/
-
-                // Testing adding to dictionary
-                /*if (! PartyData.is_written)
-                {
-                    CustomLeaderboard temp = new CustomLeaderboard();
-
-                    temp.leaderboard_id = leaderboardId;
-                    temp.map_scores.Insert(__state, PartyData.test_score);
-                    temp.map_scores.RemoveAt(9);
-
-                    PartyData.test_dict.Add(leaderboardId, temp);
-
-                    PartyData.Write();
-
-                    PartyData.is_written = true;
-                }*/
 
                 if (! PartyData.is_written)
                 {
-                    if (PartyData.test_dict.ContainsKey(leaderboardId))
+                    PartyData.current_score.playername = playerName;
+                    PartyData.current_score.timestamp = __instance.GetCurrentTimestamp(); // Yes this might be microseconds later but good enough
+
+                    if (PartyData.all_scores.ContainsKey(leaderboardId))
                     {
-                        PartyData.test_dict[leaderboardId].map_scores.Insert(__state, PartyData.test_score);
-                        PartyData.test_dict[leaderboardId].map_scores.RemoveAt(9);                        
+                        Plugin.Log.Debug("List insert: " + leaderboardId);
+
+                        PartyData.all_scores[leaderboardId].map_scores.Insert(__state, PartyData.current_score);
+                        PartyData.all_scores[leaderboardId].map_scores.RemoveAt(9);
                     }
 
                     else
                     {
-                        CustomLeaderboard temp = new CustomLeaderboard();
+                        Plugin.Log.Debug("Dict add: " + leaderboardId);
 
+                        CustomLeaderboard temp = new CustomLeaderboard();
                         temp.leaderboard_id = leaderboardId;
-                        temp.map_scores.Insert(__state, PartyData.test_score);
+                        temp.map_scores.Insert(__state, PartyData.current_score);
                         temp.map_scores.RemoveAt(9);
 
-                        PartyData.test_dict.Add(leaderboardId, temp);
+                        PartyData.all_scores.Add(leaderboardId, temp);
                     }
 
                     PartyData.Write();
@@ -146,11 +116,11 @@ namespace PartyExtensions
             {
                 this.newScoreWasAddedToLeaderboardEvent(leaderboardId, leaderboardType);
             }*/
-
         }
 
 
-        class ExtendedScoreData : LocalLeaderboardsModel.ScoreData
+        // How to best player in the world continued
+        /*class ExtendedScoreData : LocalLeaderboardsModel.ScoreData
         {
             public int a;
 
@@ -167,7 +137,40 @@ namespace PartyExtensions
                 this._timestamp = time;
                 this.a = additional_info;
             }
-        }
+        }*/
     }
 
+
+
+
+
 }
+
+
+// Testing single map's leaderboard
+/*if (! PartyData.is_written)
+{
+    PartyData.test_leaderboard.leaderboard_id = leaderboardData._leaderboardId;
+    PartyData.test_leaderboard.map_scores.Insert(__state, PartyData.test_score);
+    PartyData.test_leaderboard.map_scores.RemoveAt(9);
+
+    PartyData.Write();
+
+    PartyData.is_written = true;
+}*/
+
+// Testing adding to dictionary
+/*if (! PartyData.is_written)
+{
+    CustomLeaderboard temp = new CustomLeaderboard();
+
+    temp.leaderboard_id = leaderboardId;
+    temp.map_scores.Insert(__state, PartyData.test_score);
+    temp.map_scores.RemoveAt(9);
+
+    PartyData.test_dict.Add(leaderboardId, temp);
+
+    PartyData.Write();
+
+    PartyData.is_written = true;
+}*/

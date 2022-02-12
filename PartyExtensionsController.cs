@@ -67,12 +67,12 @@ namespace PartyExtensions
 
         private static void BSEvents_levelCleared(StandardLevelScenesTransitionSetupDataSO arg1, LevelCompletionResults arg2)
         {
-            Plugin.Log.Debug("level cleared");
+            Plugin.Log.Debug("Level cleared");
 
             final_left_acc = left_acc / left_hits;
             final_right_acc = right_acc / right_hits;
 
-            Plugin.Log.Debug($"final: {final_left_acc} {final_right_acc}");
+            Plugin.Log.Debug($"Final: {final_left_acc} {final_right_acc}");
 
             /*Plugin.Log.Debug("Read Config:");
             Plugin.Log.Debug("map_score. left acc:" + PluginConfig.Instance.map_score.left_acc);
@@ -99,13 +99,13 @@ namespace PartyExtensions
             Plugin.Log.Debug("map_leaderboard: " + PluginConfig.Instance.map_leaderboard.map_scores[0].left_acc); //This data is stored but not being serialized properly
             */
 
-            PartyData.test_score = new CustomScoreData(arg2.rank.ToString(), arg2.missedCount, arg2.goodCutsCount, arg2.badCutsCount, final_left_acc, final_right_acc, arg2.gameplayModifiers, arg2.maxCombo, DateTime.Now.Ticks, "zeph");
+            PartyData.current_score = new CustomScoreData(arg2.rank.ToString(), arg2.missedCount, arg2.goodCutsCount, arg2.badCutsCount, final_left_acc, final_right_acc, arg2.gameplayModifiers, arg2.maxCombo, 0 /*DateTime.Now.Ticks*/, "Zeph");
             //PartyData.Write();
         }
 
         private static void BSEvents_gameSceneLoaded()
         {
-            Plugin.Log.Debug("game scene loaded");
+            Plugin.Log.Debug("Game scene loaded");
 
             final_left_acc = 0;
             final_right_acc = 0;

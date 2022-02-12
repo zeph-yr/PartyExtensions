@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Newtonsoft.Json;
 
 
@@ -13,10 +9,13 @@ namespace PartyExtensions
     {
         internal static bool is_written = false;
 
-        internal static CustomScoreData test_score;
-        internal static CustomLeaderboard test_leaderboard;
-        internal static Dictionary<string, CustomLeaderboard> test_dict;
+        //internal static CustomScoreData test_score;
+        //internal static CustomLeaderboard test_leaderboard;
+        //internal static Dictionary<string, CustomLeaderboard> test_dict;
 
+
+        internal static CustomScoreData current_score;
+        internal static Dictionary<string, CustomLeaderboard> all_scores;
 
         internal static string file_path = @"C:\Program Files (x86)\Steam\steamapps\common\Beat Saber\UserData\PartyExtensions\LocalScores.json";
 
@@ -30,8 +29,10 @@ namespace PartyExtensions
 
                 //test_score = new CustomScoreData();
                 //test_leaderboard = new CustomLeaderboard();
-                test_dict = new Dictionary<string, CustomLeaderboard>();
+                //test_dict = new Dictionary<string, CustomLeaderboard>();
                 //test_dict.Add("none", new CustomLeaderboard());
+
+                all_scores = new Dictionary<string, CustomLeaderboard>();
 
                 Write();
             }
@@ -45,7 +46,9 @@ namespace PartyExtensions
 
                 //test_score = JsonConvert.DeserializeObject<CustomScoreData>(json_string);
                 //test_leaderboard = JsonConvert.DeserializeObject<CustomLeaderboard>(json_string);
-                test_dict = JsonConvert.DeserializeObject<Dictionary<string, CustomLeaderboard>>(json_string);
+                //test_dict = JsonConvert.DeserializeObject<Dictionary<string, CustomLeaderboard>>(json_string);
+
+                all_scores = JsonConvert.DeserializeObject<Dictionary<string, CustomLeaderboard>>(json_string);
             }
         }
 
@@ -55,7 +58,9 @@ namespace PartyExtensions
 
             //string json_string = JsonConvert.SerializeObject(test_score);
             //string json_string = JsonConvert.SerializeObject(test_leaderboard);
-            string json_string = JsonConvert.SerializeObject(test_dict);
+            //string json_string = JsonConvert.SerializeObject(test_dict);
+
+            string json_string = JsonConvert.SerializeObject(all_scores);
 
             Plugin.Log.Debug(json_string);
             File.WriteAllText(file_path, json_string);
@@ -171,7 +176,7 @@ namespace PartyExtensions
         }
     }
 
-    class CustomLeaderboardCollection
+    /*class CustomLeaderboardCollection
     {
         public Dictionary<string, CustomLeaderboard> map_leaderboards;
 
@@ -185,7 +190,7 @@ namespace PartyExtensions
         {
             this.map_leaderboards = map_leaderboards;
         }
-    }
+    }*/
 }
 
 /*DEBUG @ 23:59:55 | PartyExtensions] level cleared
