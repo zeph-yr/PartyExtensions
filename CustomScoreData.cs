@@ -16,8 +16,10 @@ namespace PartyExtensions
 
         internal static CustomScoreData current_score;
         internal static Dictionary<string, CustomLeaderboard> all_scores;
+        internal static Dictionary<string, CustomLeaderboard> daily_scores;
 
         internal static string file_path = @"C:\Program Files (x86)\Steam\steamapps\common\Beat Saber\UserData\PartyExtensions\LocalScores.json";
+        internal static string daily_file_path = @"C:\Program Files (x86)\Steam\steamapps\common\Beat Saber\UserData\PartyExtensions\DailyLocalScores.json";
 
         public static void Read()
         {
@@ -33,26 +35,34 @@ namespace PartyExtensions
                 //test_dict.Add("none", new CustomLeaderboard());
 
                 all_scores = new Dictionary<string, CustomLeaderboard>();
-
-                Write();
+                Write_All();
             }
-
             else
             {
                 Plugin.Log.Debug("File exists");
 
-                string json_string = File.ReadAllText(file_path);
-                Plugin.Log.Debug(json_string);
+                //string json_string = File.ReadAllText(file_path);
+                //Plugin.Log.Debug(json_string);
 
                 //test_score = JsonConvert.DeserializeObject<CustomScoreData>(json_string);
                 //test_leaderboard = JsonConvert.DeserializeObject<CustomLeaderboard>(json_string);
                 //test_dict = JsonConvert.DeserializeObject<Dictionary<string, CustomLeaderboard>>(json_string);
 
-                all_scores = JsonConvert.DeserializeObject<Dictionary<string, CustomLeaderboard>>(json_string);
+                all_scores = JsonConvert.DeserializeObject<Dictionary<string, CustomLeaderboard>>(File.ReadAllText(file_path));
+            }
+
+            if (!File.Exists(daily_file_path))
+            {
+                daily_scores = new Dictionary<string, CustomLeaderboard>();
+                Write_Daily();
+            }
+            else
+            {
+                daily_scores = JsonConvert.DeserializeObject<Dictionary<string, CustomLeaderboard>>(File.ReadAllText(daily_file_path));
             }
         }
 
-        public static void Write()
+        public static void Write_All()
         {
             Plugin.Log.Debug("Write file");
 
@@ -60,10 +70,15 @@ namespace PartyExtensions
             //string json_string = JsonConvert.SerializeObject(test_leaderboard);
             //string json_string = JsonConvert.SerializeObject(test_dict);
 
-            string json_string = JsonConvert.SerializeObject(all_scores);
+            //string json_string = JsonConvert.SerializeObject(all_scores);
+            //Plugin.Log.Debug(json_string);
 
-            Plugin.Log.Debug(json_string);
-            File.WriteAllText(file_path, json_string);
+            File.WriteAllText(file_path, JsonConvert.SerializeObject(all_scores));
+        }
+
+        public static void Write_Daily()
+        {
+            File.WriteAllText(daily_file_path, JsonConvert.SerializeObject(daily_scores));
         }
     }
 

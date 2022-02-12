@@ -78,8 +78,7 @@ namespace PartyExtensions
                 scores2.Insert(__state, scoreData);
                 */
 
-
-                if (! PartyData.is_written)
+                if (leaderboardType == LocalLeaderboardsModel.LeaderboardType.AllTime)
                 {
                     PartyData.current_score.playername = playerName;
                     PartyData.current_score.timestamp = __instance.GetCurrentTimestamp(); // Yes this might be microseconds later but good enough
@@ -104,9 +103,67 @@ namespace PartyExtensions
                         PartyData.all_scores.Add(leaderboardId, temp);
                     }
 
+                    PartyData.Write_All();
+                }
+
+                else
+                {
+                    PartyData.current_score.playername = playerName;
+                    PartyData.current_score.timestamp = __instance.GetCurrentTimestamp(); // Yes this might be microseconds later but good enough
+
+                    if (PartyData.daily_scores.ContainsKey(leaderboardId))
+                    {
+                        Plugin.Log.Debug("List insert: " + leaderboardId);
+
+                        PartyData.daily_scores[leaderboardId].map_scores.Insert(__state, PartyData.current_score);
+                        PartyData.daily_scores[leaderboardId].map_scores.RemoveAt(9);
+                    }
+
+                    else
+                    {
+                        Plugin.Log.Debug("Dict add: " + leaderboardId);
+
+                        CustomLeaderboard temp = new CustomLeaderboard();
+                        temp.leaderboard_id = leaderboardId;
+                        temp.map_scores.Insert(__state, PartyData.current_score);
+                        temp.map_scores.RemoveAt(9);
+
+                        PartyData.daily_scores.Add(leaderboardId, temp);
+                    }
+
+                    PartyData.Write_Daily();
+                }
+
+                
+                /*if (! PartyData.is_written)
+                {
+                    PartyData.current_score.playername = playerName;
+                    PartyData.current_score.timestamp = __instance.GetCurrentTimestamp(); // Yes this might be microseconds later but good enough
+
+                    if (PartyData.all_scores.ContainsKey(leaderboardId))
+                    {
+                        Plugin.Log.Debug("List insert: " + leaderboardId);
+
+                        PartyData.all_scores[leaderboardId].map_scores.Insert(__state, PartyData.current_score);
+                        PartyData.all_scores[leaderboardId].map_scores.RemoveAt(9);
+                    }
+
+                    else
+                    {
+                        Plugin.Log.Debug("Dict add: " + leaderboardId);
+
+                        CustomLeaderboard temp = new CustomLeaderboard();
+                        temp.leaderboard_id = leaderboardId;
+                        temp.map_scores.Insert(__state, PartyData.current_score);
+                        temp.map_scores.RemoveAt(9);
+
+                        PartyData.all_scores.Add(leaderboardId, temp);
+                        PartyData.daily_scores.Add(leaderboardId, temp);
+                    }
+
                     PartyData.Write();
                     PartyData.is_written = true;
-                }
+                }*/
 
             }
 
@@ -140,6 +197,26 @@ namespace PartyExtensions
         }*/
     }
 
+
+    [HarmonyPatch(typeof(LocalLeaderboardsModel), "UpdateDailyLeaderboard")]
+    public class UpdateDailyPatch
+    {
+        static void Postfix(string leaderboardId, LocalLeaderboardsModel __instance)
+        {
+            long num = __instance.GetCurrentTimestamp() - 86400L;
+
+            if (PartyData.daily_scores.ContainsKey(leaderboardId))
+            {
+                for (int i = PartyData.daily_scores[leaderboardId].map_scores.Count - 1; i >= 0; i--)
+                {
+                    if (PartyData.daily_scores[leaderboardId].map_scores[i].timestamp < num)
+                    {
+                        PartyData.daily_scores[leaderboardId].map_scores.RemoveAt(i);
+                    }
+                }
+            }
+        }
+    }
 
 
 
