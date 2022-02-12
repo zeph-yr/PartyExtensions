@@ -15,7 +15,7 @@ namespace PartyExtensions
 
         internal static CustomScoreData test_score;
         internal static CustomLeaderboard test_leaderboard;
-        internal static Dictionary<string, CustomLeaderboard> party_data;
+        internal static Dictionary<string, CustomLeaderboard> test_dict;
 
 
         internal static string file_path = @"C:\Program Files (x86)\Steam\steamapps\common\Beat Saber\UserData\PartyExtensions\LocalScores.json";
@@ -29,8 +29,9 @@ namespace PartyExtensions
                 Plugin.Log.Debug("Create file");
 
                 //test_score = new CustomScoreData();
-                test_leaderboard = new CustomLeaderboard();
-                //party_data = new Dictionary<string, CustomLeaderboard>();
+                //test_leaderboard = new CustomLeaderboard();
+                test_dict = new Dictionary<string, CustomLeaderboard>();
+                //test_dict.Add("none", new CustomLeaderboard());
 
                 Write();
             }
@@ -43,8 +44,8 @@ namespace PartyExtensions
                 Plugin.Log.Debug(json_string);
 
                 //test_score = JsonConvert.DeserializeObject<CustomScoreData>(json_string);
-                test_leaderboard = JsonConvert.DeserializeObject<CustomLeaderboard>(json_string);
-                //party_data = JsonConvert.DeserializeObject<Dictionary<string, CustomLeaderboard>>(file_path);
+                //test_leaderboard = JsonConvert.DeserializeObject<CustomLeaderboard>(json_string);
+                test_dict = JsonConvert.DeserializeObject<Dictionary<string, CustomLeaderboard>>(json_string);
             }
         }
 
@@ -53,8 +54,8 @@ namespace PartyExtensions
             Plugin.Log.Debug("Write file");
 
             //string json_string = JsonConvert.SerializeObject(test_score);
-            string json_string = JsonConvert.SerializeObject(test_leaderboard);
-            //string json_string = JsonConvert.SerializeObject(party_data);
+            //string json_string = JsonConvert.SerializeObject(test_leaderboard);
+            string json_string = JsonConvert.SerializeObject(test_dict);
 
             Plugin.Log.Debug(json_string);
             File.WriteAllText(file_path, json_string);

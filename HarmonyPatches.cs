@@ -85,11 +85,28 @@ namespace PartyExtensions
 
                 Plugin.Log.Debug("PostFix __state: " + __state);
 
-                if (! PartyData.is_written)
+
+                // Testing single map's leaderboard
+                /*if (! PartyData.is_written)
                 {
                     PartyData.test_leaderboard.leaderboard_id = leaderboardData._leaderboardId;
                     PartyData.test_leaderboard.map_scores.Insert(__state, PartyData.test_score);
                     PartyData.test_leaderboard.map_scores.RemoveAt(9);
+
+                    PartyData.Write();
+
+                    PartyData.is_written = true;
+                }*/
+
+                if (! PartyData.is_written)
+                {
+                    CustomLeaderboard temp = new CustomLeaderboard();
+
+                    temp.leaderboard_id = leaderboardId;
+                    temp.map_scores.Insert(__state, PartyData.test_score);
+                    temp.map_scores.RemoveAt(9);
+
+                    PartyData.test_dict.Add(leaderboardId, temp);
 
                     PartyData.Write();
 
