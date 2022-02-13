@@ -1,8 +1,11 @@
 ﻿<bg xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='https://monkeymanboy.github.io/BSML-Docs/ https://raw.githubusercontent.com/monkeymanboy/BSML-Docs/gh-pages/BSMLSchema.xsd'>
 	<background bg='round-rect-panel' bg-color='#ff0000dd'>
-		<horizontal bg='round-rect-panel' bg-color='#ffffffdd'>
-			<button text='Modal Button' on-click='disablescore' id='cancelbutton' min-width='30' min-height='10' rich-text='true'></button>
-			<text text='PartyExtensions WOOHOO' align='Left'></text>
-		</horizontal>
+		<vertical child-expand-width='true' child-expand-height='true'>
+			<list id='button_list' select-cell='button_clicked' cell-size='4' visible-cells='10' list-style='Simple'></list>
+			<horizontal bg='round-rect-panel' bg-color='#ffffffdd'>
+				<button text='~left_acc' on-click='disablescore' id='cancelbutton' min-width='30' min-height='10' rich-text='true'></button>
+				<text text='PartyExtensions WOOHOO' align='Left'></text>
+			</horizontal>
+		</vertical>
 	</background>	
 </bg>
