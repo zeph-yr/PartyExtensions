@@ -32,8 +32,9 @@ namespace PartyExtensions
         }*/
 
 
-        [UIObject("modal")]
-        private GameObject Modal;
+        [UIComponent("modal")]
+        private ModalView Modal;
+
 
         [UIComponent("modal_list")]
         public CustomListTableData Modal_List;
@@ -107,6 +108,7 @@ namespace PartyExtensions
             for (int i = 0; i < 10; i++)
             {
                 Modal_List.data.Add(new CustomListTableData.CustomCellInfo("-------"));
+                Plugin.Log.Debug("+++++++++++++++++");
             }
 
             Modal_List.tableView.ReloadData();
@@ -175,3 +177,9 @@ namespace PartyExtensions
 
 
 }
+
+/*				
+ *				<background bg='round-rect-panel' bg-color='#ff0000dd'>	</background><horizontal bg='round-rect-panel' bg-color='#ffffffdd'>
+					<button text='~left_acc' on-click='disablescore' id='cancelbutton' min-width='30' min-height='10' rich-text='true'></button>
+					<text text='PartyExtensions WOOHOO' align='Left'></text>
+				</horizontal>*/

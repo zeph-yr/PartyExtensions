@@ -53,7 +53,7 @@ namespace PartyExtensions
             //rotation *= Quaternion.Euler(Vector3.up * 90);
 
             //80, 100
-            FloatingScreen screen = FloatingScreen.CreateFloatingScreen(new Vector2(300, 300), false, new Vector3(-0.08f, 1.05f, 1.95f), rotation);
+            FloatingScreen screen = FloatingScreen.CreateFloatingScreen(new Vector2(80, 100), false, new Vector3(-0.08f, 1.05f, 1.95f), rotation);
 
             GameObject.DontDestroyOnLoad(screen.gameObject);
             return screen;
