@@ -82,41 +82,76 @@ namespace PartyExtensions
         }
     }
 
+    internal enum CustomGamePlayModifiersEnum
+    {
+        // Fail and Lives
+        NF = 0,
+        L_1 = 1, // 1 Life
+        L_4 = 2, // 4 Lives
+
+        // Bombs and Walls
+        NB = 3,
+        FH = 4, //Full Height Only, probably wont show up
+        NO = 5,
+
+        // Arrows
+        NA = 6,
+        GN = 7,
+        DA = 8,
+
+        // Acc and Block
+        SC = 9,
+        PM = 10,
+        SA = 11,
+        ZM = 12,
+
+        // Song peed
+        FS = 13,
+        SS = 14,
+        SFS = 15
+    }
+
+
+
+
+
 
     class CustomGamePlayModifiers
     {
-        bool NF;
-        bool L_1;
-        bool L_4;
-        bool NB;
-        bool FH; // Probably wont show up
-        bool NO;
-        bool NA;
-        bool GN;
-        bool DA;
-        bool SC;
-        bool PM;
-        bool SA;
-        bool ZM;
-        bool FS;
-        bool SS;
-        bool SFS;
+        bool[] custom_gameplaymodifiers = new bool[16];
 
-
-
-
-
-        public CustomGamePlayModifiers(GameplayModifiers gameplayModifiers)
+        public string Read_Custom_Gameplaymodifiers(bool[] data)
         {
+            string result = "";
+
+            for (int i = 0; i < data.Length; i++)
+            {
+                if (data[i] == true)
+                {
+                    result += (CustomGamePlayModifiersEnum)i + ", ";
+                }
+            }
+
+            Plugin.Log.Debug(result);
+
+            return result.Trim(',', ' ');
+        }
+
+
+
+        public bool[] Make_Custom_Gameplaymodifiers(GameplayModifiers gameplayModifiers)
+        {
+            bool[] custom_gameplaymodifiers = new bool[16];
+
             // Fail and Life Modifiers
             if (gameplayModifiers.noFailOn0Energy)
             {
-                result += "NF, ";
+                custom_gameplaymodifiers[0] = true;
             }
 
             if (gameplayModifiers.instaFail)
             {
-                result += "1-L, ";
+                custom_gameplaymodifiers[1] = true;
             }
 
             switch ((int)gameplayModifiers.energyType)
@@ -124,7 +159,7 @@ namespace PartyExtensions
                 case 0:
                     break;
                 case 1:
-                    result += "4-L, ";
+                    custom_gameplaymodifiers[2] = true;
                     break;
                 default:
                     break;
@@ -134,7 +169,7 @@ namespace PartyExtensions
             // Bombs and Walls
             if (gameplayModifiers.noBombs)
             {
-                result += "NB, ";
+                custom_gameplaymodifiers[3] = true;
             }
 
             switch ((int)gameplayModifiers.enabledObstacleType)
@@ -142,10 +177,10 @@ namespace PartyExtensions
                 case 0:
                     break;
                 case 1:
-                    result += "FH, "; // Probably wont show up
+                    custom_gameplaymodifiers[4] = true;
                     break;
                 case 2:
-                    result += "NO, ";
+                    custom_gameplaymodifiers[5] = true;
                     break;
                 default:
                     break;
@@ -154,39 +189,39 @@ namespace PartyExtensions
             // Arrow Modifiers
             if (gameplayModifiers.noArrows)
             {
-                result += "NA, ";
+                custom_gameplaymodifiers[6] = true;
             }
 
             if (gameplayModifiers.ghostNotes)
             {
-                result += "GN, ";
+                custom_gameplaymodifiers[7] = true;
             }
 
             if (gameplayModifiers.disappearingArrows)
             {
-                result += "DA, ";
+                custom_gameplaymodifiers[8] = true;
             }
 
 
             // Acc and Block Modifiers
             if (gameplayModifiers.smallCubes)
             {
-                result += "SC, ";
+                custom_gameplaymodifiers[9] = true;
             }
 
             if (gameplayModifiers.proMode)
             {
-                result += "PM, ";
+                custom_gameplaymodifiers[10] = true;
             }
 
             if (gameplayModifiers.strictAngles)
             {
-                result += "SA ";
+                custom_gameplaymodifiers[11] = true;
             }
 
             if (gameplayModifiers.zenMode)
             {
-                result += "ZM, ";
+                custom_gameplaymodifiers[12] = true;
             }
 
 
@@ -196,23 +231,23 @@ namespace PartyExtensions
                 case 0:
                     break;
                 case 1:
-                    result += "FS, ";
+                    custom_gameplaymodifiers[13] = true;
                     break;
                 case 2:
-                    result += "SS, ";
+                    custom_gameplaymodifiers[14] = true;
                     break;
                 case 3:
-                    result += "SFS, ";
+                    custom_gameplaymodifiers[15] = true;
+
                     break;
                 default:
                     break;
             }
 
-            Plugin.Log.Debug(result);
-
-            return result.Trim(',', ' ');
+            return custom_gameplaymodifiers;
         }
 
+       
     }
 
 
