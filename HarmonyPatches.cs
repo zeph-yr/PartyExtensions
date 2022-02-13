@@ -247,6 +247,7 @@ namespace PartyExtensions
         }
     }*/
 
+
     [HarmonyPatch(typeof(LocalLeaderboardsModel), "ClearAllLeaderboards")]
     public class ClearAllPatch
     {
@@ -259,6 +260,32 @@ namespace PartyExtensions
 
             PartyData.daily_scores = new Dictionary<string, CustomLeaderboard>();
             PartyData.Write_Daily();
+        }
+    }
+
+
+    [HarmonyPatch(typeof(LocalLeaderboardViewController), "SetContent")]
+    public class SetContentPatch
+    {
+        static void Postfix(string leaderboardID, LocalLeaderboardsModel.LeaderboardType leaderboardType)
+        {
+            ButtonController.current_leaderboard = leaderboardID;
+            ButtonController.leaderboardType = leaderboardType;
+
+            if (leaderboardType == LocalLeaderboardsModel.LeaderboardType.Daily)
+            {
+                if (PartyData.daily_scores.ContainsKey(leaderboardID))
+                {
+                    Plugin.Log.Debug("Found daily leaderboard: " + PartyData.daily_scores[leaderboardID].map_scores[0].playername);
+                }
+            }
+            else
+            {
+                if (PartyData.all_scores.ContainsKey(leaderboardID))
+                {
+                    Plugin.Log.Debug("Found all time leaderboard: " + PartyData.all_scores[leaderboardID].map_scores[0].playername);
+                }
+            }
         }
     }
 }

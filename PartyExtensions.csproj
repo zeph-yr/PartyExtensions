@@ -121,7 +121,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ButtonController.cs" />
-    <Compile Include="ButtonViewController.cs" />
     <Compile Include="CustomScoreData.cs" />
     <Compile Include="HarmonyPatches.cs" />
     <Compile Include="Plugin.cs" />
@@ -133,9 +132,10 @@
     <EmbeddedResource Include="manifest.json" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="ButtonViewController.bsml">
-      <DependentUpon>ButtonViewController.cs</DependentUpon>
-    </EmbeddedResource>
+    <Compile Include="ButtonViewController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <EmbeddedResource Include="ButtonViewController.bsml" />
     <None Include="Directory.Build.props" Condition="Exists('Directory.Build.props')" />
     <None Include="Directory.Build.targets" Condition="Exists('Directory.Build.targets')" />
     <None Include="PartyExtensions.csproj.user" Condition="Exists('PartyExtensions.csproj.user')" />

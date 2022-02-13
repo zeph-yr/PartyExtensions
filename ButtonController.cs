@@ -1,10 +1,6 @@
 ﻿using BeatSaberMarkupLanguage;
 using BeatSaberMarkupLanguage.FloatingScreen;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace PartyExtensions
@@ -13,6 +9,11 @@ namespace PartyExtensions
     {
         public FloatingScreen floatingScreen;
         public ButtonViewController buttonViewController;
+
+        public static string current_leaderboard;
+        public static LocalLeaderboardsModel.LeaderboardType leaderboardType;
+
+
 
         public static ButtonController _instance { get; private set; }
 
@@ -25,6 +26,7 @@ namespace PartyExtensions
                 return _instance;
             }
         }
+
 
         public void Show_Buttons()
         {
@@ -45,7 +47,6 @@ namespace PartyExtensions
         }
 
 
-
         public FloatingScreen CreateFloatingScreen()
         {
             Quaternion rotation = new Quaternion(0f, 0f, 0f, 0f);
@@ -57,16 +58,16 @@ namespace PartyExtensions
             return screen;
         }
 
+
         private void LocalLeaderboardViewController_didDeactivateEvent(bool removedFromHierarchy, bool screenSystemDisabling)
         {
             floatingScreen.gameObject.SetActive(false);
         }
 
+
         private void LocalLeaderboardViewController_didActivateEvent(bool firstActivation, bool addedToHierarchy, bool screenSystemEnabling)
         {
             floatingScreen.gameObject.SetActive(true);
-
         }
-
     }
 }
