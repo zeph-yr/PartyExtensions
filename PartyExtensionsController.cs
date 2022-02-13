@@ -130,7 +130,9 @@ namespace PartyExtensions
 
         private void BSEvents_noteWasCut(NoteData arg1, NoteCutInfo arg2, int arg3)
         {
-            if (arg1 != null)
+            // Need the arg2 check for wrong direction, wrong color, miss, or it will error a lot in the console
+            if (arg1 != null && arg2.allIsOK)
+
             {
                 if (arg1.colorType == ColorType.ColorA)
                 {
@@ -142,7 +144,7 @@ namespace PartyExtensions
                     color = "B";
                 }
 
-                else
+                else // Can even add bombs cut here as a bonus
                 {
                     return;
                 }
