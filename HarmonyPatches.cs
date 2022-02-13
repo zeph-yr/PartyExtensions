@@ -268,6 +268,8 @@ namespace PartyExtensions
 
             PartyData.daily_scores = new Dictionary<string, CustomLeaderboard>();
             PartyData.Write_Daily();
+
+            ButtonController.current_leaderboard = null; // Need this or it will fill all the modals with the last score lol
         }
     }
 
