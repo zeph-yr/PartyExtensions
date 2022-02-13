@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 
 namespace PartyExtensions
 {
-    class PartyData
+    internal class PartyData
     {
         internal static bool is_written = false;
 
@@ -21,7 +21,7 @@ namespace PartyExtensions
         internal static string file_path = @"C:\Program Files (x86)\Steam\steamapps\common\Beat Saber\UserData\PartyExtensions\LocalScores.json";
         internal static string daily_file_path = @"C:\Program Files (x86)\Steam\steamapps\common\Beat Saber\UserData\PartyExtensions\DailyLocalScores.json";
 
-        public static void Read()
+        internal static void Read()
         {
             Plugin.Log.Debug("Read");
 
@@ -62,7 +62,7 @@ namespace PartyExtensions
             }
         }
 
-        public static void Write_All()
+        internal static void Write_All()
         {
             Plugin.Log.Debug("Write file");
 
@@ -76,11 +76,12 @@ namespace PartyExtensions
             File.WriteAllText(file_path, JsonConvert.SerializeObject(all_scores));
         }
 
-        public static void Write_Daily()
+        internal static void Write_Daily()
         {
             File.WriteAllText(daily_file_path, JsonConvert.SerializeObject(daily_scores));
         }
     }
+
 
     // Note: Translating the basegame gpms into a bool array because storing the original gpm object doesnt work well:
     // When level is cleared, the serialized results of the basegame gpm is correct.
@@ -116,51 +117,43 @@ namespace PartyExtensions
     }
 
 
-    class CustomScoreData
+    internal class CustomScoreData
     {
-        // points - base
-        // rank 
-        // highest combo
-        // accuary left/right
-        // blockcount hit
-        // missed blocks
-        // mods (speed+, ghost-blocks etc)
-        // date/time when reached
+        // These are in the order in the constructors (don't change!)
+        internal string rank;
 
-        public string rank;
+        internal int missed;
+        internal int good_cuts;
+        internal int bad_cuts;
 
-        public int missed;
-        public int good_cuts;
-        public int bad_cuts;
-
-        public float left_acc;
-        public float right_acc;
+        internal float left_acc;
+        internal float right_acc;
 
         //public GameplayModifiers modifiers;
-        public bool[] custom_gameplaymodifiers;
+        internal bool[] custom_gameplaymodifiers;
 
-        public int longest_combo;
+        internal int longest_combo;
 
-        public long timestamp;
-        public string playername;
+        internal long timestamp;
+        internal string playername;
 
         public CustomScoreData()
         {
-            this.playername = "";
+            playername = "";
+            rank = "";
 
-            this.rank = "";
+            left_acc = 0f;
+            right_acc = 0f;
 
-            this.left_acc = 0f;
-            this.right_acc = 0f;
+            good_cuts = 0;
+            bad_cuts = 0;
+            missed = 0;
+            longest_combo = 0;
 
-            this.good_cuts = 0;
-            this.bad_cuts = 0;
-            this.missed = 0;
-            this.longest_combo = 0;
-
-            //this.modifiers = null;
-            this.custom_gameplaymodifiers = new bool[16];
-            this.timestamp = 0;
+            //modifiers = null;
+            custom_gameplaymodifiers = new bool[16];
+            
+            timestamp = 0;
         }
 
         // Called on levelcleared to lock gpms into a bool array before they can do their weird thing
@@ -204,7 +197,7 @@ namespace PartyExtensions
         }
 
 
-        public static bool[] Make_Custom_Gameplaymodifiers(GameplayModifiers gameplayModifiers)
+        private static bool[] Make_Custom_Gameplaymodifiers(GameplayModifiers gameplayModifiers)
         {
             bool[] custom_gameplaymodifiers = new bool[16];
 
@@ -312,7 +305,7 @@ namespace PartyExtensions
             return custom_gameplaymodifiers;
         }
 
-        public static string Read_Custom_Gameplaymodifiers(bool[] data)
+        internal static string Read_Custom_Gameplaymodifiers(bool[] data)
         {
             string result = "";
 
@@ -330,31 +323,21 @@ namespace PartyExtensions
         }
     }
 
-    class CustomLeaderboard
+    internal class CustomLeaderboard
     {
-        public string leaderboard_id;
-        public List<CustomScoreData> map_scores;
-
-        private void Fill()
-        {
-            for (int i = 0; i < 10; i++)
-            {
-                map_scores.Add(new CustomScoreData());
-            }
-        }
+        internal string leaderboard_id;
+        internal List<CustomScoreData> map_scores;
 
         public CustomLeaderboard()
         {
             leaderboard_id = "";
-            map_scores = new List<CustomScoreData>();
-            Fill();
+            map_scores = Make_Placeholders();
         }
 
         public CustomLeaderboard(string id)
         {
             leaderboard_id = id;
-            map_scores = new List<CustomScoreData>();
-            Fill();
+            map_scores = Make_Placeholders();
         }
 
         [JsonConstructor]
@@ -364,31 +347,26 @@ namespace PartyExtensions
 
             if (map_scores == null)
             {
-                this.map_scores = new List<CustomScoreData>();
-                Fill();
+                this.map_scores = Make_Placeholders();
             }
             else
             {
                 this.map_scores = map_scores;
             }
         }
+
+        private static List<CustomScoreData> Make_Placeholders()
+        {
+            List<CustomScoreData> map_scores = new List<CustomScoreData>();
+
+            for (int i = 0; i < 10; i++)
+            {
+                map_scores.Add(new CustomScoreData());
+            }
+
+            return map_scores;
+        }
     }
-
-    /*class CustomLeaderboardCollection
-    {
-        public Dictionary<string, CustomLeaderboard> map_leaderboards;
-
-        public CustomLeaderboardCollection()
-        {
-            this.map_leaderboards = new Dictionary<string, CustomLeaderboard>();
-        }
-
-        [JsonConstructor]
-        public CustomLeaderboardCollection(Dictionary<string, CustomLeaderboard> map_leaderboards)
-        {
-            this.map_leaderboards = map_leaderboards;
-        }
-    }*/
 }
 
 /*DEBUG @ 23:59:55 | PartyExtensions] level cleared

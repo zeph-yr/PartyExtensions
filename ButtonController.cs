@@ -5,15 +5,13 @@ using UnityEngine;
 
 namespace PartyExtensions
 {
-    class ButtonController
+    internal class ButtonController
     {
-        public FloatingScreen floatingScreen;
-        public ButtonViewController buttonViewController;
+        internal static string current_leaderboard;
+        internal static LocalLeaderboardsModel.LeaderboardType leaderboardType;
 
-        public static string current_leaderboard;
-        public static LocalLeaderboardsModel.LeaderboardType leaderboardType;
-
-
+        private FloatingScreen floatingScreen;
+        private ButtonViewController buttonViewController;
 
         public static ButtonController _instance { get; private set; }
 
@@ -47,7 +45,7 @@ namespace PartyExtensions
         }
 
 
-        public FloatingScreen CreateFloatingScreen()
+        private FloatingScreen CreateFloatingScreen()
         {
             Quaternion rotation = new Quaternion(0f, 0f, 0f, 0f);
             //rotation *= Quaternion.Euler(Vector3.up * 90);

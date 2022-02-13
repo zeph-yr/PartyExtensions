@@ -14,7 +14,10 @@ namespace PartyExtensions
         internal ButtonController ParentCoordinator;
 
 
-        //===============================================================
+        //***********************************
+        // Leaderboard Buttons
+        //***********************************
+
         [UIComponent("button_list")]
         public CustomListTableData Button_List;
 
@@ -27,11 +30,13 @@ namespace PartyExtensions
             Set_Modal_Content(row);
             //Fill_Modal_Test();
 
-            parserParams.EmitEvent("open-modal"); // First click will have blank modal
+            // This is absolutely critical!! Not sure why but "button_clicked" doesn't work as show-event
+            parserParams.EmitEvent("open-modal");
+            // First click results in blank modal
         }
 
 
-        private void Fill_List()
+        private void Fill_Button_List()
         {
             Button_List.data.Clear();
 
@@ -48,10 +53,13 @@ namespace PartyExtensions
         [UIAction("#post-parse")]
         private void PostParse()
         {
-            Fill_List();
+            Fill_Button_List();
         }
-        //===============================================================
 
+
+        //***********************************
+        // Modal Panel
+        //***********************************
 
         [UIParams]
         private BSMLParserParams parserParams;
@@ -92,7 +100,7 @@ namespace PartyExtensions
                 }
             }
 
-            // For the dummy placeholder scores
+            // For the dummy placeholder scores in data files
             if (temp.map_scores[row].playername == "")
             {
                 Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"No data for this score"));
@@ -210,7 +218,7 @@ namespace PartyExtensions
    
             if (gameplayModifiers.strictAngles)
             {
-                result += "SA ";
+                result += "SA, ";
             }
 
             if (gameplayModifiers.zenMode)

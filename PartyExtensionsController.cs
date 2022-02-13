@@ -75,8 +75,6 @@ namespace PartyExtensions
         {
             Plugin.Log.Debug("Level cleared");
 
-
-
             final_left_acc = left_acc / left_hits;
             final_right_acc = right_acc / right_hits;
 
