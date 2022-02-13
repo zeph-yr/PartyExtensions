@@ -13,6 +13,7 @@ namespace PartyExtensions
         internal ButtonController ParentCoordinator;
 
 
+        //===============================================================
 
         [UIComponent("button_list")]
         public CustomListTableData Button_List;
@@ -23,16 +24,34 @@ namespace PartyExtensions
         {
             Plugin.Log.Debug("button clicked: " + row);
 
-
-            //Set_Modal_Content(row);
-            Fill_Modal_Test();
+            Set_Modal_Content(row);
+            //Fill_Modal_Test();
 
             parserParams.EmitEvent("open-modal");
         }
 
 
+        private void Fill_List()
+        {
+            Button_List.data.Clear();
+
+            for (int i = 0; i < 10; i++)
+            {
+                Button_List.data.Add(new CustomListTableData.CustomCellInfo("i"));
+            }
+
+            Button_List.tableView.ReloadData();
+            Button_List.tableView.ClearSelection();
+        }
 
 
+        [UIAction("#post-parse")]
+        private void PostParse()
+        {
+            Fill_List();
+        }
+
+        //===============================================================
 
 
         [UIParams]
@@ -42,12 +61,11 @@ namespace PartyExtensions
         public ModalView Modal;
 
 
-
         [UIComponent("modal_list")]
         public CustomListTableData Modal_List;
 
 
-        /*private void Set_Modal_Content(int row)
+        private void Set_Modal_Content(int row)
         {
             Modal_List.data.Clear();
 
@@ -65,39 +83,35 @@ namespace PartyExtensions
                 Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"Left Acc: {temp.map_scores[row].left_acc}"));
                 Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"Right Acc: {temp.map_scores[row].right_acc}"));
                 Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"Longest Combo: {temp.map_scores[row].longest_combo}"));
+                Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"Bad Cuts: {temp.map_scores[row].bad_cuts}"));
                 Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"Missed: {temp.map_scores[row].missed}"));
-
+                Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"Time: {temp.map_scores[row].timestamp}"));
+                Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"Modifiers: {temp.map_scores[row].modifiers.ToString()}"));
             }
 
             else
             {
+                CustomLeaderboard temp;
+                if (PartyData.all_scores.TryGetValue(ButtonController.current_leaderboard, out temp) == false)
+                {
+                    //
+                    return;
+                }
 
+                Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"Player: {temp.map_scores[row].playername}"));
+                Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"Rank: {temp.map_scores[row].rank}"));
+                Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"Left Acc: {temp.map_scores[row].left_acc}"));
+                Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"Right Acc: {temp.map_scores[row].right_acc}"));
+                Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"Longest Combo: {temp.map_scores[row].longest_combo}"));
+                Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"Bad Cuts: {temp.map_scores[row].bad_cuts}"));
+                Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"Missed: {temp.map_scores[row].missed}"));
+                Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"Time: {temp.map_scores[row].timestamp}"));
+                Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"Modifiers: {temp.map_scores[row].modifiers.ToString()}"));
             }
 
             Modal_List.tableView.ReloadData();
             Modal_List.tableView.ClearSelection();
-        }*/
-
-
-        /*protected override void DidActivate(bool firstActivation, bool addedToHierarchy, bool screenSystemEnabling)
-        {
-            base.DidActivate(firstActivation, addedToHierarchy, screenSystemEnabling);
-            if (!firstActivation)
-            {
-                Set_Modal_Content(0);
-            }
         }
-
-        protected override void DidDeactivate(bool removedFromHierarchy, bool screenSystemDisabling)
-        {
-            base.DidDeactivate(removedFromHierarchy, screenSystemDisabling);
-        }*/
-
-
-
-
-
-
 
 
 
@@ -127,26 +141,7 @@ namespace PartyExtensions
 
 
 
-        private void Fill_List()
-        {
-            Button_List.data.Clear();
 
-            for (int i = 0; i < 10; i++)
-            {
-                Button_List.data.Add(new CustomListTableData.CustomCellInfo("i"));
-            }
-
-            Button_List.tableView.ReloadData();
-            Button_List.tableView.ClearSelection();
-        }
-
-
-        [UIAction("#post-parse")]
-        private void PostParse()
-        {
-            Fill_List();
-            //Fill_Modal_Test();
-        }
 
 
 
@@ -160,7 +155,6 @@ namespace PartyExtensions
         protected void ClickButtonAction()
         {
             Plugin.Log.Debug("disable_clicked");
-            //Fill_Modal_Test();
         }
 
     }
