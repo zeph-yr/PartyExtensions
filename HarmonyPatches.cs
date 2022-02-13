@@ -94,7 +94,6 @@ namespace PartyExtensions
                         PartyData.all_scores[leaderboardId].map_scores.Insert(__state, PartyData.current_score);
                         PartyData.all_scores[leaderboardId].map_scores.RemoveAt(9);
                     }
-                    
                     else // PartyExtensions doesn't have scores for this map yet
                     {
                         Plugin.Log.Debug("Dict add: " + leaderboardId);
@@ -119,7 +118,6 @@ namespace PartyExtensions
                         PartyData.daily_scores[leaderboardId].map_scores.Insert(__state, PartyData.current_score);
                         PartyData.daily_scores[leaderboardId].map_scores.RemoveAt(9);
                     }
-
                     else
                     {
                         Plugin.Log.Debug("Dict add: " + leaderboardId);

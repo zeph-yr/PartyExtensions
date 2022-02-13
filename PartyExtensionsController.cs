@@ -50,17 +50,19 @@ namespace PartyExtensions
         /// </summary>
         private void OnEnable()
         {
-            //BS_Utils.Utilities.BSEvents.lateMenuSceneLoadedFresh += BSEvents_lateMenuSceneLoadedFresh;
+            BS_Utils.Utilities.BSEvents.lateMenuSceneLoadedFresh += BSEvents_lateMenuSceneLoadedFresh;
             BS_Utils.Utilities.BSEvents.gameSceneLoaded += BSEvents_gameSceneLoaded;
 
             BS_Utils.Utilities.BSEvents.noteWasCut += BSEvents_noteWasCut;
             BS_Utils.Utilities.BSEvents.levelCleared += BSEvents_levelCleared;
         }
 
+        // This is critical
         private void BSEvents_lateMenuSceneLoadedFresh(ScenesTransitionSetupDataSO obj)
         {
-            //ButtonController.Instance.Show_Buttons();
+            ButtonController.Instance.Show_Buttons();
         }
+
 
         private static void BSEvents_levelCleared(StandardLevelScenesTransitionSetupDataSO arg1, LevelCompletionResults arg2)
         {
@@ -204,7 +206,7 @@ namespace PartyExtensions
         /// </summary>
         private void OnDisable()
         {
-            //BS_Utils.Utilities.BSEvents.lateMenuSceneLoadedFresh -= BSEvents_lateMenuSceneLoadedFresh;
+            BS_Utils.Utilities.BSEvents.lateMenuSceneLoadedFresh -= BSEvents_lateMenuSceneLoadedFresh;
             BS_Utils.Utilities.BSEvents.gameSceneLoaded -= BSEvents_gameSceneLoaded;
 
             BS_Utils.Utilities.BSEvents.noteWasCut -= BSEvents_noteWasCut;

@@ -124,23 +124,24 @@ namespace PartyExtensions
     internal class CustomScoreData
     {
         // These are in the order in the constructors (don't change!)
-        internal string rank;
+        // They must be public or json serializer will do nothing
+        public string rank;
 
-        internal int missed;
-        internal int good_cuts;
-        internal int bad_cuts;
+        public int missed;
+        public int good_cuts;
+        public int bad_cuts;
 
-        internal float acc;
-        internal float left_acc;
-        internal float right_acc;
+        public float acc;
+        public float left_acc;
+        public float right_acc;
 
         //public GameplayModifiers modifiers;
-        internal bool[] custom_gameplaymodifiers;
+        public bool[] custom_gameplaymodifiers;
 
-        internal int longest_combo;
+        public int longest_combo;
 
-        internal long timestamp;
-        internal string playername;
+        public long timestamp;
+        public string playername;
 
         public CustomScoreData()
         {
@@ -332,8 +333,9 @@ namespace PartyExtensions
 
     internal class CustomLeaderboard
     {
-        internal string leaderboard_id;
-        internal List<CustomScoreData> map_scores;
+        // They must be public or json serializer breaks
+        public string leaderboard_id;
+        public List<CustomScoreData> map_scores;
 
         public CustomLeaderboard()
         {

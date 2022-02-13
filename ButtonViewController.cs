@@ -111,11 +111,13 @@ namespace PartyExtensions
                 return;
             }
 
+            String.Format("{0:0.00}", 123.4567);
+
             Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"Player: {temp.map_scores[row].playername}"));
             Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"Rank: {temp.map_scores[row].rank}"));
-            Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"Acc: {temp.map_scores[row].acc}"));
-            Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"Left Acc: {temp.map_scores[row].left_acc}"));
-            Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"Right Acc: {temp.map_scores[row].right_acc}"));
+            Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"Accuracy: {temp.map_scores[row].acc} - " + String.Format("{0:0.00}", temp.map_scores[row].acc / 115 * 100) + "%"));
+            Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"<#ffffff>Left-Right: <#ff0000>{temp.map_scores[row].left_acc} <#ffffff>- <#0000ff>{temp.map_scores[row].right_acc}"));
+            //Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"Right: {temp.map_scores[row].right_acc}"));
             Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"Longest Combo: {temp.map_scores[row].longest_combo}"));
             Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"Bad Cuts: {temp.map_scores[row].bad_cuts}"));
             Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"Missed: {temp.map_scores[row].missed}"));

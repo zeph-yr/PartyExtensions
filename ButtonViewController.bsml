@@ -4,12 +4,12 @@
 			<button text='akjsdlfj' on-click='disablescore' event-clicked='button_clicked' id='cancelbutton' min-width='30' min-height='10' rich-text='true'></button>
 			<text text='PartyExtensions WOOHOO' align='Left'></text>
 		</horizontal>
-		<list id='button_list' select-cell='button_clicked' event-clicked='button_clicked' cell-size='4' visible-cells='10' list-style='Simple'></list>
+		<list id='button_list' select-cell='button_clicked' event-clicked='button_clicked' cell-size='6' visible-cells='10' list-style='Simple'></list>
 	</vertical>
 
 	<modal id='modal' show-event='open-modal' click-off-closes='true' move-to-center='true' size-delta-x='110' size-delta-y='50'>
 		<horizontal bg='round-rect-panel' bg-color='#ffffffdd'>
-			<list id='modal_list' cell-size='4' visible-cells='9' list-style='Simple' rich-text='true'></list>
+			<list id='modal_list' cell-size='4' visible-cells='10' list-style='Simple' rich-text='true'></list>
 			<text text='MODAL TEXT' font-color='#ff0000ff' align='Left' min-width='50' min-height='30' rich-text='true'></text>
 		</horizontal>
 	</modal>
