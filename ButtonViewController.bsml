@@ -13,7 +13,4 @@
 			<text text='MODAL TEXT' font-color='#ff00000ff' align='Left' min-width='50' min-height='30' rich-text='true'></text>
 		</horizontal>
 	</modal>
-
-
-
 </bg>

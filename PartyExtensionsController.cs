@@ -108,6 +108,8 @@ namespace PartyExtensions
             */
 
             PartyData.current_score = new CustomScoreData(arg2.rank.ToString(), arg2.missedCount, arg2.goodCutsCount, arg2.badCutsCount, final_left_acc, final_right_acc, arg2.gameplayModifiers, arg2.maxCombo, 0 /*DateTime.Now.Ticks*/, "Zeph");
+            
+            Plugin.Log.Debug(JsonConvert.SerializeObject(PartyData.current_score));
             //PartyData.Write();
         }
 

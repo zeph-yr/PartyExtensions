@@ -82,6 +82,140 @@ namespace PartyExtensions
         }
     }
 
+
+    class CustomGamePlayModifiers
+    {
+        bool NF;
+        bool L_1;
+        bool L_4;
+        bool NB;
+        bool FH; // Probably wont show up
+        bool NO;
+        bool NA;
+        bool GN;
+        bool DA;
+        bool SC;
+        bool PM;
+        bool SA;
+        bool ZM;
+        bool FS;
+        bool SS;
+        bool SFS;
+
+
+
+
+
+        public CustomGamePlayModifiers(GameplayModifiers gameplayModifiers)
+        {
+            // Fail and Life Modifiers
+            if (gameplayModifiers.noFailOn0Energy)
+            {
+                result += "NF, ";
+            }
+
+            if (gameplayModifiers.instaFail)
+            {
+                result += "1-L, ";
+            }
+
+            switch ((int)gameplayModifiers.energyType)
+            {
+                case 0:
+                    break;
+                case 1:
+                    result += "4-L, ";
+                    break;
+                default:
+                    break;
+            }
+
+
+            // Bombs and Walls
+            if (gameplayModifiers.noBombs)
+            {
+                result += "NB, ";
+            }
+
+            switch ((int)gameplayModifiers.enabledObstacleType)
+            {
+                case 0:
+                    break;
+                case 1:
+                    result += "FH, "; // Probably wont show up
+                    break;
+                case 2:
+                    result += "NO, ";
+                    break;
+                default:
+                    break;
+            }
+
+            // Arrow Modifiers
+            if (gameplayModifiers.noArrows)
+            {
+                result += "NA, ";
+            }
+
+            if (gameplayModifiers.ghostNotes)
+            {
+                result += "GN, ";
+            }
+
+            if (gameplayModifiers.disappearingArrows)
+            {
+                result += "DA, ";
+            }
+
+
+            // Acc and Block Modifiers
+            if (gameplayModifiers.smallCubes)
+            {
+                result += "SC, ";
+            }
+
+            if (gameplayModifiers.proMode)
+            {
+                result += "PM, ";
+            }
+
+            if (gameplayModifiers.strictAngles)
+            {
+                result += "SA ";
+            }
+
+            if (gameplayModifiers.zenMode)
+            {
+                result += "ZM, ";
+            }
+
+
+            // Speed Modifiers
+            switch ((int)gameplayModifiers.songSpeed)
+            {
+                case 0:
+                    break;
+                case 1:
+                    result += "FS, ";
+                    break;
+                case 2:
+                    result += "SS, ";
+                    break;
+                case 3:
+                    result += "SFS, ";
+                    break;
+                default:
+                    break;
+            }
+
+            Plugin.Log.Debug(result);
+
+            return result.Trim(',', ' ');
+        }
+
+    }
+
+
     class CustomScoreData
     {
         // points - base
