@@ -49,6 +49,8 @@ namespace PartyExtensions
                 //test_dict = JsonConvert.DeserializeObject<Dictionary<string, CustomLeaderboard>>(json_string);
 
                 all_scores = JsonConvert.DeserializeObject<Dictionary<string, CustomLeaderboard>>(File.ReadAllText(file_path));
+
+                File.Copy(file_path, file_path + ".bak", true); // Make a backup at the start of each game (an extra bonus)
             }
 
             if (!File.Exists(daily_file_path))
@@ -59,6 +61,8 @@ namespace PartyExtensions
             else
             {
                 daily_scores = JsonConvert.DeserializeObject<Dictionary<string, CustomLeaderboard>>(File.ReadAllText(daily_file_path));
+
+                File.Copy(daily_file_path, daily_file_path + ".bak", true);
             }
         }
 

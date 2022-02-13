@@ -17,7 +17,7 @@ namespace PartyExtensions
         internal static IPALogger Log { get; private set; }
         internal static PartyExtensionsController PluginController { get { return PartyExtensionsController.Instance; } }
 
-        internal static ButtonController buttons;
+        //internal static ButtonController buttons;
 
 
 
@@ -40,8 +40,6 @@ namespace PartyExtensions
 
             new GameObject("PartyExtensionsController").AddComponent<PartyExtensionsController>();
             ApplyHarmonyPatches();
-
-
         }
 
 
@@ -50,6 +48,7 @@ namespace PartyExtensions
         {
             if (PluginController != null)
                 GameObject.Destroy(PluginController);
+
             RemoveHarmonyPatches();
         }
 
