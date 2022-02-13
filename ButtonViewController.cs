@@ -78,6 +78,8 @@ namespace PartyExtensions
 
             CustomLeaderboard temp;
 
+            // Possible scenario where scores exist on one leaderboard but not the other
+            // E.g. Not on daily but exists in alltime
             if (ButtonController.leaderboardType == LocalLeaderboardsModel.LeaderboardType.Daily)
             {
                 if (PartyData.daily_scores.TryGetValue(ButtonController.current_leaderboard, out temp) == false)
@@ -96,6 +98,10 @@ namespace PartyExtensions
                 if (PartyData.all_scores.TryGetValue(ButtonController.current_leaderboard, out temp) == false)
                 {
                     Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"No data for this score"));
+                    
+                    Modal_List.tableView.ReloadData();
+                    Modal_List.tableView.ClearSelection();
+              
                     return;
                 }
             }
@@ -104,26 +110,26 @@ namespace PartyExtensions
             if (temp.map_scores[row].playername == "")
             {
                 Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"No data for this score"));
-
-                Modal_List.tableView.ReloadData();
-                Modal_List.tableView.ClearSelection();
-
-                return;
             }
 
-            Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"Player: {temp.map_scores[row].playername}"));
-            Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"Rank: {temp.map_scores[row].rank}"));
-            Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"Accuracy: {temp.map_scores[row].acc} - " + String.Format("{0:0.00}", temp.map_scores[row].acc / 115 * 100) + "%"));
-            Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"<#ffffff>Left-Right: <#ff0000>" + String.Format("{0:0.00}", temp.map_scores[row].left_acc) + " - <#0000ff>" + String.Format("{0:0.00}", temp.map_scores[row].right_acc)));
-            //Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"Right: {temp.map_scores[row].right_acc}"));
-            Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"Longest Combo: {temp.map_scores[row].longest_combo}"));
-            Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"Bad Cuts: {temp.map_scores[row].bad_cuts}"));
-            Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"Missed: {temp.map_scores[row].missed}"));
-            Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"Time: {Convert_Timestamp(temp.map_scores[row].timestamp)}"));
-            Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"Modifiers: {CustomScoreData.Read_Custom_Gameplaymodifiers(temp.map_scores[row].custom_gameplaymodifiers)}"));
+            else
+            {
+                Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"Player: {temp.map_scores[row].playername}"));
+                Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"Rank: {temp.map_scores[row].rank}"));
+                Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"Accuracy: {temp.map_scores[row].acc} - " + String.Format("{0:0.00}", temp.map_scores[row].acc / 115 * 100) + "%"));
+                Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"<#ffffff>Left-Right: <#ff0000>" + String.Format("{0:0.00}", temp.map_scores[row].left_acc) + " - <#0000ff>" + String.Format("{0:0.00}", temp.map_scores[row].right_acc)));
+                //Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"Right: {temp.map_scores[row].right_acc}"));
+                Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"Longest Combo: {temp.map_scores[row].longest_combo}"));
+                Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"Bad Cuts: {temp.map_scores[row].bad_cuts}"));
+                Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"Missed: {temp.map_scores[row].missed}"));
+                Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"Time: {Convert_Timestamp(temp.map_scores[row].timestamp)}"));
+                Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"Modifiers: {CustomScoreData.Read_Custom_Gameplaymodifiers(temp.map_scores[row].custom_gameplaymodifiers)}"));
+            }
 
             Modal_List.tableView.ReloadData();
             Modal_List.tableView.ClearSelection();
+
+            Button_List.tableView.ClearSelection(); // Otherwise user has to click away and back if they want to open the same score again
         }
 
 
