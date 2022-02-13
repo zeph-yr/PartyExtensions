@@ -10,8 +10,7 @@ namespace PartyExtensions
     {
         static void Prefix(string leaderboardId, LocalLeaderboardsModel.LeaderboardType leaderboardType, string playerName, int score, bool fullCombo, ref LocalLeaderboardsModel __instance, out int __state)
         {
-            Plugin.Log.Debug("Prefix Start");
-            Plugin.Log.Debug("Data: " + leaderboardId + playerName + score + fullCombo);
+            //Plugin.Log.Debug("Prefix: " + leaderboardId + playerName + score + fullCombo);
 
             LocalLeaderboardsModel.LeaderboardData leaderboardData = __instance.GetLeaderboardData(leaderboardId, leaderboardType);
             int i = 0;
@@ -39,12 +38,12 @@ namespace PartyExtensions
             }*/
 
             __state = i;
-            Plugin.Log.Debug("Prefix __state: " + __state);
+            //Plugin.Log.Debug("Prefix __state: " + __state);
         }
 
         static void Postfix(string leaderboardId, LocalLeaderboardsModel.LeaderboardType leaderboardType, string playerName, int score, bool fullCombo, ref LocalLeaderboardsModel __instance, int __state)
         {
-            Plugin.Log.Debug("PostFix __state: " + __state);
+            //Plugin.Log.Debug("PostFix __state: " + __state);
 
             if (__state < 10) //__instance._maxNumberOfScoresInLeaderboard)
             {
@@ -77,6 +76,10 @@ namespace PartyExtensions
                 scores2.RemoveAt(__state);
                 scores2.Insert(__state, scoreData);
                 */
+
+                
+                // AddScore is called twice by base game, once for alltime and once for daily leaderboard
+                // If we dont do this (or make a is_written flag), there will be duplicates in the files
 
                 if (leaderboardType == LocalLeaderboardsModel.LeaderboardType.AllTime)
                 {
@@ -135,6 +138,8 @@ namespace PartyExtensions
                 }
 
                 
+                // Keep this note: This is from before realizing it was written twice *because* it was for each type of leaderboard lol
+
                 /*if (! PartyData.is_written)
                 {
                     PartyData.current_score.playername = playerName;
@@ -167,6 +172,7 @@ namespace PartyExtensions
 
             }
 
+            // Original
             /*this._lastScorePositions[leaderboardType] = i;
             this._lastScoreLeaderboardId = leaderboardId;
             if (this.newScoreWasAddedToLeaderboardEvent != null)
@@ -221,6 +227,11 @@ namespace PartyExtensions
             PartyData.Write_Daily();
         }
     }
+
+    
+    // Wrote this to delete scores for a specific map but
+    // seems like this method is never called in the game so this patch is never called
+    // May be handy in future
 
     /*[HarmonyPatch(typeof(LocalLeaderboardsModel), "ClearLeaderboard")]
     public class ClearLeaderboardPatch

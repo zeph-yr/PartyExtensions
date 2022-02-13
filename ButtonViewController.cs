@@ -15,7 +15,6 @@ namespace PartyExtensions
 
 
         //===============================================================
-
         [UIComponent("button_list")]
         public CustomListTableData Button_List;
 
@@ -28,7 +27,7 @@ namespace PartyExtensions
             Set_Modal_Content(row);
             //Fill_Modal_Test();
 
-            parserParams.EmitEvent("open-modal");
+            parserParams.EmitEvent("open-modal"); // First click will have blank modal
         }
 
 
@@ -51,7 +50,6 @@ namespace PartyExtensions
         {
             Fill_List();
         }
-
         //===============================================================
 
 
@@ -70,49 +68,55 @@ namespace PartyExtensions
         {
             Modal_List.data.Clear();
 
+            CustomLeaderboard temp;
+
             if (ButtonController.leaderboardType == LocalLeaderboardsModel.LeaderboardType.Daily)
             {
-                CustomLeaderboard temp;
                 if (PartyData.daily_scores.TryGetValue(ButtonController.current_leaderboard, out temp) == false)
                 {
-                    //
+                    Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"No data for this score"));
+
+                    Modal_List.tableView.ReloadData();
+                    Modal_List.tableView.ClearSelection();
+
                     return;
                 }
-
-                Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"Player: {temp.map_scores[row].playername}"));
-                Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"Rank: {temp.map_scores[row].rank}"));
-                Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"Left Acc: {temp.map_scores[row].left_acc}"));
-                Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"Right Acc: {temp.map_scores[row].right_acc}"));
-                Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"Longest Combo: {temp.map_scores[row].longest_combo}"));
-                Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"Bad Cuts: {temp.map_scores[row].bad_cuts}"));
-                Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"Missed: {temp.map_scores[row].missed}"));
-                Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"Time: {Convert_Timestamp(temp.map_scores[row].timestamp).ToString()}"));
-                Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"Modifiers: {CustomScoreData.Read_Custom_Gameplaymodifiers(temp.map_scores[row].custom_gameplaymodifiers)}"));
             }
 
             else
             {
-                CustomLeaderboard temp;
                 if (PartyData.all_scores.TryGetValue(ButtonController.current_leaderboard, out temp) == false)
                 {
-                    //
+                    Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"No data for this score"));
                     return;
                 }
-
-                Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"Player: {temp.map_scores[row].playername}"));
-                Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"Rank: {temp.map_scores[row].rank}"));
-                Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"Left Acc: {temp.map_scores[row].left_acc}"));
-                Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"Right Acc: {temp.map_scores[row].right_acc}"));
-                Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"Longest Combo: {temp.map_scores[row].longest_combo}"));
-                Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"Bad Cuts: {temp.map_scores[row].bad_cuts}"));
-                Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"Missed: {temp.map_scores[row].missed}"));
-                Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"Time: {Convert_Timestamp(temp.map_scores[row].timestamp).ToString()}"));
-                Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"Modifiers: {CustomScoreData.Read_Custom_Gameplaymodifiers(temp.map_scores[row].custom_gameplaymodifiers)}"));
             }
+
+            // For the dummy placeholder scores
+            if (temp.map_scores[row].playername == "")
+            {
+                Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"No data for this score"));
+
+                Modal_List.tableView.ReloadData();
+                Modal_List.tableView.ClearSelection();
+
+                return;
+            }
+
+            Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"Player: {temp.map_scores[row].playername}"));
+            Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"Rank: {temp.map_scores[row].rank}"));
+            Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"Left Acc: {temp.map_scores[row].left_acc}"));
+            Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"Right Acc: {temp.map_scores[row].right_acc}"));
+            Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"Longest Combo: {temp.map_scores[row].longest_combo}"));
+            Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"Bad Cuts: {temp.map_scores[row].bad_cuts}"));
+            Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"Missed: {temp.map_scores[row].missed}"));
+            Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"Time: {Convert_Timestamp(temp.map_scores[row].timestamp).ToString()}"));
+            Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"Modifiers: {CustomScoreData.Read_Custom_Gameplaymodifiers(temp.map_scores[row].custom_gameplaymodifiers)}"));
 
             Modal_List.tableView.ReloadData();
             Modal_List.tableView.ClearSelection();
         }
+
 
         public static string Convert_Timestamp(long unix_timestamp)
         {
@@ -121,7 +125,15 @@ namespace PartyExtensions
             return dateTime.AddSeconds(unix_timestamp).ToLocalTime().ToString();
         }
 
-        internal static string Convert_GPM(GameplayModifiers gameplayModifiers)
+
+        // Keep this note:
+        // Using the basegame gpm works right after playing a map, but the data file will randomly change to all false.
+        // For example, the LocalScores will have the correct set of gpm but DailyLocalScores will be all false, or vice versa.
+        // Maybe this is a reference and there is a race condition? Not sure so went the enum hardcode route to save time. Not worth figuring out.
+        
+        // Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"Modifiers: {Convert_GPM(temp.map_scores[row].modifiers)}"));
+
+        /*internal static string Convert_GPM(GameplayModifiers gameplayModifiers)
         {
             string result = "";
 
@@ -228,11 +240,10 @@ namespace PartyExtensions
             Plugin.Log.Debug(result);
 
             return result.Trim(',', ' ');
-        }
+        }*/
 
 
-
-        private void Fill_Modal_Test()
+        /*private void Fill_Modal_Test()
         {
             Plugin.Log.Debug("Fill Modal");
 
@@ -246,23 +257,7 @@ namespace PartyExtensions
 
             Modal_List.tableView.ReloadData();
             Modal_List.tableView.ClearSelection();
-        }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        }*/
 
 
         [UIComponent("cancelbutton")]
@@ -275,11 +270,4 @@ namespace PartyExtensions
         }
 
     }
-
 }
-
-/*				
- *				<background bg='round-rect-panel' bg-color='#ff0000dd'>	</background><horizontal bg='round-rect-panel' bg-color='#ffffffdd'>
-					<button text='~left_acc' on-click='disablescore' id='cancelbutton' min-width='30' min-height='10' rich-text='true'></button>
-					<text text='PartyExtensions WOOHOO' align='Left'></text>
-				</horizontal>*/

@@ -82,12 +82,16 @@ namespace PartyExtensions
         }
     }
 
+    // Note: Translating the basegame gpms into a bool array because storing the original gpm object doesnt work well:
+    // When level is cleared, the serialized results of the basegame gpm is correct.
+    // However, by the time they are written in AddScore, they may be correct or sometimes all reset to false.
+    // Not sure why, maybe its a reference or there is some race condtion but wtv, not worth it. This works fine and is easier
     internal enum CustomGamePlayModifiersEnum
     {
         // Fail and Lives
         NF = 0,
-        L_1 = 1, // 1 Life
-        L_4 = 2, // 4 Lives
+        L1 = 1, // 1 Life
+        L4 = 2, // 4 Lives
 
         // Bombs and Walls
         NB = 3,
@@ -110,7 +114,6 @@ namespace PartyExtensions
         SS = 14,
         SFS = 15
     }
-
 
 
     class CustomScoreData
@@ -160,7 +163,7 @@ namespace PartyExtensions
             this.timestamp = 0;
         }
 
-        //[JsonConstructor]
+        // Called on levelcleared to lock gpms into a bool array before they can do their weird thing
         public CustomScoreData(string rank, int missed, int good_cuts, int bad_cuts, float left_acc, float right_acc, GameplayModifiers modifiers, int longest_combo, long timestamp, string playername)
         {
             this.playername = playername;
@@ -200,22 +203,6 @@ namespace PartyExtensions
             this.timestamp = timestamp;
         }
 
-        public static string Read_Custom_Gameplaymodifiers(bool[] data)
-        {
-            string result = "";
-
-            for (int i = 0; i < data.Length; i++)
-            {
-                if (data[i] == true)
-                {
-                    result += (CustomGamePlayModifiersEnum)i + ", ";
-                }
-            }
-
-            Plugin.Log.Debug(result);
-
-            return result.Trim(',', ' ');
-        }
 
         public static bool[] Make_Custom_Gameplaymodifiers(GameplayModifiers gameplayModifiers)
         {
@@ -325,9 +312,22 @@ namespace PartyExtensions
             return custom_gameplaymodifiers;
         }
 
-        
+        public static string Read_Custom_Gameplaymodifiers(bool[] data)
+        {
+            string result = "";
 
+            for (int i = 0; i < data.Length; i++)
+            {
+                if (data[i] == true)
+                {
+                    result += (CustomGamePlayModifiersEnum)i + ", ";
+                }
+            }
 
+            Plugin.Log.Debug(result);
+
+            return result.Trim(',', ' ');
+        }
     }
 
     class CustomLeaderboard
