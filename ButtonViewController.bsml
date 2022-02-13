@@ -1,18 +1,19 @@
 ﻿<bg xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='https://monkeymanboy.github.io/BSML-Docs/ https://raw.githubusercontent.com/monkeymanboy/BSML-Docs/gh-pages/BSMLSchema.xsd'>
-	
-		<vertical child-expand-width='true' child-expand-height='false'>
-			<list id='button_list' select-cell='button_clicked' cell-size='4' visible-cells='10' list-style='Simple'></list>
-		</vertical>
+	<vertical>
+		<horizontal bg='round-rect-panel' bg-color='#ffffffdd'>
+			<button text='akjsdlfj' on-click='disablescore' event-clicked='button_clicked' id='cancelbutton' min-width='30' min-height='10' rich-text='true'></button>
+			<text text='PartyExtensions WOOHOO' align='Left'></text>
+		</horizontal>
+		<list id='button_list' select-cell='button_clicked' event-clicked='button_clicked' cell-size='4' visible-cells='3' list-style='Simple'></list>
+	</vertical>
 
-	<horizontal bg='round-rect-panel' bg-color='#ffffffdd'>
-		<button text='~left_acc' on-click='disablescore' id='cancelbutton' min-width='30' min-height='10' rich-text='true'></button>
-		<text text='PartyExtensions WOOHOO' align='Left'></text>
-	</horizontal>
-
-	<modal id='modal' show-event='disablescore' click-off-closes='true' move-to-center='true'>
-		<vertical>
+	<modal id='modal' show-event='open-modal' click-off-closes='true' move-to-center='true' size-delta-x='110' size-delta-y='50'>
+		<horizontal bg='round-rect-panel' bg-color='#ffffffdd'>
 			<list id='modal_list' cell-size='4' visible-cells='10' list-style='Simple'></list>
-		</vertical>
+			<text text='MODAL TEXT' font-color='#ff00000ff' align='Left' min-width='50' min-height='30' rich-text='true'></text>
+		</horizontal>
 	</modal>
-	
+
+
+
 </bg>

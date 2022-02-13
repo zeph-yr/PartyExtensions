@@ -1,9 +1,9 @@
 ﻿using BeatSaberMarkupLanguage.Attributes;
 using BeatSaberMarkupLanguage.Components;
+using BeatSaberMarkupLanguage.Parser;
 using BeatSaberMarkupLanguage.ViewControllers;
 using HMUI;
 using TMPro;
-using UnityEngine;
 
 namespace PartyExtensions
 {
@@ -12,6 +12,8 @@ namespace PartyExtensions
     {
         internal ButtonController ParentCoordinator;
 
+
+
         [UIComponent("button_list")]
         public CustomListTableData Button_List;
 
@@ -19,28 +21,33 @@ namespace PartyExtensions
         [UIAction("button_clicked")]
         private void Button_Clicked(TableView tableView, int row)
         {
-            Plugin.Log.Debug("button clicked");
+            Plugin.Log.Debug("button clicked: " + row);
+
 
             //Set_Modal_Content(row);
-            Fill_Modal();
+            Fill_Modal_Test();
+
+            parserParams.EmitEvent("open-modal");
         }
 
 
-        /*internal void Set_Modal_Content(int row)
-        {
-            Left_Acc = PartyData.all_scores[ButtonController.current_leaderboard].map_scores[row].left_acc;
-        }*/
 
+
+
+
+        [UIParams]
+        private BSMLParserParams parserParams;
 
         [UIComponent("modal")]
-        private ModalView Modal;
+        public ModalView Modal;
+
 
 
         [UIComponent("modal_list")]
         public CustomListTableData Modal_List;
 
 
-        private void Set_Modal_Content(int row)
+        /*private void Set_Modal_Content(int row)
         {
             Modal_List.data.Clear();
 
@@ -69,7 +76,7 @@ namespace PartyExtensions
 
             Modal_List.tableView.ReloadData();
             Modal_List.tableView.ClearSelection();
-        }
+        }*/
 
 
         /*protected override void DidActivate(bool firstActivation, bool addedToHierarchy, bool screenSystemEnabling)
@@ -88,18 +95,13 @@ namespace PartyExtensions
 
 
 
-        [UIValue("left_acc")]
-        private float Left_Acc;
 
 
 
 
 
 
-
-
-
-        private void Fill_Modal()
+        private void Fill_Modal_Test()
         {
             Plugin.Log.Debug("Fill Modal");
 
@@ -143,7 +145,7 @@ namespace PartyExtensions
         private void PostParse()
         {
             Fill_List();
-            Fill_Modal();
+            //Fill_Modal_Test();
         }
 
 
@@ -157,24 +159,11 @@ namespace PartyExtensions
         [UIAction("disablescore")]
         protected void ClickButtonAction()
         {
-
+            Plugin.Log.Debug("disable_clicked");
+            //Fill_Modal_Test();
         }
-
-        public void UpdateText()
-        {
-
-        }
-
-
-
-
 
     }
-
-
-
-
-
 
 }
 
