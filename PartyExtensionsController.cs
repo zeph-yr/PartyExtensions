@@ -43,13 +43,6 @@ namespace PartyExtensions
             Instance = this;
             Plugin.Log?.Debug($"{name}: Awake()");
         }
-        /// <summary>
-        /// Only ever called once on the first frame the script is Enabled. Start is called after any other script's Awake() and before Update().
-        /// </summary>
-        private void Start()
-        {
-
-        }
 
 
         /// <summary>
@@ -57,18 +50,16 @@ namespace PartyExtensions
         /// </summary>
         private void OnEnable()
         {
-            BS_Utils.Utilities.BSEvents.lateMenuSceneLoadedFresh += BSEvents_lateMenuSceneLoadedFresh;
+            //BS_Utils.Utilities.BSEvents.lateMenuSceneLoadedFresh += BSEvents_lateMenuSceneLoadedFresh;
             BS_Utils.Utilities.BSEvents.gameSceneLoaded += BSEvents_gameSceneLoaded;
+
             BS_Utils.Utilities.BSEvents.noteWasCut += BSEvents_noteWasCut;
-
             BS_Utils.Utilities.BSEvents.levelCleared += BSEvents_levelCleared;
-
-
         }
 
         private void BSEvents_lateMenuSceneLoadedFresh(ScenesTransitionSetupDataSO obj)
         {
-            ButtonController.Instance.Show_Buttons();
+            //ButtonController.Instance.Show_Buttons();
         }
 
         private static void BSEvents_levelCleared(StandardLevelScenesTransitionSetupDataSO arg1, LevelCompletionResults arg2)
@@ -105,7 +96,7 @@ namespace PartyExtensions
             Plugin.Log.Debug("map_leaderboard: " + PluginConfig.Instance.map_leaderboard.map_scores[0].left_acc); //This data is stored but not being serialized properly
             */
 
-            PartyData.current_score = new CustomScoreData(arg2.rank.ToString(), arg2.missedCount, arg2.goodCutsCount, arg2.badCutsCount, final_left_acc, final_right_acc, arg2.gameplayModifiers, arg2.maxCombo, 0 /*DateTime.Now.Ticks*/, "Zeph");
+            PartyData.current_score = new CustomScoreData(arg2.rank.ToString(), arg2.missedCount, arg2.goodCutsCount, arg2.badCutsCount, final_left_acc, final_right_acc, arg2.gameplayModifiers, arg2.maxCombo, 0 /*DateTime.Now.Ticks*/, "Zeph"); //hehe
             
             Plugin.Log.Debug(JsonConvert.SerializeObject(PartyData.current_score));
             //PartyData.Write();
@@ -124,14 +115,14 @@ namespace PartyExtensions
             right_acc = 0;
             right_hits = 0;
 
-            PartyData.is_written = false;
+            //PartyData.is_written = false;
         }
+
 
         int preswing;
         int postswing;
         int center;
         float dist;
-
         string color;
 
         private void BSEvents_noteWasCut(NoteData arg1, NoteCutInfo arg2, int arg3)
@@ -158,7 +149,7 @@ namespace PartyExtensions
             }
         }
 
-        public void HandleSaberSwingRatingCounterDidFinish(ISaberSwingRatingCounter saberSwingRatingCounter)
+        public void HandleSaberSwingRatingCounterDidFinish(ISaberSwingRatingCounter saberSwingRatingCounter) // Must be public
         {
             ScoreModel.RawScoreWithoutMultiplier(saberSwingRatingCounter, dist, out preswing, out postswing, out center);
 
@@ -212,7 +203,11 @@ namespace PartyExtensions
         /// </summary>
         private void OnDisable()
         {
+            //BS_Utils.Utilities.BSEvents.lateMenuSceneLoadedFresh -= BSEvents_lateMenuSceneLoadedFresh;
+            BS_Utils.Utilities.BSEvents.gameSceneLoaded -= BSEvents_gameSceneLoaded;
 
+            BS_Utils.Utilities.BSEvents.noteWasCut -= BSEvents_noteWasCut;
+            BS_Utils.Utilities.BSEvents.levelCleared -= BSEvents_levelCleared;
         }
 
         /// <summary>

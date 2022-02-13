@@ -7,7 +7,7 @@ namespace PartyExtensions
 {
     internal class PartyData
     {
-        internal static bool is_written = false;
+        //internal static bool is_written = false;
 
         //internal static CustomScoreData test_score;
         //internal static CustomLeaderboard test_leaderboard;
@@ -201,6 +201,8 @@ namespace PartyExtensions
         {
             bool[] custom_gameplaymodifiers = new bool[16];
 
+            // Not all gpm attributes are used as they aren't things the user would be concerned with
+
             // Fail and Life Modifiers
             if (gameplayModifiers.noFailOn0Energy)
             {
@@ -212,7 +214,7 @@ namespace PartyExtensions
                 custom_gameplaymodifiers[1] = true;
             }
 
-            switch ((int)gameplayModifiers.energyType)
+            switch ((int)gameplayModifiers.energyType) // This is more maintainable
             {
                 case 0:
                     break;
@@ -222,7 +224,6 @@ namespace PartyExtensions
                 default:
                     break;
             }
-
 
             // Bombs and Walls
             if (gameplayModifiers.noBombs)
@@ -260,7 +261,6 @@ namespace PartyExtensions
                 custom_gameplaymodifiers[8] = true;
             }
 
-
             // Acc and Block Modifiers
             if (gameplayModifiers.smallCubes)
             {
@@ -281,7 +281,6 @@ namespace PartyExtensions
             {
                 custom_gameplaymodifiers[12] = true;
             }
-
 
             // Speed Modifiers
             switch ((int)gameplayModifiers.songSpeed)
@@ -355,6 +354,12 @@ namespace PartyExtensions
             }
         }
 
+        // We need placeholders because there may be scores on basegame leaderboards the user has played before getting PartyExtensions
+        // Can't expect them to nuke their scores and start again with the mod
+        // This is an easy way to keep PE additional data "lined up" with basegame data
+        // If the user temporarily removes PE and plays some maps, then adds back PE, there is a possibility some leaderboards will be out of sync
+        // and opening the modal will present another score (if scores had been inserted between PE scores).
+        // This is unavoidable and building stuff to account for this is out-of-scope of the project
         private static List<CustomScoreData> Make_Placeholders()
         {
             List<CustomScoreData> map_scores = new List<CustomScoreData>();
