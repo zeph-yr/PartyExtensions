@@ -113,14 +113,94 @@ namespace PartyExtensions
 
 
 
-
-
-
-    class CustomGamePlayModifiers
+    class CustomScoreData
     {
-        bool[] custom_gameplaymodifiers = new bool[16];
+        // points - base
+        // rank 
+        // highest combo
+        // accuary left/right
+        // blockcount hit
+        // missed blocks
+        // mods (speed+, ghost-blocks etc)
+        // date/time when reached
 
-        public string Read_Custom_Gameplaymodifiers(bool[] data)
+        public string rank;
+
+        public int missed;
+        public int good_cuts;
+        public int bad_cuts;
+
+        public float left_acc;
+        public float right_acc;
+
+        //public GameplayModifiers modifiers;
+        public bool[] custom_gameplaymodifiers;
+
+        public int longest_combo;
+
+        public long timestamp;
+        public string playername;
+
+        public CustomScoreData()
+        {
+            this.playername = "";
+
+            this.rank = "";
+
+            this.left_acc = 0f;
+            this.right_acc = 0f;
+
+            this.good_cuts = 0;
+            this.bad_cuts = 0;
+            this.missed = 0;
+            this.longest_combo = 0;
+
+            //this.modifiers = null;
+            this.custom_gameplaymodifiers = new bool[16];
+            this.timestamp = 0;
+        }
+
+        //[JsonConstructor]
+        public CustomScoreData(string rank, int missed, int good_cuts, int bad_cuts, float left_acc, float right_acc, GameplayModifiers modifiers, int longest_combo, long timestamp, string playername)
+        {
+            this.playername = playername;
+
+            this.rank = rank;
+            
+            this.left_acc = left_acc;
+            this.right_acc = right_acc;
+
+            this.good_cuts = good_cuts;
+            this.bad_cuts = bad_cuts;
+            this.missed = missed;
+            this.longest_combo = longest_combo;
+
+            //this.modifiers = modifiers;
+            this.custom_gameplaymodifiers = Make_Custom_Gameplaymodifiers(modifiers);
+            this.timestamp = timestamp;
+        }
+
+        [JsonConstructor]
+        public CustomScoreData(string rank, int missed, int good_cuts, int bad_cuts, float left_acc, float right_acc, bool[] modifiers, int longest_combo, long timestamp, string playername)
+        {
+            this.playername = playername;
+
+            this.rank = rank;
+
+            this.left_acc = left_acc;
+            this.right_acc = right_acc;
+
+            this.good_cuts = good_cuts;
+            this.bad_cuts = bad_cuts;
+            this.missed = missed;
+            this.longest_combo = longest_combo;
+
+            //this.modifiers = modifiers;
+            this.custom_gameplaymodifiers = modifiers;
+            this.timestamp = timestamp;
+        }
+
+        public static string Read_Custom_Gameplaymodifiers(bool[] data)
         {
             string result = "";
 
@@ -137,9 +217,7 @@ namespace PartyExtensions
             return result.Trim(',', ' ');
         }
 
-
-
-        public bool[] Make_Custom_Gameplaymodifiers(GameplayModifiers gameplayModifiers)
+        public static bool[] Make_Custom_Gameplaymodifiers(GameplayModifiers gameplayModifiers)
         {
             bool[] custom_gameplaymodifiers = new bool[16];
 
@@ -247,73 +325,9 @@ namespace PartyExtensions
             return custom_gameplaymodifiers;
         }
 
-       
-    }
+        
 
 
-    class CustomScoreData
-    {
-        // points - base
-        // rank 
-        // highest combo
-        // accuary left/right
-        // blockcount hit
-        // missed blocks
-        // mods (speed+, ghost-blocks etc)
-        // date/time when reached
-
-        public string rank;
-
-        public int missed;
-        public int good_cuts;
-        public int bad_cuts;
-
-        public float left_acc;
-        public float right_acc;
-
-        public GameplayModifiers modifiers;
-
-        public int longest_combo;
-
-        public long timestamp;
-        public string playername;
-
-        public CustomScoreData()
-        {
-            this.playername = "";
-
-            this.rank = "";
-
-            this.left_acc = 0f;
-            this.right_acc = 0f;
-
-            this.good_cuts = 0;
-            this.bad_cuts = 0;
-            this.missed = 0;
-            this.longest_combo = 0;
-
-            this.modifiers = null;
-            this.timestamp = 0;
-        }
-
-        [JsonConstructor]
-        public CustomScoreData(string rank, int missed, int good_cuts, int bad_cuts, float left_acc, float right_acc, GameplayModifiers modifiers, int longest_combo, long timestamp, string playername)
-        {
-            this.playername = playername;
-
-            this.rank = rank;
-            
-            this.left_acc = left_acc;
-            this.right_acc = right_acc;
-
-            this.good_cuts = good_cuts;
-            this.bad_cuts = bad_cuts;
-            this.missed = missed;
-            this.longest_combo = longest_combo;
-
-            this.modifiers = modifiers;
-            this.timestamp = timestamp;
-        }
     }
 
     class CustomLeaderboard
