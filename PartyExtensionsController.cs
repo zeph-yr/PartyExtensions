@@ -66,10 +66,11 @@ namespace PartyExtensions
         {
             Plugin.Log.Debug("Level cleared");
 
+            float total_acc = (left_acc + right_acc) / (left_hits + right_hits);
             final_left_acc = left_acc / left_hits;
             final_right_acc = right_acc / right_hits;
 
-            Plugin.Log.Debug($"Final: {final_left_acc} {final_right_acc}");
+            Plugin.Log.Debug($"Final: {total_acc} {final_left_acc} {final_right_acc}");
 
             /*Plugin.Log.Debug("Read Config:");
             Plugin.Log.Debug("map_score. left acc:" + PluginConfig.Instance.map_score.left_acc);
@@ -96,7 +97,7 @@ namespace PartyExtensions
             Plugin.Log.Debug("map_leaderboard: " + PluginConfig.Instance.map_leaderboard.map_scores[0].left_acc); //This data is stored but not being serialized properly
             */
 
-            PartyData.current_score = new CustomScoreData(arg2.rank.ToString(), arg2.missedCount, arg2.goodCutsCount, arg2.badCutsCount, final_left_acc, final_right_acc, arg2.gameplayModifiers, arg2.maxCombo, 0 /*DateTime.Now.Ticks*/, "Zeph"); //hehe
+            PartyData.current_score = new CustomScoreData(arg2.rank.ToString(), arg2.missedCount, arg2.goodCutsCount, arg2.badCutsCount, total_acc, final_left_acc, final_right_acc, arg2.gameplayModifiers, arg2.maxCombo, 0 /*DateTime.Now.Ticks*/, "Zeph"); //hehe
             
             Plugin.Log.Debug(JsonConvert.SerializeObject(PartyData.current_score));
             //PartyData.Write();

@@ -126,6 +126,7 @@ namespace PartyExtensions
         internal int good_cuts;
         internal int bad_cuts;
 
+        internal float acc;
         internal float left_acc;
         internal float right_acc;
 
@@ -142,6 +143,7 @@ namespace PartyExtensions
             playername = "";
             rank = "";
 
+            acc = 0f;
             left_acc = 0f;
             right_acc = 0f;
 
@@ -157,12 +159,13 @@ namespace PartyExtensions
         }
 
         // Called on levelcleared to lock gpms into a bool array before they can do their weird thing
-        public CustomScoreData(string rank, int missed, int good_cuts, int bad_cuts, float left_acc, float right_acc, GameplayModifiers modifiers, int longest_combo, long timestamp, string playername)
+        public CustomScoreData(string rank, int missed, int good_cuts, int bad_cuts, float acc, float left_acc, float right_acc, GameplayModifiers modifiers, int longest_combo, long timestamp, string playername)
         {
             this.playername = playername;
 
             this.rank = rank;
-            
+
+            this.acc = acc;
             this.left_acc = left_acc;
             this.right_acc = right_acc;
 
@@ -177,12 +180,13 @@ namespace PartyExtensions
         }
 
         [JsonConstructor]
-        public CustomScoreData(string rank, int missed, int good_cuts, int bad_cuts, float left_acc, float right_acc, bool[] modifiers, int longest_combo, long timestamp, string playername)
+        public CustomScoreData(string rank, int missed, int good_cuts, int bad_cuts, float acc, float left_acc, float right_acc, bool[] modifiers, int longest_combo, long timestamp, string playername)
         {
             this.playername = playername;
 
             this.rank = rank;
 
+            this.acc = acc;
             this.left_acc = left_acc;
             this.right_acc = right_acc;
 
@@ -333,11 +337,11 @@ namespace PartyExtensions
             map_scores = Make_Placeholders();
         }
 
-        public CustomLeaderboard(string id)
+        /*public CustomLeaderboard(string id)
         {
             leaderboard_id = id;
             map_scores = Make_Placeholders();
-        }
+        }*/
 
         [JsonConstructor]
         public CustomLeaderboard(string id, List<CustomScoreData> map_scores)
