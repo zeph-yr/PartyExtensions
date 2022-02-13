@@ -28,6 +28,7 @@ namespace PartyExtensions
                 }
             }
 
+            // Note: Don't need to patch here if the map has never been played with PartyExtentions. We handle it in Postfix
             // Original
             /*else
             {
@@ -77,24 +78,24 @@ namespace PartyExtensions
                 scores2.Insert(__state, scoreData);
                 */
 
-                
+
                 // AddScore is called twice by base game, once for alltime and once for daily leaderboard
                 // If we dont do this (or make a is_written flag), there will be duplicates in the files
 
+                PartyData.current_score.playername = playerName;
+                PartyData.current_score.timestamp = __instance.GetCurrentTimestamp(); // Yes this might be microseconds later but good enough
+
                 if (leaderboardType == LocalLeaderboardsModel.LeaderboardType.AllTime)
                 {
-                    PartyData.current_score.playername = playerName;
-                    PartyData.current_score.timestamp = __instance.GetCurrentTimestamp(); // Yes this might be microseconds later but good enough
-
-                    if (PartyData.all_scores.ContainsKey(leaderboardId))
+                    if (PartyData.all_scores.ContainsKey(leaderboardId)) // PartyExtensions already has scores for this map
                     {
                         Plugin.Log.Debug("List insert: " + leaderboardId);
 
                         PartyData.all_scores[leaderboardId].map_scores.Insert(__state, PartyData.current_score);
                         PartyData.all_scores[leaderboardId].map_scores.RemoveAt(9);
                     }
-
-                    else
+                    
+                    else // PartyExtensions doesn't have scores for this map yet
                     {
                         Plugin.Log.Debug("Dict add: " + leaderboardId);
 
@@ -109,11 +110,8 @@ namespace PartyExtensions
                     PartyData.Write_All();
                 }
 
-                else
+                else // Daily Leaderboard
                 {
-                    PartyData.current_score.playername = playerName;
-                    PartyData.current_score.timestamp = __instance.GetCurrentTimestamp(); // Yes this might be microseconds later but good enough
-
                     if (PartyData.daily_scores.ContainsKey(leaderboardId))
                     {
                         Plugin.Log.Debug("List insert: " + leaderboardId);
@@ -139,7 +137,6 @@ namespace PartyExtensions
 
                 
                 // Keep this note: This is from before realizing it was written twice *because* it was for each type of leaderboard lol
-
                 /*if (! PartyData.is_written)
                 {
                     PartyData.current_score.playername = playerName;
@@ -217,7 +214,7 @@ namespace PartyExtensions
             {
                 for (int i = PartyData.daily_scores[leaderboardId].map_scores.Count - 1; i >= 0; i--)
                 {
-                    if (PartyData.daily_scores[leaderboardId].map_scores[i].timestamp < num && PartyData.daily_scores[leaderboardId].map_scores[i].timestamp >= 1)
+                    if (PartyData.daily_scores[leaderboardId].map_scores[i].timestamp < num && PartyData.daily_scores[leaderboardId].map_scores[i].timestamp >= 1) // "&& >=1" because don't remove the placeholders
                     {
                         PartyData.daily_scores[leaderboardId].map_scores.RemoveAt(i);
                     }
@@ -259,6 +256,8 @@ namespace PartyExtensions
     }*/
 
 
+    // Pressing trash button in PartyMode nukes all scores across all maps
+    // Todo: Make a backup system
     [HarmonyPatch(typeof(LocalLeaderboardsModel), "ClearAllLeaderboards")]
     public class ClearAllPatch
     {
@@ -275,6 +274,7 @@ namespace PartyExtensions
     }
 
 
+    // Use this to get and store the leaderboardID that is relevant to the user
     [HarmonyPatch(typeof(LocalLeaderboardViewController), "SetContent")]
     public class SetContentPatch
     {
@@ -283,7 +283,8 @@ namespace PartyExtensions
             ButtonController.current_leaderboard = leaderboardID;
             ButtonController.leaderboardType = leaderboardType;
 
-            if (leaderboardType == LocalLeaderboardsModel.LeaderboardType.Daily)
+            // For debug only
+            /*if (leaderboardType == LocalLeaderboardsModel.LeaderboardType.Daily)
             {
                 if (PartyData.daily_scores.ContainsKey(leaderboardID))
                 {
@@ -296,7 +297,7 @@ namespace PartyExtensions
                 {
                     Plugin.Log.Debug("Found all time leaderboard: " + PartyData.all_scores[leaderboardID].map_scores[0].playername);
                 }
-            }
+            }*/
         }
     }
 }

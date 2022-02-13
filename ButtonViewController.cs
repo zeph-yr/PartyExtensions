@@ -11,7 +11,7 @@ namespace PartyExtensions
     [HotReload(@"ButtonViewController.bsml")]
     public partial class ButtonViewController : BSMLAutomaticViewController
     {
-        internal ButtonController ParentCoordinator;
+        internal ButtonController button_controller;
 
 
         //***********************************
@@ -19,7 +19,7 @@ namespace PartyExtensions
         //***********************************
 
         [UIComponent("button_list")]
-        public CustomListTableData Button_List;
+        private CustomListTableData Button_List;
 
 
         [UIAction("button_clicked")]
@@ -65,11 +65,11 @@ namespace PartyExtensions
         private BSMLParserParams parserParams;
 
         [UIComponent("modal")]
-        public ModalView Modal;
+        private ModalView Modal;
 
 
         [UIComponent("modal_list")]
-        public CustomListTableData Modal_List;
+        private CustomListTableData Modal_List;
 
 
         private void Set_Modal_Content(int row)
@@ -126,7 +126,7 @@ namespace PartyExtensions
         }
 
 
-        public static string Convert_Timestamp(long unix_timestamp)
+        private static string Convert_Timestamp(long unix_timestamp)
         {
             // Unix timestamp is seconds past epoch
             DateTime dateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
@@ -141,7 +141,7 @@ namespace PartyExtensions
         
         // Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"Modifiers: {Convert_GPM(temp.map_scores[row].modifiers)}"));
 
-        /*internal static string Convert_GPM(GameplayModifiers gameplayModifiers)
+        /*private static string Convert_GPM(GameplayModifiers gameplayModifiers)
         {
             string result = "";
 
