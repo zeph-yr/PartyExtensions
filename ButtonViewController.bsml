@@ -2,10 +2,18 @@
 	<background bg='round-rect-panel' bg-color='#ff0000dd'>
 		<vertical child-expand-width='true' child-expand-height='true'>
 			<list id='button_list' select-cell='button_clicked' cell-size='4' visible-cells='10' list-style='Simple'></list>
-			<horizontal bg='round-rect-panel' bg-color='#ffffffdd'>
-				<button text='~left_acc' on-click='disablescore' id='cancelbutton' min-width='30' min-height='10' rich-text='true'></button>
-				<text text='PartyExtensions WOOHOO' align='Left'></text>
-			</horizontal>
+
+			<modal id='modal' show-event='button_clicked' click-off-closes='true' move-to-center='true'>
+				<vertical child-expand-width='true' child-expand-height='true'>
+					<list id='modal_list' cell-size='4' visible-cells='10' list-style='Simple'></list>
+				</vertical>
+				<horizontal bg='round-rect-panel' bg-color='#ffffffdd'>
+					<button text='~left_acc' on-click='disablescore' id='cancelbutton' min-width='30' min-height='10' rich-text='true'></button>
+					<text text='PartyExtensions WOOHOO' align='Left'></text>
+				</horizontal>
+			</modal>
 		</vertical>
-	</background>	
+	</background>
+
+
 </bg>
