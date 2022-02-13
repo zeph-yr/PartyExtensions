@@ -20,8 +20,10 @@ namespace PartyExtensions
         internal static int left_hits = 0;
         internal static int right_hits = 0;
 
-        internal static float final_left_acc = 0f;
-        internal static float final_right_acc = 0f;
+        internal static int bomb_hits = 0;
+
+        //internal static float final_left_acc = 0f;
+        //internal static float final_right_acc = 0f;
 
 
         // These methods are automatically called by Unity, you should remove any you aren't using.
@@ -69,12 +71,13 @@ namespace PartyExtensions
             Plugin.Log.Debug("Level cleared");
 
             float total_acc = (left_acc + right_acc) / (left_hits + right_hits);
-            final_left_acc = left_acc / left_hits;
-            final_right_acc = right_acc / right_hits;
+            float final_left_acc = left_acc / left_hits;
+            float final_right_acc = right_acc / right_hits;
 
             Plugin.Log.Debug($"Final: {total_acc} {final_left_acc} {final_right_acc}");
 
-            /*Plugin.Log.Debug("Read Config:");
+            /*
+            Plugin.Log.Debug("Read Config:");
             Plugin.Log.Debug("map_score. left acc:" + PluginConfig.Instance.map_score.left_acc);
             Plugin.Log.Debug("map_leaderboard. id:" + PluginConfig.Instance.map_leaderboard.leaderboard_id);
 
@@ -109,14 +112,16 @@ namespace PartyExtensions
         {
             Plugin.Log.Debug("Game scene loaded");
 
-            final_left_acc = 0;
-            final_right_acc = 0;
+            //final_left_acc = 0;
+            //final_right_acc = 0;
 
             left_acc = 0;
             left_hits = 0;
 
             right_acc = 0;
             right_hits = 0;
+
+            bomb_hits = 0;
 
             //PartyData.is_written = false;
         }
@@ -146,6 +151,7 @@ namespace PartyExtensions
 
                 else // Can even add bombs cut here as a bonus
                 {
+                    bomb_hits++;
                     return;
                 }
 
@@ -176,19 +182,16 @@ namespace PartyExtensions
         }
 
 
-
-
         /*
+        // Keep this note: Swings are not finished by notewascut
+        // that's why postswings are zeros. Needs the didFinishReceiver!
         [DEBUG @ 23:07:55 | PartyExtensions] left: 70 6 15 18
         [DEBUG @ 23:07:55 | PartyExtensions] left: 70 30 15 19
         [DEBUG @ 23:07:56 | PartyExtensions] left: 70 0 15 20
         [DEBUG @ 23:07:56 | PartyExtensions] left: 70 30 15 21
         [DEBUG @ 23:07:56 | PartyExtensions] left: 70 0 15 22
         [DEBUG @ 23:07:57 | PartyExtensions] left: 70 30 15 23
-        */
 
-
-        /*
         [DEBUG @ 23:56:52 | PartyExtensions] left: 70 0 15 198
         [DEBUG @ 23:56:52 | PartyExtensions] right: 70 0 15 184
         [DEBUG @ 23:56:52 | PartyExtensions] left: 70 0 15 199
@@ -229,7 +232,11 @@ namespace PartyExtensions
     }
 }
 
-/*[DEBUG @ 23:29:26 | PartyExtensions] left: 1380 | 70 15 11 | 12
+
+/*
+// Keep this note: Acc tracking data sample
+// Everything is working correctly
+[DEBUG @ 23:29:26 | PartyExtensions] left: 1380 | 70 15 11 | 12
 [DEBUG @ 23:29:26 | PartyExtensions] right: 3026 | 70 15 11 | 29
 [DEBUG @ 23:29:26 | PartyExtensions] -----------------------------------------------------------------------
 [DEBUG @ 23:29:26 | PartyExtensions] left: 1380 | 70 30 11 | 12
@@ -277,6 +284,7 @@ namespace PartyExtensions
 */
 
 /*
+// Sample gpm serialized by base game:
 [DEBUG @ 01:51:30 | PartyExtensions] {
 [DEBUG @ 01:51:30 | PartyExtensions]   "custom_score_list": [
 [DEBUG @ 01:51:30 | PartyExtensions]     {
