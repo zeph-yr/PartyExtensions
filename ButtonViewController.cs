@@ -11,7 +11,7 @@ namespace PartyExtensions
     [HotReload(@"ButtonViewController.bsml")]
     public partial class ButtonViewController : BSMLAutomaticViewController
     {
-        internal ButtonController button_controller;
+        //internal ButtonController button_controller;
 
 
         //***********************************
@@ -31,8 +31,9 @@ namespace PartyExtensions
             //Fill_Modal_Test();
 
             // This is absolutely critical!! Not sure why but "button_clicked" doesn't work as show-event
-            parserParams.EmitEvent("open-modal");
-            // First click results in blank modal
+            parserParams.EmitEvent("open-modal"); // First click results in blank modal
+
+            Button_List.tableView.ClearSelection(); // Otherwise user has to click away and back if they want to open the same score again
         }
 
 
@@ -79,7 +80,7 @@ namespace PartyExtensions
             CustomLeaderboard temp;
 
             // Possible scenario where scores exist on one leaderboard but not the other
-            // E.g. Not on daily but exists in alltime
+            // E.g. No score on daily (because new day) but exists in alltime
             if (ButtonController.leaderboardType == LocalLeaderboardsModel.LeaderboardType.Daily)
             {
                 if (PartyData.daily_scores.TryGetValue(ButtonController.current_leaderboard, out temp) == false)
@@ -128,8 +129,6 @@ namespace PartyExtensions
 
             Modal_List.tableView.ReloadData();
             Modal_List.tableView.ClearSelection();
-
-            Button_List.tableView.ClearSelection(); // Otherwise user has to click away and back if they want to open the same score again
         }
 
 

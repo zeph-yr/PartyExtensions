@@ -33,7 +33,7 @@ namespace PartyExtensions
                 floatingScreen = CreateFloatingScreen();
 
                 buttonViewController = BeatSaberUI.CreateViewController<ButtonViewController>();
-                buttonViewController.button_controller = this;
+                //buttonViewController.button_controller = this;
                 floatingScreen.SetRootViewController(buttonViewController, HMUI.ViewController.AnimationType.None);
 
                 floatingScreen.gameObject.SetActive(false);
