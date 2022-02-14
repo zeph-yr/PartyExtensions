@@ -17,8 +17,6 @@ namespace PartyExtensions
         internal static IPALogger Log { get; private set; }
         internal static PartyExtensionsController PluginController { get { return PartyExtensionsController.Instance; } }
 
-        //internal static ButtonController buttons;
-
 
 
         [Init]

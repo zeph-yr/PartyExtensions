@@ -11,9 +11,6 @@ namespace PartyExtensions
     [HotReload(@"ButtonViewController.bsml")]
     public partial class ButtonViewController : BSMLAutomaticViewController
     {
-        //internal ButtonController button_controller;
-
-
         //***********************************
         // Leaderboard Buttons
         //***********************************

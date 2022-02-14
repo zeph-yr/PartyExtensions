@@ -1,8 +1,5 @@
 ﻿using Newtonsoft.Json;
-//using PartyExtensions.Configuration;
-using System;
 using UnityEngine;
-
 
 namespace PartyExtensions
 {
@@ -21,9 +18,6 @@ namespace PartyExtensions
         internal static int right_hits = 0;
 
         internal static int bomb_hits = 0;
-
-        //internal static float final_left_acc = 0f;
-        //internal static float final_right_acc = 0f;
 
 
         // These methods are automatically called by Unity, you should remove any you aren't using.
@@ -62,7 +56,7 @@ namespace PartyExtensions
         // This is critical
         private void BSEvents_lateMenuSceneLoadedFresh(ScenesTransitionSetupDataSO obj)
         {
-            ButtonController.Instance.Show_Buttons();
+            ButtonController.Instance.Create_Buttons();
         }
 
 
@@ -111,9 +105,6 @@ namespace PartyExtensions
         private static void BSEvents_gameSceneLoaded()
         {
             Plugin.Log.Debug("Game scene loaded");
-
-            //final_left_acc = 0;
-            //final_right_acc = 0;
 
             left_acc = 0;
             left_hits = 0;
@@ -182,30 +173,6 @@ namespace PartyExtensions
         }
 
 
-        /*
-        // Keep this note: Swings are not finished by notewascut
-        // that's why postswings are zeros. Needs the didFinishReceiver!
-        [DEBUG @ 23:07:55 | PartyExtensions] left: 70 6 15 18
-        [DEBUG @ 23:07:55 | PartyExtensions] left: 70 30 15 19
-        [DEBUG @ 23:07:56 | PartyExtensions] left: 70 0 15 20
-        [DEBUG @ 23:07:56 | PartyExtensions] left: 70 30 15 21
-        [DEBUG @ 23:07:56 | PartyExtensions] left: 70 0 15 22
-        [DEBUG @ 23:07:57 | PartyExtensions] left: 70 30 15 23
-
-        [DEBUG @ 23:56:52 | PartyExtensions] left: 70 0 15 198
-        [DEBUG @ 23:56:52 | PartyExtensions] right: 70 0 15 184
-        [DEBUG @ 23:56:52 | PartyExtensions] left: 70 0 15 199
-        [DEBUG @ 23:56:52 | PartyExtensions] right: 70 0 15 185
-        [DEBUG @ 23:56:52 | PartyExtensions] left: 70 0 15 200
-        [DEBUG @ 23:56:52 | PartyExtensions] right: 70 0 15 186
-        [DEBUG @ 23:56:52 | PartyExtensions] left: 70 0 15 201
-        [DEBUG @ 23:56:52 | PartyExtensions] right: 70 0 15 187
-        [DEBUG @ 23:56:52 | PartyExtensions] left: 70 25 1 202
-        [DEBUG @ 23:56:52 | PartyExtensions] left: 70 30 8 203
-        */
-
-
-
         /// <summary>
         /// Called when the script becomes disabled or when it is being destroyed.
         /// </summary>
@@ -232,6 +199,28 @@ namespace PartyExtensions
     }
 }
 
+
+/*
+// Keep this note: Swings are not finished by notewascut
+// that's why postswings are zeros. Needs the didFinishReceiver!
+[DEBUG @ 23:07:55 | PartyExtensions] left: 70 6 15 18
+[DEBUG @ 23:07:55 | PartyExtensions] left: 70 30 15 19
+[DEBUG @ 23:07:56 | PartyExtensions] left: 70 0 15 20
+[DEBUG @ 23:07:56 | PartyExtensions] left: 70 30 15 21
+[DEBUG @ 23:07:56 | PartyExtensions] left: 70 0 15 22
+[DEBUG @ 23:07:57 | PartyExtensions] left: 70 30 15 23
+
+[DEBUG @ 23:56:52 | PartyExtensions] left: 70 0 15 198
+[DEBUG @ 23:56:52 | PartyExtensions] right: 70 0 15 184
+[DEBUG @ 23:56:52 | PartyExtensions] left: 70 0 15 199
+[DEBUG @ 23:56:52 | PartyExtensions] right: 70 0 15 185
+[DEBUG @ 23:56:52 | PartyExtensions] left: 70 0 15 200
+[DEBUG @ 23:56:52 | PartyExtensions] right: 70 0 15 186
+[DEBUG @ 23:56:52 | PartyExtensions] left: 70 0 15 201
+[DEBUG @ 23:56:52 | PartyExtensions] right: 70 0 15 187
+[DEBUG @ 23:56:52 | PartyExtensions] left: 70 25 1 202
+[DEBUG @ 23:56:52 | PartyExtensions] left: 70 30 8 203
+*/
 
 /*
 // Keep this note: Acc tracking data sample

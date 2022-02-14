@@ -21,6 +21,7 @@ namespace PartyExtensions
         internal static string file_path = @"C:\Program Files (x86)\Steam\steamapps\common\Beat Saber\UserData\PartyExtensions\LocalScores.json";
         internal static string daily_file_path = @"C:\Program Files (x86)\Steam\steamapps\common\Beat Saber\UserData\PartyExtensions\DailyLocalScores.json";
 
+
         internal static void Read()
         {
             Plugin.Log.Debug("Read");
@@ -41,16 +42,24 @@ namespace PartyExtensions
             {
                 Plugin.Log.Debug("File exists");
 
-                //string json_string = File.ReadAllText(file_path);
+                string json_string = File.ReadAllText(file_path);
                 //Plugin.Log.Debug(json_string);
 
                 //test_score = JsonConvert.DeserializeObject<CustomScoreData>(json_string);
                 //test_leaderboard = JsonConvert.DeserializeObject<CustomLeaderboard>(json_string);
                 //test_dict = JsonConvert.DeserializeObject<Dictionary<string, CustomLeaderboard>>(json_string);
 
-                all_scores = JsonConvert.DeserializeObject<Dictionary<string, CustomLeaderboard>>(File.ReadAllText(file_path));
+                all_scores = JsonConvert.DeserializeObject<Dictionary<string, CustomLeaderboard>>(json_string);
+                //all_scores = JsonConvert.DeserializeObject<Dictionary<string, CustomLeaderboard>>(File.ReadAllText(file_path));
 
-                File.Copy(file_path, file_path + ".bak", true); // Make a backup at the start of each game (an extra bonus)
+
+                // Extra bonus: Make a backup at the start of each game but ONLY if the file is not an empty dict
+                // Without the condition, the backup would be overwritten when the user launches the game
+                // This means if the user accidentally pressed leaderboard delete and restarts the game, they will still have once chance here to grab the backup
+                if (json_string != "{}")
+                {
+                    File.Copy(file_path, file_path + ".bak", true);
+                }
             }
 
             if (!File.Exists(daily_file_path))
@@ -60,9 +69,14 @@ namespace PartyExtensions
             }
             else
             {
-                daily_scores = JsonConvert.DeserializeObject<Dictionary<string, CustomLeaderboard>>(File.ReadAllText(daily_file_path));
+                string json_string = File.ReadAllText(daily_file_path);
+                daily_scores = JsonConvert.DeserializeObject<Dictionary<string, CustomLeaderboard>>(json_string);
+                //daily_scores = JsonConvert.DeserializeObject<Dictionary<string, CustomLeaderboard>>(File.ReadAllText(daily_file_path));
 
-                File.Copy(daily_file_path, daily_file_path + ".bak", true);
+                if (json_string != "{}")
+                {
+                    File.Copy(daily_file_path, daily_file_path + ".bak", true);
+                }
             }
         }
 
@@ -384,7 +398,9 @@ namespace PartyExtensions
     }
 }
 
-/*DEBUG @ 23:59:55 | PartyExtensions] level cleared
+/*
+// Sample of serialized CustomScoreData:
+DEBUG @ 23:59:55 | PartyExtensions] level cleared
 [DEBUG @ 23:59:55 | PartyExtensions] final: 107.4318 103.6882
 [DEBUG @ 23:59:55 | PartyExtensions] {
 [DEBUG @ 23:59:55 | PartyExtensions]   "rank": "C",
