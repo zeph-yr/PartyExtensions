@@ -110,17 +110,18 @@ namespace PartyExtensions
 
             else
             {
-                temp_playername = temp.map_scores[row].playername;
+                /*temp_playername = temp.map_scores[row].playername;
                 Playername = "changed";
 
                 temp_score = 100000.ToString();
                 Score = "changed";
 
                 temp_rank = temp.map_scores[row].rank;
-                Rank = "changed";
+                Rank = "changed";*/
 
-                //Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"Player: {temp.map_scores[row].playername}"));
-                //Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"Rank: {temp.map_scores[row].rank}"));
+                Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"<#ffff00ff>{temp.map_scores[row].playername}"));
+                Modal_List.data.Add(new CustomListTableData.CustomCellInfo($""));
+                Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"Rank: {temp.map_scores[row].rank}"));
                 Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"Accuracy: {temp.map_scores[row].acc} - " + String.Format("{0:0.00}", temp.map_scores[row].acc / 115 * 100) + "%"));
                 Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"<#ffffff>Left-Right: <#ff0000>" + String.Format("{0:0.00}", temp.map_scores[row].left_acc) + " - <#0000ff>" + String.Format("{0:0.00}", temp.map_scores[row].right_acc)));
                 //Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"Right: {temp.map_scores[row].right_acc}"));
@@ -136,7 +137,7 @@ namespace PartyExtensions
         }
 
 
-        private string temp_playername = "";
+        /*private string temp_playername = "";
         private string temp_score = "";
         private string temp_rank = "";
 
@@ -168,7 +169,7 @@ namespace PartyExtensions
             {
                 NotifyPropertyChanged();
             }
-        }
+        }*/
 
 
         private static string Convert_Timestamp(long unix_timestamp)
@@ -329,3 +330,15 @@ namespace PartyExtensions
 			<button text='akjsdlfj' on-click='disablescore' event-clicked='button_clicked' id='cancelbutton' min-width='30' min-height='10' rich-text='true'></button>
 			<text text='PartyExtensions WOOHOO' align='Left'></text>
 		</horizontal>*/
+
+/*				<vertical vertical-fit='PreferredSize' preferred-height='20'>
+					<horizontal>
+						<text text='~playername' font-color='#00ffffff' align='Center' min-width='50' rich-text='true'></text>
+					</horizontal>
+					<horizontal>
+						<text text='~score' font-color='#00ffffff' align='Center' min-width='50' rich-text='true'></text>
+					</horizontal>
+					<horizontal>
+						<text text='~rank' font-color='#00ffffff' align='Center' min-width='50' rich-text='true'></text>
+					</horizontal>
+				</vertical>*/

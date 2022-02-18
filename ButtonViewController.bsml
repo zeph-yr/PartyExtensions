@@ -6,20 +6,11 @@
 		</horizontal>
 	</vertical>
 
-	<modal id='modal' show-event='open-modal' click-off-closes='true' move-to-center='true' size-delta-x='100' size-delta-y='50'>
+	<modal id='modal' show-event='open-modal' click-off-closes='true' move-to-center='true' size-delta-x='90' size-delta-y='60'>
+		<vertical child-expand-height='true'>
 			<horizontal bg='round-rect-panel'>
-				<list id='modal_list' cell-size='5' visible-cells='7' min-height='50' list-style='Simple' rich-text='true'></list>
-				<vertical vertical-fit='PreferredSize' preferred-height='20'>
-					<horizontal>
-						<text text='~playername' font-color='#00ffffff' align='Center' min-width='50' rich-text='true'></text>
-					</horizontal>
-					<horizontal>
-						<text text='~score' font-color='#00ffffff' align='Center' min-width='50' rich-text='true'></text>
-					</horizontal>
-					<horizontal>
-						<text text='~rank' font-color='#00ffffff' align='Center' min-width='50' rich-text='true'></text>
-					</horizontal>
-				</vertical>
+				<list id='modal_list' cell-size='5' visible-cells='10' min-height='50' list-style='Simple' rich-text='true'></list>
 			</horizontal>
+		</vertical>
 	</modal>
 </bg>
