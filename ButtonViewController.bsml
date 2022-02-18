@@ -4,12 +4,22 @@
 			<text text='---------------------------------------------------------------------------------' font-color='#00000000' align='Left' rich-text='true'></text>
 			<list id='button_list' select-cell='button_clicked' event-clicked='button_clicked' cell-size='8.5' min-height='87' visible-cells='10' preferred-width='10' list-style='Simple'></list>
 		</horizontal>
-		</vertical>
+	</vertical>
 
-	<modal id='modal' show-event='open-modal' click-off-closes='true' move-to-center='true' size-delta-x='100' size-delta-y='65'>
-		<horizontal bg='round-rect-panel' bg-color='#ffffffdd'>
-			<list id='modal_list' cell-size='5' visible-cells='10' min-height='60' list-style='Simple' rich-text='true'></list>
-			<text text='MODAL TEXT' font-color='#ff0000ff' align='Left' min-width='50' min-height='30' rich-text='true'></text>
-		</horizontal>
+	<modal id='modal' show-event='open-modal' click-off-closes='true' move-to-center='true' size-delta-x='100' size-delta-y='50'>
+			<horizontal bg='round-rect-panel'>
+				<list id='modal_list' cell-size='5' visible-cells='7' min-height='50' list-style='Simple' rich-text='true'></list>
+				<vertical vertical-fit='PreferredSize' preferred-height='20'>
+					<horizontal>
+						<text text='~playername' font-color='#00ffffff' align='Center' min-width='50' rich-text='true'></text>
+					</horizontal>
+					<horizontal>
+						<text text='~score' font-color='#00ffffff' align='Center' min-width='50' rich-text='true'></text>
+					</horizontal>
+					<horizontal>
+						<text text='~rank' font-color='#00ffffff' align='Center' min-width='50' rich-text='true'></text>
+					</horizontal>
+				</vertical>
+			</horizontal>
 	</modal>
 </bg>

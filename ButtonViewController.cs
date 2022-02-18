@@ -110,8 +110,17 @@ namespace PartyExtensions
 
             else
             {
-                Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"Player: {temp.map_scores[row].playername}"));
-                Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"Rank: {temp.map_scores[row].rank}"));
+                temp_playername = temp.map_scores[row].playername;
+                Playername = "changed";
+
+                temp_score = 100000.ToString();
+                Score = "changed";
+
+                temp_rank = temp.map_scores[row].rank;
+                Rank = "changed";
+
+                //Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"Player: {temp.map_scores[row].playername}"));
+                //Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"Rank: {temp.map_scores[row].rank}"));
                 Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"Accuracy: {temp.map_scores[row].acc} - " + String.Format("{0:0.00}", temp.map_scores[row].acc / 115 * 100) + "%"));
                 Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"<#ffffff>Left-Right: <#ff0000>" + String.Format("{0:0.00}", temp.map_scores[row].left_acc) + " - <#0000ff>" + String.Format("{0:0.00}", temp.map_scores[row].right_acc)));
                 //Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"Right: {temp.map_scores[row].right_acc}"));
@@ -124,6 +133,41 @@ namespace PartyExtensions
 
             Modal_List.tableView.ReloadData();
             Modal_List.tableView.ClearSelection();
+        }
+
+
+        private string temp_playername = "";
+        private string temp_score = "";
+        private string temp_rank = "";
+
+        [UIValue("playername")]
+        private string Playername
+        {
+            get => temp_playername;
+            set
+            {
+                NotifyPropertyChanged();
+            }
+        }
+
+        [UIValue("score")]
+        private string Score
+        {
+            get => temp_score;
+            set
+            {
+                NotifyPropertyChanged();
+            }
+        }
+
+        [UIValue("rank")]
+        private string Rank
+        {
+            get => temp_rank;
+            set
+            {
+                NotifyPropertyChanged();
+            }
         }
 
 
