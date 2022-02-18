@@ -18,7 +18,6 @@ namespace PartyExtensions
         internal static PartyExtensionsController PluginController { get { return PartyExtensionsController.Instance; } }
 
 
-
         [Init]
         public Plugin(IPALogger logger /*Config conf*/)
         {

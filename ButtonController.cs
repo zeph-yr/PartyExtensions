@@ -33,9 +33,9 @@ namespace PartyExtensions
             {
                 // Make FloatingScreen:
                 Quaternion rotation = new Quaternion(0f, 0f, 0f, 0f);
-                //rotation *= Quaternion.Euler(Vector3.up * 90);
+                rotation = Quaternion.AngleAxis(65, Vector3.up);
 
-                floatingScreen = FloatingScreen.CreateFloatingScreen(new Vector2(80, 100), false, new Vector3(-0.08f, 1.05f, 1.95f), rotation); //Size: 80, 100
+                floatingScreen = FloatingScreen.CreateFloatingScreen(new Vector2(100, 87), false, new Vector3(4f, 1.25f, 1.05f), rotation); //Size: 80, 100
                 GameObject.DontDestroyOnLoad(floatingScreen.gameObject);
 
                 // Make ViewControlller and give it to the FloatingScreen:

@@ -271,14 +271,19 @@ namespace PartyExtensions
         }*/
 
 
-        [UIComponent("cancelbutton")]
+        /*[UIComponent("cancelbutton")]
         private TextMeshProUGUI cancelbutton_text;
 
         [UIAction("disablescore")]
         protected void ClickButtonAction()
         {
             Plugin.Log.Debug("disable_clicked");
-        }
+        }*/
 
     }
 }
+
+/*		<horizontal bg='round-rect-panel' bg-color='#ffffffdd'>
+			<button text='akjsdlfj' on-click='disablescore' event-clicked='button_clicked' id='cancelbutton' min-width='30' min-height='10' rich-text='true'></button>
+			<text text='PartyExtensions WOOHOO' align='Left'></text>
+		</horizontal>*/
