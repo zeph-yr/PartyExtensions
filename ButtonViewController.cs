@@ -65,10 +65,8 @@ namespace PartyExtensions
         [UIComponent("modal")]
         private ModalView Modal;
 
-
         [UIComponent("modal_list")]
         private CustomListTableData Modal_List;
-
 
         private void Set_Modal_Content(int row)
         {
