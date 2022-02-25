@@ -352,20 +352,5 @@ namespace PartyExtensions
             Modal_List.tableView.ReloadData();
             Modal_List.tableView.ClearSelection();
         }*/
-
-
-
     }
 }
-
-/*				<vertical vertical-fit='PreferredSize' preferred-height='20'>
-					<horizontal>
-						<text text='~playername' font-color='#00ffffff' align='Center' min-width='50' rich-text='true'></text>
-					</horizontal>
-					<horizontal>
-						<text text='~score' font-color='#00ffffff' align='Center' min-width='50' rich-text='true'></text>
-					</horizontal>
-					<horizontal>
-						<text text='~rank' font-color='#00ffffff' align='Center' min-width='50' rich-text='true'></text>
-					</horizontal>
-				</vertical>*/

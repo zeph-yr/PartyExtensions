@@ -24,11 +24,11 @@ namespace PartyExtensions
 
         internal static void Read()
         {
-            Plugin.Log.Debug("Read");
+            //Plugin.Log.Debug("Read");
 
             if (!File.Exists(file_path))
             {
-                Plugin.Log.Debug("Create file");
+                Plugin.Log.Debug("Create alltime file");
 
                 //test_score = new CustomScoreData();
                 //test_leaderboard = new CustomLeaderboard();
@@ -40,7 +40,7 @@ namespace PartyExtensions
             }
             else
             {
-                Plugin.Log.Debug("File exists");
+                Plugin.Log.Debug("Alltime file exists");
 
                 string json_string = File.ReadAllText(file_path);
                 //Plugin.Log.Debug(json_string);
@@ -64,11 +64,15 @@ namespace PartyExtensions
 
             if (!File.Exists(daily_file_path))
             {
+                Plugin.Log.Debug("Create daily file");
+
                 daily_scores = new Dictionary<string, CustomLeaderboard>();
                 Write_Daily();
             }
             else
             {
+                Plugin.Log.Debug("Daily file exists");
+
                 string json_string = File.ReadAllText(daily_file_path);
                 daily_scores = JsonConvert.DeserializeObject<Dictionary<string, CustomLeaderboard>>(json_string);
                 //daily_scores = JsonConvert.DeserializeObject<Dictionary<string, CustomLeaderboard>>(File.ReadAllText(daily_file_path));
@@ -82,7 +86,7 @@ namespace PartyExtensions
 
         internal static void Write_All()
         {
-            Plugin.Log.Debug("Write file");
+            //Plugin.Log.Debug("Write All");
 
             //string json_string = JsonConvert.SerializeObject(test_score);
             //string json_string = JsonConvert.SerializeObject(test_leaderboard);
@@ -96,6 +100,8 @@ namespace PartyExtensions
 
         internal static void Write_Daily()
         {
+            //Plugin.Log.Debug("Write Daily");
+
             File.WriteAllText(daily_file_path, JsonConvert.SerializeObject(daily_scores));
         }
     }

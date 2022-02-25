@@ -94,14 +94,14 @@ namespace PartyExtensions
                 {
                     if (PartyData.all_scores.ContainsKey(leaderboardId)) // PartyExtensions already has scores for this map
                     {
-                        Plugin.Log.Debug("List insert: " + leaderboardId);
+                        Plugin.Log.Debug("Alltime List insert: " + leaderboardId);
 
                         PartyData.all_scores[leaderboardId].map_scores.Insert(__state, PartyData.current_score);
                         PartyData.all_scores[leaderboardId].map_scores.RemoveAt(9);
                     }
                     else // PartyExtensions doesn't have scores for this map yet
                     {
-                        Plugin.Log.Debug("Dict add: " + leaderboardId);
+                        Plugin.Log.Debug("Alltime Dict add: " + leaderboardId);
 
                         CustomLeaderboard temp = new CustomLeaderboard();
                         temp.leaderboard_id = leaderboardId;
@@ -118,14 +118,14 @@ namespace PartyExtensions
                 {
                     if (PartyData.daily_scores.ContainsKey(leaderboardId))
                     {
-                        Plugin.Log.Debug("List insert: " + leaderboardId);
+                        Plugin.Log.Debug("Daily List insert: " + leaderboardId);
 
                         PartyData.daily_scores[leaderboardId].map_scores.Insert(__state, PartyData.current_score);
                         PartyData.daily_scores[leaderboardId].map_scores.RemoveAt(9);
                     }
                     else
                     {
-                        Plugin.Log.Debug("Dict add: " + leaderboardId);
+                        Plugin.Log.Debug("Daily Dict add: " + leaderboardId);
 
                         CustomLeaderboard temp = new CustomLeaderboard();
                         temp.leaderboard_id = leaderboardId;

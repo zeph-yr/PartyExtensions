@@ -3,10 +3,6 @@ using UnityEngine;
 
 namespace PartyExtensions
 {
-    /// <summary>
-    /// Monobehaviours (scripts) are added to GameObjects.
-    /// For a full list of Messages a Monobehaviour can receive from the game, see https://docs.unity3d.com/ScriptReference/MonoBehaviour.html.
-    /// </summary>
     public class PartyExtensionsController : MonoBehaviour, ISaberSwingRatingCounterDidFinishReceiver
     {
         public static PartyExtensionsController Instance { get; private set; }
@@ -20,11 +16,6 @@ namespace PartyExtensions
         internal static int bomb_hits = 0;
 
 
-        // These methods are automatically called by Unity, you should remove any you aren't using.
-        #region Monobehaviour Messages
-        /// <summary>
-        /// Only ever called once, mainly used to initialize variables.
-        /// </summary>
         private void Awake()
         {
             // For this particular MonoBehaviour, we only want one instance to exist at any time, so store a reference to it in a static property
@@ -41,9 +32,6 @@ namespace PartyExtensions
         }
 
 
-        /// <summary>
-        /// Called when the script becomes enabled and active
-        /// </summary>
         private void OnEnable()
         {
             BS_Utils.Utilities.BSEvents.lateMenuSceneLoadedFresh += BSEvents_lateMenuSceneLoadedFresh;
@@ -133,7 +121,7 @@ namespace PartyExtensions
         private static float dist;
         private static string color;
 
-        private void BSEvents_noteWasCut(NoteData arg1, NoteCutInfo arg2, int arg3)
+        private void BSEvents_noteWasCut(NoteData arg1, NoteCutInfo arg2, int arg3) // Must be non-static
         {
             // Need the arg2 check for wrong direction, wrong color, miss, or it will error a lot in the console
             if (arg1 != null && arg2.allIsOK)
@@ -181,9 +169,6 @@ namespace PartyExtensions
         }
 
 
-        /// <summary>
-        /// Called when the script becomes disabled or when it is being destroyed.
-        /// </summary>
         private void OnDisable()
         {
             BS_Utils.Utilities.BSEvents.lateMenuSceneLoadedFresh -= BSEvents_lateMenuSceneLoadedFresh;
@@ -193,16 +178,13 @@ namespace PartyExtensions
             BS_Utils.Utilities.BSEvents.levelCleared -= BSEvents_levelCleared;
         }
 
-        /// <summary>
-        /// Called when the script is being destroyed.
-        /// </summary>
+
         private void OnDestroy()
         {
             Plugin.Log?.Debug($"{name}: OnDestroy()");
             if (Instance == this)
                 Instance = null; // This MonoBehaviour is being destroyed, so set the static instance property to null.
         }
-        #endregion
     }
 }
 
