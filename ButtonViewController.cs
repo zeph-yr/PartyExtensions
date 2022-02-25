@@ -85,6 +85,8 @@ namespace PartyExtensions
                     Modal_List.tableView.ReloadData();
                     Modal_List.tableView.ClearSelection();
 
+                    Set_Empty_Fields();
+
                     return;
                 }
             }
@@ -94,10 +96,12 @@ namespace PartyExtensions
                 if (PartyData.all_scores.TryGetValue(ButtonController.current_leaderboard, out temp) == false)
                 {
                     Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"No data for this score"));
-                    
+
                     Modal_List.tableView.ReloadData();
                     Modal_List.tableView.ClearSelection();
-              
+
+                    Set_Empty_Fields();
+
                     return;
                 }
             }
@@ -106,17 +110,7 @@ namespace PartyExtensions
             if (temp.map_scores[row].playername == "")
             {
                 Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"No data for this score"));
-
-                temp_playername = "";
-                Playername = "changed";
-
-                temp_raw_score = "";
-                temp_mod_score = "";
-                Raw_Score = "changed";
-                Mod_Score = "changed";
-
-                temp_rank = "";
-                Rank = "changed";
+                Set_Empty_Fields();
             }
 
             else
@@ -124,20 +118,19 @@ namespace PartyExtensions
                 temp_playername = temp.map_scores[row].playername;
                 Playername = "changed";
 
-                if (temp.map_scores[row].fc)
-                {
-                    temp_raw_score = "Raw: " + temp.map_scores[row].raw_score.ToString() + " FC";
-                    temp_mod_score = "Mod: " + temp.map_scores[row].mod_score.ToString() + " FC";
-                }
-                else
-                {
-                    temp_raw_score = "Raw: " + temp.map_scores[row].raw_score.ToString();
-                    temp_mod_score = "Mod: " + temp.map_scores[row].mod_score.ToString();
-                }
+                temp_raw_score = "Raw: " + temp.map_scores[row].raw_score.ToString();
+                temp_mod_score = "Mod: " + temp.map_scores[row].mod_score.ToString();
                 Raw_Score = "changed";
                 Mod_Score = "changed";
 
-                temp_rank = temp.map_scores[row].rank;
+                if (temp.map_scores[row].fc)
+                {
+                    temp_rank = temp.map_scores[row].rank + " FC";
+                }
+                else
+                {
+                    temp_rank = temp.map_scores[row].rank;
+                }
                 Rank = "changed";
 
                 //Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"<#ffff00ff>{temp.map_scores[row].playername}"));
@@ -202,6 +195,20 @@ namespace PartyExtensions
             {
                 NotifyPropertyChanged();
             }
+        }
+
+        private void Set_Empty_Fields()
+        {
+            temp_playername = "";
+            Playername = "changed";
+
+            temp_raw_score = "";
+            temp_mod_score = "";
+            Raw_Score = "changed";
+            Mod_Score = "changed";
+
+            temp_rank = "";
+            Rank = "changed";
         }
 
 

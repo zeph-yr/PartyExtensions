@@ -6,15 +6,15 @@
 		</horizontal>
 	</vertical>
 
-	<modal id='modal' show-event='open-modal' click-off-closes='true' move-to-center='true' size-delta-x='90' size-delta-y='50'>
+	<modal id='modal' show-event='open-modal' click-off-closes='true' move-to-center='true' size-delta-x='100' size-delta-y='50'>
 			<horizontal child-expand-width='true'>
 				<vertical child-expand-height='true'>
 					<text text='----' font-color='#00000000' rich-text='true'></text>
-					<list id='modal_list' cell-size='5' visible-cells='9' min-height='50' preferred-width='45' clickable-cell='false' list-style='Simple' rich-text='true'></list>
+					<list id='modal_list' cell-size='5' visible-cells='9' min-height='45' preferred-width='55' clickable-cell='false' list-style='Simple' rich-text='true'></list>
 				</vertical>
 				<vertical vertical-fit='PreferredSize' preferred-height='30' preferred-width='40'>
 					<horizontal>
-						<text text='~playername' font-size='5' font-color='#ffff00ff' align='Center' rich-text='true'></text>
+						<text text='~playername' font-size='6' font-color='#ffff00ff' align='Center' rich-text='true'></text>
 					</horizontal>
 					<horizontal>
 						<text text='--' font-size='2' font-color='#00000000' align='Center' rich-text='true'></text>
@@ -29,7 +29,7 @@
 						<text text='--' font-size='2' font-color='#00000000' align='Center' rich-text='true'></text>
 					</horizontal>
 					<horizontal>
-						<text text='~rank' font-size ='5' font-color='#cc99ffff' align='Center' rich-text='true'></text>
+						<text text='~rank' font-size ='6' font-color='#cc99ffff' align='Center' rich-text='true'></text>
 					</horizontal>
 				</vertical>
 			</horizontal>
