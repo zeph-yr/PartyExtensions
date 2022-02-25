@@ -48,9 +48,6 @@ namespace PartyExtensions
         {
             BS_Utils.Utilities.BSEvents.lateMenuSceneLoadedFresh += BSEvents_lateMenuSceneLoadedFresh;
             BS_Utils.Utilities.BSEvents.gameSceneLoaded += BSEvents_gameSceneLoaded;
-
-            BS_Utils.Utilities.BSEvents.noteWasCut += BSEvents_noteWasCut;
-            BS_Utils.Utilities.BSEvents.levelCleared += BSEvents_levelCleared;
         }
 
         // This is critical
@@ -59,6 +56,33 @@ namespace PartyExtensions
             ButtonController.Instance.Create_Buttons();
         }
 
+        private static void BSEvents_gameSceneLoaded()
+        {
+            if (BS_Utils.Gameplay.Gamemode.IsPartyActive)
+            {
+                Plugin.Log.Debug("In Party Mode");
+
+                left_acc = 0;
+                left_hits = 0;
+
+                right_acc = 0;
+                right_hits = 0;
+
+                bomb_hits = 0;
+
+                //PartyData.is_written = false;
+
+                BS_Utils.Utilities.BSEvents.noteWasCut += Instance.BSEvents_noteWasCut;
+                BS_Utils.Utilities.BSEvents.levelCleared += BSEvents_levelCleared;
+            }
+            else
+            {
+                Plugin.Log.Debug("Not Party");
+
+                BS_Utils.Utilities.BSEvents.noteWasCut -= Instance.BSEvents_noteWasCut;
+                BS_Utils.Utilities.BSEvents.levelCleared -= BSEvents_levelCleared;
+            }
+        }
 
         private static void BSEvents_levelCleared(StandardLevelScenesTransitionSetupDataSO arg1, LevelCompletionResults arg2)
         {
@@ -103,33 +127,16 @@ namespace PartyExtensions
             //PartyData.Write();
         }
 
-        private static void BSEvents_gameSceneLoaded()
-        {
-            Plugin.Log.Debug("Game scene loaded");
-
-            left_acc = 0;
-            left_hits = 0;
-
-            right_acc = 0;
-            right_hits = 0;
-
-            bomb_hits = 0;
-
-            //PartyData.is_written = false;
-        }
-
-
-        int preswing;
-        int postswing;
-        int center;
-        float dist;
-        string color;
+        private static int preswing;
+        private static int postswing;
+        private static int center;
+        private static float dist;
+        private static string color;
 
         private void BSEvents_noteWasCut(NoteData arg1, NoteCutInfo arg2, int arg3)
         {
             // Need the arg2 check for wrong direction, wrong color, miss, or it will error a lot in the console
             if (arg1 != null && arg2.allIsOK)
-
             {
                 if (arg1.colorType == ColorType.ColorA)
                 {
@@ -194,7 +201,6 @@ namespace PartyExtensions
             Plugin.Log?.Debug($"{name}: OnDestroy()");
             if (Instance == this)
                 Instance = null; // This MonoBehaviour is being destroyed, so set the static instance property to null.
-
         }
         #endregion
     }
