@@ -118,14 +118,14 @@ namespace PartyExtensions
                 temp_playername = temp.map_scores[row].playername;
                 Playername = "changed";
 
-                temp_raw_score = "Raw: " + temp.map_scores[row].raw_score.ToString();
+                temp_raw_score = "Raw: <#00ffff>" + temp.map_scores[row].raw_score.ToString();
                 temp_mod_score = "Mod: " + temp.map_scores[row].mod_score.ToString();
                 Raw_Score = "changed";
                 Mod_Score = "changed";
 
                 if (temp.map_scores[row].fc)
                 {
-                    temp_rank = temp.map_scores[row].rank + " FC";
+                    temp_rank = temp.map_scores[row].rank + " - FC";
                 }
                 else
                 {
@@ -136,8 +136,8 @@ namespace PartyExtensions
                 //Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"<#ffff00ff>{temp.map_scores[row].playername}"));
                 //Modal_List.data.Add(new CustomListTableData.CustomCellInfo($""));
                 //Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"Rank: {temp.map_scores[row].rank}"));
-                Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"Accuracy: {temp.map_scores[row].acc} - " + String.Format("{0:0.00}", temp.map_scores[row].acc / 115 * 100) + "%"));
-                Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"<#ffffff>Left-Right: <#ff0000>" + String.Format("{0:0.00}", temp.map_scores[row].left_acc) + " - <#0000ff>" + String.Format("{0:0.00}", temp.map_scores[row].right_acc)));
+                Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"Accuracy: " + String.Format("{0:0.00}",  temp.map_scores[row].acc) + " - " + String.Format("{0:0.00}", temp.map_scores[row].acc / 115 * 100) + "%"));
+                Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"<#ffffff>Left-Right: <#ff0000>" + String.Format("{0:0.00}", temp.map_scores[row].left_acc) + " <#ffffff>- <#1a53ff>" + String.Format("{0:0.00}", temp.map_scores[row].right_acc)));
                 //Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"Right: {temp.map_scores[row].right_acc}"));
                 Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"Longest Combo: {temp.map_scores[row].longest_combo}"));
                 Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"Bad Cuts: {temp.map_scores[row].bad_cuts}"));

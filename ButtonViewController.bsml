@@ -6,13 +6,14 @@
 		</horizontal>
 	</vertical>
 
-	<modal id='modal' show-event='open-modal' click-off-closes='true' move-to-center='true' size-delta-x='100' size-delta-y='50'>
+	
+	<modal id='modal' show-event='open-modal' click-off-closes='true' move-to-center='true' size-delta-x='95' size-delta-y='50'>
 			<horizontal child-expand-width='true'>
 				<vertical child-expand-height='true'>
 					<text text='----' font-color='#00000000' rich-text='true'></text>
 					<list id='modal_list' cell-size='5' visible-cells='9' min-height='45' preferred-width='55' clickable-cell='false' list-style='Simple' rich-text='true'></list>
 				</vertical>
-				<vertical vertical-fit='PreferredSize' preferred-height='30' preferred-width='40'>
+				<vertical vertical-fit='PreferredSize' preferred-height='30' preferred-width='35'>
 					<horizontal>
 						<text text='~playername' font-size='6' font-color='#ffff00ff' align='Center' rich-text='true'></text>
 					</horizontal>
@@ -20,10 +21,10 @@
 						<text text='--' font-size='2' font-color='#00000000' align='Center' rich-text='true'></text>
 					</horizontal>
 					<horizontal>
-						<text text='~raw_score' font-color='#00ffffff' align='Center' rich-text='true'></text>
+						<text text='~raw_score' align='Center' rich-text='true'></text>
 					</horizontal>
 					<horizontal>
-						<text text='~mod_score' font-color='#00ffffff' align='Center' rich-text='true'></text>
+						<text text='~mod_score' align='Center' rich-text='true'></text>
 					</horizontal>
 					<horizontal>
 						<text text='--' font-size='2' font-color='#00000000' align='Center' rich-text='true'></text>
@@ -34,4 +35,7 @@
 				</vertical>
 			</horizontal>
 	</modal>
+	<horizontal pad-top='95' pad-right='6'>
+		<text text='PartyExtensions v1.0.0 by Zephyr#9125' font-color='#ff0080ff' font-size='3' align='Right'></text>
+	</horizontal>
 </bg>
