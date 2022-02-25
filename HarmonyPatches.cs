@@ -83,6 +83,11 @@ namespace PartyExtensions
                 // If we dont do this (or make a is_written flag), there will be duplicates in the files
 
                 PartyData.current_score.playername = playerName;
+
+                //PartyData.current_score.raw_score = score;
+                //Plugin.Log.Debug("Score: " + score);
+
+                PartyData.current_score.fc = fullCombo;
                 PartyData.current_score.timestamp = __instance.GetCurrentTimestamp(); // Yes this might be microseconds later but good enough
 
                 if (leaderboardType == LocalLeaderboardsModel.LeaderboardType.AllTime)

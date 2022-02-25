@@ -106,28 +106,50 @@ namespace PartyExtensions
             if (temp.map_scores[row].playername == "")
             {
                 Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"No data for this score"));
+
+                temp_playername = "";
+                Playername = "changed";
+
+                temp_raw_score = "";
+                temp_mod_score = "";
+                Raw_Score = "changed";
+                Mod_Score = "changed";
+
+                temp_rank = "";
+                Rank = "changed";
             }
 
             else
             {
-                /*temp_playername = temp.map_scores[row].playername;
+                temp_playername = temp.map_scores[row].playername;
                 Playername = "changed";
 
-                temp_score = 100000.ToString();
-                Score = "changed";
+                if (temp.map_scores[row].fc)
+                {
+                    temp_raw_score = "Raw: " + temp.map_scores[row].raw_score.ToString() + " FC";
+                    temp_mod_score = "Mod: " + temp.map_scores[row].mod_score.ToString() + " FC";
+                }
+                else
+                {
+                    temp_raw_score = "Raw: " + temp.map_scores[row].raw_score.ToString();
+                    temp_mod_score = "Mod: " + temp.map_scores[row].mod_score.ToString();
+                }
+                Raw_Score = "changed";
+                Mod_Score = "changed";
 
                 temp_rank = temp.map_scores[row].rank;
-                Rank = "changed";*/
+                Rank = "changed";
 
-                Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"<#ffff00ff>{temp.map_scores[row].playername}"));
-                Modal_List.data.Add(new CustomListTableData.CustomCellInfo($""));
-                Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"Rank: {temp.map_scores[row].rank}"));
+                //Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"<#ffff00ff>{temp.map_scores[row].playername}"));
+                //Modal_List.data.Add(new CustomListTableData.CustomCellInfo($""));
+                //Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"Rank: {temp.map_scores[row].rank}"));
                 Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"Accuracy: {temp.map_scores[row].acc} - " + String.Format("{0:0.00}", temp.map_scores[row].acc / 115 * 100) + "%"));
                 Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"<#ffffff>Left-Right: <#ff0000>" + String.Format("{0:0.00}", temp.map_scores[row].left_acc) + " - <#0000ff>" + String.Format("{0:0.00}", temp.map_scores[row].right_acc)));
                 //Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"Right: {temp.map_scores[row].right_acc}"));
                 Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"Longest Combo: {temp.map_scores[row].longest_combo}"));
                 Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"Bad Cuts: {temp.map_scores[row].bad_cuts}"));
                 Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"Missed: {temp.map_scores[row].missed}"));
+                Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"Bombs Cut: {temp.map_scores[row].bombs}"));
                 Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"Time: {Convert_Timestamp(temp.map_scores[row].timestamp)}"));
                 Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"Modifiers: {CustomScoreData.Read_Custom_Gameplaymodifiers(temp.map_scores[row].custom_gameplaymodifiers)}"));
             }
@@ -137,8 +159,9 @@ namespace PartyExtensions
         }
 
 
-        /*private string temp_playername = "";
-        private string temp_score = "";
+        private string temp_playername = "";
+        private string temp_raw_score = "";
+        private string temp_mod_score = "";
         private string temp_rank = "";
 
         [UIValue("playername")]
@@ -151,10 +174,20 @@ namespace PartyExtensions
             }
         }
 
-        [UIValue("score")]
-        private string Score
+        [UIValue("raw_score")]
+        private string Raw_Score
         {
-            get => temp_score;
+            get => temp_raw_score;
+            set
+            {
+                NotifyPropertyChanged();
+            }
+        }
+
+        [UIValue("mod_score")]
+        private string Mod_Score
+        {
+            get => temp_mod_score;
             set
             {
                 NotifyPropertyChanged();
@@ -169,7 +202,7 @@ namespace PartyExtensions
             {
                 NotifyPropertyChanged();
             }
-        }*/
+        }
 
 
         private static string Convert_Timestamp(long unix_timestamp)
@@ -314,22 +347,9 @@ namespace PartyExtensions
         }*/
 
 
-        /*[UIComponent("cancelbutton")]
-        private TextMeshProUGUI cancelbutton_text;
-
-        [UIAction("disablescore")]
-        protected void ClickButtonAction()
-        {
-            Plugin.Log.Debug("disable_clicked");
-        }*/
 
     }
 }
-
-/*		<horizontal bg='round-rect-panel' bg-color='#ffffffdd'>
-			<button text='akjsdlfj' on-click='disablescore' event-clicked='button_clicked' id='cancelbutton' min-width='30' min-height='10' rich-text='true'></button>
-			<text text='PartyExtensions WOOHOO' align='Left'></text>
-		</horizontal>*/
 
 /*				<vertical vertical-fit='PreferredSize' preferred-height='20'>
 					<horizontal>

@@ -144,7 +144,11 @@ namespace PartyExtensions
         public int missed;
         public int good_cuts;
         public int bad_cuts;
+        public int bombs;
 
+        public int raw_score;
+        public int mod_score;
+        public bool fc;
         public float acc;
         public float left_acc;
         public float right_acc;
@@ -159,8 +163,12 @@ namespace PartyExtensions
 
         public CustomScoreData()
         {
+            // This is the order they are displayed in UI
             playername = "";
+            raw_score = 0;
+            mod_score = 0;
             rank = "";
+            fc = false;
 
             acc = 0f;
             left_acc = 0f;
@@ -169,6 +177,7 @@ namespace PartyExtensions
             good_cuts = 0;
             bad_cuts = 0;
             missed = 0;
+            bombs = 0;
             longest_combo = 0;
 
             //modifiers = null;
@@ -178,10 +187,12 @@ namespace PartyExtensions
         }
 
         // Called on levelcleared to lock gpms into a bool array before they can do their weird thing
-        public CustomScoreData(string rank, int missed, int good_cuts, int bad_cuts, float acc, float left_acc, float right_acc, GameplayModifiers modifiers, int longest_combo, long timestamp, string playername)
+        public CustomScoreData(string rank, int missed, int good_cuts, int bad_cuts, int bombs, int raw_score, int mod_score, bool fc, float acc, float left_acc, float right_acc, GameplayModifiers modifiers, int longest_combo, long timestamp, string playername)
         {
             this.playername = playername;
-
+            this.raw_score = raw_score;
+            this.mod_score = mod_score;
+            this.fc = fc;
             this.rank = rank;
 
             this.acc = acc;
@@ -191,6 +202,7 @@ namespace PartyExtensions
             this.good_cuts = good_cuts;
             this.bad_cuts = bad_cuts;
             this.missed = missed;
+            this.bombs = bombs;
             this.longest_combo = longest_combo;
 
             //this.modifiers = modifiers;
