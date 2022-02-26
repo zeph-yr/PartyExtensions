@@ -13,7 +13,7 @@
 				</vertical>
 				<vertical vertical-fit='PreferredSize' preferred-height='30' preferred-width='35'>
 					<horizontal>
-						<text text='~playername' font-size='6' font-color='#ffff00ff' align='Center' rich-text='true'></text>
+						<text text='~playername' font-size='6' font-color='#ffff00ff' underlined='true' align='Center' rich-text='true'></text>
 					</horizontal>
 					<horizontal>
 						<text text='--' font-size='2' font-color='#00000000' align='Center' rich-text='true'></text>
@@ -28,10 +28,10 @@
 						<text text='--' font-size='2' font-color='#00000000' align='Center' rich-text='true'></text>
 					</horizontal>
 					<horizontal>
-						<text text='~rank' font-size ='6' font-color='#cc99ffff' align='Center' rich-text='true'></text>
+						<text text='~rank' font-size ='5' font-color='#cc99ffff' align='Center' rich-text='true'></text>
 					</horizontal>
 					<horizontal>
-						<text text='~acc' font-color='#00ffffff' align='Center' rich-text='true' hover-hint='Pure accuracy before modifiers'></text>
+						<text text='~acc' font-size ='6' font-color='#00ffffff' align='Center' rich-text='true' hover-hint='Accuracy before modifiers'></text>
 					</horizontal>
 					<horizontal>
 						<text text='~mod_acc' align='Center' rich-text='true'></text>

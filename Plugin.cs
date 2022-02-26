@@ -10,7 +10,7 @@ namespace PartyExtensions
     [Plugin(RuntimeOptions.DynamicInit)]
     public class Plugin
     {
-         public const string HarmonyId = "com.github.YourGitHub.PartyExtensions";
+         public const string HarmonyId = "com.zephyr.BeatSaber.PartyExtensions";
          internal static readonly HarmonyLib.Harmony harmony = new HarmonyLib.Harmony(HarmonyId);
 
         internal static Plugin Instance { get; private set; }
@@ -48,20 +48,6 @@ namespace PartyExtensions
 
             RemoveHarmonyPatches();
         }
-
-
-        /*
-        /// <summary>
-        /// Called when the plugin is disabled and on Beat Saber quit.
-        /// Return Task for when the plugin needs to do some long-running, asynchronous work to disable.
-        /// [OnDisable] methods that return Task are called after all [OnDisable] methods that return void.
-        /// </summary>
-        [OnDisable]
-        public async Task OnDisableAsync()
-        {
-            await LongRunningUnloadTask().ConfigureAwait(false);
-        }
-        */
         
 
         internal static void ApplyHarmonyPatches()

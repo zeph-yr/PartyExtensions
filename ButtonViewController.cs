@@ -4,7 +4,6 @@ using BeatSaberMarkupLanguage.Parser;
 using BeatSaberMarkupLanguage.ViewControllers;
 using HMUI;
 using System;
-using TMPro;
 
 namespace PartyExtensions
 {
@@ -86,7 +85,6 @@ namespace PartyExtensions
                     Modal_List.tableView.ClearSelection();
 
                     Set_Empty_Fields();
-
                     return;
                 }
             }
@@ -101,7 +99,6 @@ namespace PartyExtensions
                     Modal_List.tableView.ClearSelection();
 
                     Set_Empty_Fields();
-
                     return;
                 }
             }
@@ -137,17 +134,16 @@ namespace PartyExtensions
                 // Display only if GPM used
                 if (CustomScoreData.Read_Custom_Gameplaymodifiers(temp.map_scores[row].custom_gameplaymodifiers) == "None")
                 {
-                    temp_mod_score = "Mod: ---";
-                    temp_mod_acc = "Mod: ---";
+                    temp_mod_score = "<#b3b3cc>Mod: <#ffffff>---";
+                    temp_mod_acc = "<#b3b3cc>Mod: <#ffffff>---";
                 }
                 else
                 {
-                    temp_mod_score = "Mod: " + temp.map_scores[row].mod_score.ToString("N0");
-                    temp_mod_acc = "Mod: " + String.Format("{0:0.00}", temp.map_scores[row].mod_acc) + "%";
+                    temp_mod_score = "<#b3b3cc>Mod: <#ffffff>" + temp.map_scores[row].mod_score.ToString("N0");
+                    temp_mod_acc = "<#b3b3cc>Mod: <#ffffff>" + String.Format("{0:0.00}", temp.map_scores[row].mod_acc) + "%";
                 }
                 Mod_Score = "changed";
                 Mod_Acc = "changed";
-
 
 
                 //Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"<#ffff00ff>{temp.map_scores[row].playername}"));
@@ -156,17 +152,16 @@ namespace PartyExtensions
 
                 // Avg Acc
                 //Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"Accuracy: " + String.Format("{0:0.00}",  temp.map_scores[row].acc) + " - " + String.Format("{0:0.00}", temp.map_scores[row].acc / 115 * 100) + "%"));
-
                 //Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"Accuracy: " + String.Format("{0:0.00}", temp.map_scores[row].acc) + "%"));
 
-                Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"<#ffffff>Left-Right: <#ff0000>" + String.Format("{0:0.00}", temp.map_scores[row].left_acc) + " <#ffffff>- <#1a53ff>" + String.Format("{0:0.00}", temp.map_scores[row].right_acc)));
-                Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"Longest Combo: {temp.map_scores[row].longest_combo}"));
-                Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"Good Cuts: {temp.map_scores[row].longest_combo}"));
-                Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"Bad Cuts: {temp.map_scores[row].bad_cuts}"));
-                Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"Missed: {temp.map_scores[row].missed}"));
-                Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"Bombs Cut: {temp.map_scores[row].bombs}"));
-                Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"Time: {Convert_Timestamp(temp.map_scores[row].timestamp)}"));
-                Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"Modifiers: {CustomScoreData.Read_Custom_Gameplaymodifiers(temp.map_scores[row].custom_gameplaymodifiers)}"));
+                Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"<#b3b3cc>Date Set: <#ffffff>{Convert_Timestamp(temp.map_scores[row].timestamp)}"));
+                Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"<#b3b3cc>Accuracy: <#ff0000>" + String.Format("{0:0.00}", temp.map_scores[row].left_acc) + " <#ffffff>- <#1a53ff>" + String.Format("{0:0.00}", temp.map_scores[row].right_acc)));
+                Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"<#b3b3cc>Max Combo: <#ffffff>{temp.map_scores[row].longest_combo}"));
+                Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"<#b3b3cc>Good Cuts: <#ffffff>{temp.map_scores[row].longest_combo}"));
+                Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"<#b3b3cc>Bad Cuts: <#ffffff>{temp.map_scores[row].bad_cuts}"));
+                Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"<#b3b3cc>Missed: <#ffffff>{temp.map_scores[row].missed}"));
+                Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"<#b3b3cc>Bombs Cut: <#ffffff>{temp.map_scores[row].bombs}"));
+                Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"<#b3b3cc>Modifiers: <#ffffff>{CustomScoreData.Read_Custom_Gameplaymodifiers(temp.map_scores[row].custom_gameplaymodifiers)}"));
             }
 
             Modal_List.tableView.ReloadData();
