@@ -160,7 +160,7 @@ namespace PartyExtensions
                 Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"<#b3b3cc>Good Cuts: <#ffffff>{temp.map_scores[row].longest_combo}"));
                 Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"<#b3b3cc>Bad Cuts: <#ffffff>{temp.map_scores[row].bad_cuts}"));
                 Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"<#b3b3cc>Missed: <#ffffff>{temp.map_scores[row].missed}"));
-                Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"<#b3b3cc>Bombs Cut: <#ffffff>{temp.map_scores[row].bombs}"));
+                Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"<#b3b3cc>Bomb Hits: <#ffffff>{temp.map_scores[row].bombs}"));
                 Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"<#b3b3cc>Modifiers: <#ffffff>{CustomScoreData.Read_Custom_Gameplaymodifiers(temp.map_scores[row].custom_gameplaymodifiers)}"));
             }
 

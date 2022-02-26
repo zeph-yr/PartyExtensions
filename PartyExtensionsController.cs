@@ -65,7 +65,7 @@ namespace PartyExtensions
             }
             else
             {
-                Plugin.Log.Debug("Not Party");
+                //Plugin.Log.Debug("Not Party");
 
                 BS_Utils.Utilities.BSEvents.noteWasCut -= Instance.BSEvents_noteWasCut;
                 BS_Utils.Utilities.BSEvents.levelCleared -= BSEvents_levelCleared;
