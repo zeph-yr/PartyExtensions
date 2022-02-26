@@ -40,7 +40,7 @@ namespace PartyExtensions
 
             for (int i = 0; i < 10; i++)
             {
-                Button_List.data.Add(new CustomListTableData.CustomCellInfo("i"));
+                Button_List.data.Add(new CustomListTableData.CustomCellInfo("<#cc99ff>💟"));
             }
 
             Button_List.tableView.ReloadData();
@@ -118,8 +118,8 @@ namespace PartyExtensions
                 temp_playername = temp.map_scores[row].playername;
                 Playername = "changed";
 
-                temp_raw_score = "Raw: <#00ffff>" + temp.map_scores[row].raw_score.ToString();
-                temp_mod_score = "Mod: " + temp.map_scores[row].mod_score.ToString();
+                temp_raw_score = "Raw: <#00ffff>" + temp.map_scores[row].raw_score.ToString("N0");
+                temp_mod_score = "Mod: " + temp.map_scores[row].mod_score.ToString("N0");
                 Raw_Score = "changed";
                 Mod_Score = "changed";
 
@@ -133,12 +133,20 @@ namespace PartyExtensions
                 }
                 Rank = "changed";
 
+                temp_acc = String.Format("{0:0.00}", temp.map_scores[row].acc) + "%";
+                Acc = "changed";
+
+
                 //Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"<#ffff00ff>{temp.map_scores[row].playername}"));
                 //Modal_List.data.Add(new CustomListTableData.CustomCellInfo($""));
                 //Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"Rank: {temp.map_scores[row].rank}"));
-                Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"Accuracy: " + String.Format("{0:0.00}",  temp.map_scores[row].acc) + " - " + String.Format("{0:0.00}", temp.map_scores[row].acc / 115 * 100) + "%"));
+
+                // Avg Acc
+                //Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"Accuracy: " + String.Format("{0:0.00}",  temp.map_scores[row].acc) + " - " + String.Format("{0:0.00}", temp.map_scores[row].acc / 115 * 100) + "%"));
+
+                //Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"Accuracy: " + String.Format("{0:0.00}", temp.map_scores[row].acc) + "%"));
+
                 Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"<#ffffff>Left-Right: <#ff0000>" + String.Format("{0:0.00}", temp.map_scores[row].left_acc) + " <#ffffff>- <#1a53ff>" + String.Format("{0:0.00}", temp.map_scores[row].right_acc)));
-                //Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"Right: {temp.map_scores[row].right_acc}"));
                 Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"Longest Combo: {temp.map_scores[row].longest_combo}"));
                 Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"Bad Cuts: {temp.map_scores[row].bad_cuts}"));
                 Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"Missed: {temp.map_scores[row].missed}"));
@@ -156,6 +164,8 @@ namespace PartyExtensions
         private string temp_raw_score = "";
         private string temp_mod_score = "";
         private string temp_rank = "";
+        private string temp_acc = "";
+
 
         [UIValue("playername")]
         private string Playername
@@ -197,6 +207,16 @@ namespace PartyExtensions
             }
         }
 
+        [UIValue("acc")]
+        private string Acc
+        {
+            get => temp_acc;
+            set
+            {
+                NotifyPropertyChanged();
+            }
+        }
+
         private void Set_Empty_Fields()
         {
             temp_playername = "";
@@ -209,6 +229,9 @@ namespace PartyExtensions
 
             temp_rank = "";
             Rank = "changed";
+
+            temp_acc = "";
+            Acc = "changed";
         }
 
 

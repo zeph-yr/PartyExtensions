@@ -2,7 +2,7 @@
 	<vertical>
 		<horizontal>
 			<text text='---------------------------------------------------------------------------------' font-color='#00000000' align='Left' rich-text='true'></text>
-			<list id='button_list' select-cell='button_clicked' event-clicked='button_clicked' cell-size='8.5' min-height='87' visible-cells='10' preferred-width='10' list-style='Simple'></list>
+			<list id='button_list' select-cell='button_clicked' event-clicked='button_clicked' cell-size='8.5' min-height='87' visible-cells='10' preferred-width='10' list-style='Simple' hover-hint='Detailed Score Info'></list>
 		</horizontal>
 	</vertical>
 	<modal id='modal' show-event='open-modal' click-off-closes='true' move-to-center='true' size-delta-x='95' size-delta-y='50'>
@@ -30,10 +30,13 @@
 					<horizontal>
 						<text text='~rank' font-size ='6' font-color='#cc99ffff' align='Center' rich-text='true'></text>
 					</horizontal>
+					<horizontal>
+						<text text='~acc' align='Center' rich-text='true'></text>
+					</horizontal>
 				</vertical>
 			</horizontal>
 	</modal>
 	<horizontal pad-top='95' pad-right='6'>
-		<text text='PartyExtensions v1.0.0 by Zephyr#9125' font-color='#ff0080ff' font-size='3' align='Right'></text>
+		<text text='PartyExtensions v1.0.0 by Zephyr#9125' font-color='#ff0080ff' font-size='3' align='Right' hover-hint='Special request for Aroc. Thanks!'></text>
 	</horizontal>
 </bg>

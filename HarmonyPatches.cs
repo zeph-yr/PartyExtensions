@@ -97,7 +97,7 @@ namespace PartyExtensions
                         Plugin.Log.Debug("Alltime List insert: " + leaderboardId);
 
                         PartyData.all_scores[leaderboardId].map_scores.Insert(__state, PartyData.current_score);
-                        PartyData.all_scores[leaderboardId].map_scores.RemoveAt(9);
+                        PartyData.all_scores[leaderboardId].map_scores.RemoveAt(10);
                     }
                     else // PartyExtensions doesn't have scores for this map yet
                     {
@@ -106,7 +106,7 @@ namespace PartyExtensions
                         CustomLeaderboard temp = new CustomLeaderboard();
                         temp.leaderboard_id = leaderboardId;
                         temp.map_scores.Insert(__state, PartyData.current_score);
-                        temp.map_scores.RemoveAt(9);
+                        temp.map_scores.RemoveAt(10);
 
                         PartyData.all_scores.Add(leaderboardId, temp);
                     }
@@ -121,7 +121,7 @@ namespace PartyExtensions
                         Plugin.Log.Debug("Daily List insert: " + leaderboardId);
 
                         PartyData.daily_scores[leaderboardId].map_scores.Insert(__state, PartyData.current_score);
-                        PartyData.daily_scores[leaderboardId].map_scores.RemoveAt(9);
+                        PartyData.daily_scores[leaderboardId].map_scores.RemoveAt(10);
                     }
                     else
                     {
@@ -130,7 +130,7 @@ namespace PartyExtensions
                         CustomLeaderboard temp = new CustomLeaderboard();
                         temp.leaderboard_id = leaderboardId;
                         temp.map_scores.Insert(__state, PartyData.current_score);
-                        temp.map_scores.RemoveAt(9);
+                        temp.map_scores.RemoveAt(10);
 
                         PartyData.daily_scores.Add(leaderboardId, temp);
                     }

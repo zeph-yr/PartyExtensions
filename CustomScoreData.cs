@@ -336,7 +336,6 @@ namespace PartyExtensions
                     break;
                 case 3:
                     custom_gameplaymodifiers[15] = true;
-
                     break;
                 default:
                     break;
@@ -355,6 +354,11 @@ namespace PartyExtensions
                 {
                     result += (CustomGamePlayModifiersEnum)i + ", ";
                 }
+            }
+
+            if (result == "")
+            {
+                result = "None";
             }
 
             Plugin.Log.Debug(result);
