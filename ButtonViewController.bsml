@@ -19,7 +19,7 @@
 						<text text='--' font-size='2' font-color='#00000000' align='Center' rich-text='true'></text>
 					</horizontal>
 					<horizontal>
-						<text text='~raw_score' font-color='#00ffffff' align='Center' rich-text='true' hover-hint='Before modifiers'></text>
+						<text text='~raw_score' font-color='#00ffffff' align='Center' rich-text='true' hover-hint='Score before modifiers'></text>
 					</horizontal>
 					<horizontal>
 						<text text='~mod_score' align='Center' rich-text='true'></text>
