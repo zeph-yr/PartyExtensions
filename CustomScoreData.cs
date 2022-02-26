@@ -156,6 +156,7 @@ namespace PartyExtensions
         public int mod_score;
         public bool fc;
         public float acc;
+        public float mod_acc;
         public float left_acc;
         public float right_acc;
 
@@ -177,23 +178,26 @@ namespace PartyExtensions
             fc = false;
 
             acc = 0f;
+            mod_acc = 0f;
+
             left_acc = 0f;
             right_acc = 0f;
 
+            longest_combo = 0;
             good_cuts = 0;
             bad_cuts = 0;
             missed = 0;
             bombs = 0;
-            longest_combo = 0;
+
+            timestamp = 0;
 
             //modifiers = null;
             custom_gameplaymodifiers = new bool[16];
             
-            timestamp = 0;
         }
 
         // Called on levelcleared to lock gpms into a bool array before they can do their weird thing
-        public CustomScoreData(string rank, int missed, int good_cuts, int bad_cuts, int bombs, int raw_score, int mod_score, bool fc, float acc, float left_acc, float right_acc, GameplayModifiers modifiers, int longest_combo, long timestamp, string playername)
+        public CustomScoreData(string rank, int missed, int good_cuts, int bad_cuts, int bombs, int raw_score, int mod_score, bool fc, float acc, float mod_acc, float left_acc, float right_acc, GameplayModifiers modifiers, int longest_combo, long timestamp, string playername)
         {
             this.playername = playername;
             this.raw_score = raw_score;
@@ -202,35 +206,41 @@ namespace PartyExtensions
             this.rank = rank;
 
             this.acc = acc;
+            this.mod_acc = mod_acc;
             this.left_acc = left_acc;
             this.right_acc = right_acc;
 
+            this.longest_combo = longest_combo;
             this.good_cuts = good_cuts;
             this.bad_cuts = bad_cuts;
             this.missed = missed;
             this.bombs = bombs;
-            this.longest_combo = longest_combo;
 
             //this.modifiers = modifiers;
             this.custom_gameplaymodifiers = Make_Custom_Gameplaymodifiers(modifiers);
             this.timestamp = timestamp;
         }
 
+
         [JsonConstructor]
-        public CustomScoreData(string rank, int missed, int good_cuts, int bad_cuts, float acc, float left_acc, float right_acc, bool[] modifiers, int longest_combo, long timestamp, string playername)
+        public CustomScoreData(string rank, int missed, int good_cuts, int bad_cuts, int bombs, int raw_score, int mod_score, bool fc, float acc, float mod_acc, float left_acc, float right_acc, bool[] modifiers, int longest_combo, long timestamp, string playername)
         {
             this.playername = playername;
-
+            this.raw_score = raw_score;
+            this.mod_score = mod_score;
+            this.fc = fc;
             this.rank = rank;
 
             this.acc = acc;
+            this.mod_acc = mod_acc;
             this.left_acc = left_acc;
             this.right_acc = right_acc;
 
+            this.longest_combo = longest_combo;
             this.good_cuts = good_cuts;
             this.bad_cuts = bad_cuts;
             this.missed = missed;
-            this.longest_combo = longest_combo;
+            this.bombs = bombs;
 
             //this.modifiers = modifiers;
             this.custom_gameplaymodifiers = modifiers;
