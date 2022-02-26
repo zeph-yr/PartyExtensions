@@ -124,7 +124,6 @@
     <Compile Include="CustomScoreData.cs" />
     <Compile Include="HarmonyPatches.cs" />
     <Compile Include="Plugin.cs" />
-    <Compile Include="Configuration\PluginConfig.cs" />
     <Compile Include="PartyExtensionsController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -146,6 +145,9 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Configuration\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
