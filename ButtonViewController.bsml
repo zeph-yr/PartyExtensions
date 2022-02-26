@@ -45,7 +45,4 @@
 			</vertical>
 		</horizontal>
 	</modal>
-	<horizontal pad-top='95' pad-right='6'>
-		<text text='PartyExtensions v1.0.0 by Zephyr#9125' font-color='#ff0080ff' font-size='3' align='Right' hover-hint='Special request for Aroc. Thanks!'></text>
-	</horizontal>
 </bg>
