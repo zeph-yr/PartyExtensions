@@ -64,7 +64,8 @@ namespace PartyExtensions
         [UIComponent("modal")]
         private ModalView Modal;
 
-        [UIComponent("modal_list")]
+
+        /*[UIComponent("modal_list")]
         private CustomListTableData Modal_List;
 
         private void Set_Modal_Content(int row)
@@ -166,6 +167,99 @@ namespace PartyExtensions
 
             Modal_List.tableView.ReloadData();
             Modal_List.tableView.ClearSelection();
+        }*/
+
+
+
+
+
+        private void Set_Modal_Content(int row)
+        {
+            temp_stats = "No data for this score";
+            Set_Empty_Fields();
+
+            CustomLeaderboard temp;
+
+            // Possible scenario where scores exist on one leaderboard but not the other
+            // E.g. No score on daily (because new day) but exists in alltime
+            if (ButtonController.leaderboardType == LocalLeaderboardsModel.LeaderboardType.Daily)
+            {
+                if (PartyData.daily_scores.TryGetValue(ButtonController.current_leaderboard, out temp) == false)
+                {
+                    return;
+                }
+            }
+
+            else
+            {
+                if (PartyData.all_scores.TryGetValue(ButtonController.current_leaderboard, out temp) == false)
+                {
+                    return;
+                }
+            }
+
+            // A real score and not a dummy placeholder scores in data files
+            if (temp.map_scores[row].playername != "")
+            {
+                temp_playername = temp.map_scores[row].playername;
+                Playername = "changed";
+
+                temp_raw_score = temp.map_scores[row].raw_score.ToString("N0");
+                Raw_Score = "changed";
+
+                if (temp.map_scores[row].fc)
+                {
+                    temp_rank = temp.map_scores[row].rank + " - FC";
+                }
+                else
+                {
+                    temp_rank = temp.map_scores[row].rank;
+                }
+                Rank = "changed";
+
+                temp_acc = String.Format("{0:0.00}", temp.map_scores[row].acc) + "%";
+                Acc = "changed";
+
+                // Display only if GPM used
+                if (CustomScoreData.Read_Custom_Gameplaymodifiers(temp.map_scores[row].custom_gameplaymodifiers) == "None")
+                {
+                    temp_mod_score = "<#b3b3cc>Mod: <#ffffff>---";
+                    temp_mod_acc = "<#b3b3cc>Mod: <#ffffff>---";
+                }
+                else
+                {
+                    temp_mod_score = "<#b3b3cc>Mod: <#ffffff>" + temp.map_scores[row].mod_score.ToString("N0");
+                    temp_mod_acc = "<#b3b3cc>Mod: <#ffffff>" + String.Format("{0:0.00}", temp.map_scores[row].mod_acc) + "%";
+                }
+                Mod_Score = "changed";
+                Mod_Acc = "changed";
+
+
+                temp_stats = "<#b3b3cc>Date Set: <#ffffff>" + Convert_Timestamp(temp.map_scores[row].timestamp) + "\n" + 
+                            "<#b3b3cc>Accuracy: <#ff0000>" + String.Format("{0:0.00}", temp.map_scores[row].left_acc) + " <#ffffff>- <#1a53ff>" + String.Format("{0:0.00}", temp.map_scores[row].right_acc) + "\n" +
+                            "<#b3b3cc>Max Combo: <#ffffff>" + temp.map_scores[row].longest_combo + "\n" +
+                            "<#b3b3cc>Good Cuts: <#ffffff>" + temp.map_scores[row].longest_combo + "\n" +
+                            "<#b3b3cc>Bad Cuts: <#ffffff>" + temp.map_scores[row].bad_cuts + "\n" +
+                            "<#b3b3cc>Missed: <#ffffff>" + temp.map_scores[row].missed + "\n" +
+                            "<#b3b3cc>Bomb Hits: <#ffffff>" + temp.map_scores[row].bombs + "\n" +
+                            "<#b3b3cc>Modifiers: <#ffffff>" + CustomScoreData.Read_Custom_Gameplaymodifiers(temp.map_scores[row].custom_gameplaymodifiers);
+                Stats = "changed";
+
+                //Plugin.Log.Debug(temp_stats);
+            }
+        }
+
+
+        private static string temp_stats = "No data for this score";
+
+        [UIValue("stats")]
+        private string Stats
+        {
+            get => temp_stats;
+            set
+            {
+                NotifyPropertyChanged();
+            }
         }
 
 
@@ -255,6 +349,9 @@ namespace PartyExtensions
 
             temp_mod_acc = "";
             Mod_Acc = "changed";
+
+            temp_stats = "";
+            Stats = "changed";
         }
 
 

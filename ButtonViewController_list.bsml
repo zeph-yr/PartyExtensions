@@ -1,0 +1,45 @@
+﻿<bg xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='https://monkeymanboy.github.io/BSML-Docs/ https://raw.githubusercontent.com/monkeymanboy/BSML-Docs/gh-pages/BSMLSchema.xsd'>
+	<vertical>
+		<horizontal>
+			<text text='---------------------------------------------------------------------------------' font-color='#00000000' align='Left' rich-text='true'></text>
+			<list id='button_list' select-cell='button_clicked' event-clicked='button_clicked' cell-size='8.5' min-height='87' visible-cells='10' preferred-width='10' list-style='Simple' hover-hint='Detailed Score Info'></list>
+		</horizontal>
+	</vertical>
+	<modal id='modal' show-event='open-modal' click-off-closes='true' move-to-center='true' size-delta-x='95' size-delta-y='50'>
+			<horizontal child-expand-width='true'>
+				<vertical child-expand-height='true'>
+					<text text='----' font-color='#00000000' rich-text='true'></text>
+					<list id='modal_list' cell-size='5' visible-cells='9' min-height='45' preferred-width='55' clickable-cell='false' list-style='Simple' rich-text='true'></list>
+				</vertical>
+				<vertical vertical-fit='PreferredSize' preferred-height='30' preferred-width='35'>
+					<horizontal>
+						<text text='~playername' font-size='6' font-color='#ffff00ff' underlined='true' align='Center' rich-text='true'></text>
+					</horizontal>
+					<horizontal>
+						<text text='--' font-size='2' font-color='#00000000' align='Center' rich-text='true'></text>
+					</horizontal>
+					<horizontal>
+						<text text='~raw_score' font-color='#00ffffff' align='Center' rich-text='true' hover-hint='Score before modifiers'></text>
+					</horizontal>
+					<horizontal>
+						<text text='~mod_score' align='Center' rich-text='true'></text>
+					</horizontal>
+					<horizontal>
+						<text text='--' font-size='2' font-color='#00000000' align='Center' rich-text='true'></text>
+					</horizontal>
+					<horizontal>
+						<text text='~rank' font-size ='5' font-color='#cc99ffff' align='Center' rich-text='true'></text>
+					</horizontal>
+					<horizontal>
+						<text text='~acc' font-size ='6' font-color='#00ffffff' align='Center' rich-text='true' hover-hint='Accuracy before modifiers'></text>
+					</horizontal>
+					<horizontal>
+						<text text='~mod_acc' align='Center' rich-text='true'></text>
+					</horizontal>
+				</vertical>
+			</horizontal>
+	</modal>
+	<horizontal pad-top='95' pad-right='6'>
+		<text text='PartyExtensions v1.0.0 by Zephyr#9125' font-color='#ff0080ff' font-size='3' align='Right' hover-hint='Special request for Aroc. Thanks!'></text>
+	</horizontal>
+</bg>
