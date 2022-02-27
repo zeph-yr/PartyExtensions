@@ -251,6 +251,7 @@ namespace PartyExtensions
 
             // Bandaid for old data before the hints were implemented
             // Without check, previous map's modifiers will be displayed on the next map clicked if it was played before hints implemented
+            // End user will users should never see this
             if (modifier_hints == null || modifier_hints == "" || modifier_hints == " ")
             {
                 this.modifier_hints = "No modifiers used for this play"; // hoverhint strings cannot be empty, will display the last non-empty one
@@ -478,14 +479,14 @@ namespace PartyExtensions
             }
 
             //Plugin.Log.Debug(result);
-
             result = result.Trim(',', ' ');
+
             if (result != " ")
             {
                 return result;
             }
-            return "No modifiers used for this play";
 
+            return "No modifiers used for this play";  // Actually saving the empty hover hint
            // return result.Trim(',', ' ');
         }
 

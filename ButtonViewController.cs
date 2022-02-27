@@ -23,6 +23,8 @@ namespace PartyExtensions
         {
             Plugin.Log.Debug("button clicked: " + row);
 
+            // Order really matters as to when the hover hint is drawn
+            // Without this hover hints sometimes appear behind modal with contents are out of sync
             parserParams.EmitEvent("close-modal");
 
             Set_Modal_Content(row);
@@ -362,10 +364,10 @@ namespace PartyExtensions
             temp_mod_acc = "";
             Mod_Acc = "changed";
 
-            temp_stats = "\nNo data for this score.\nPlay this map and set one now!\n\n\n\n<size=3><#ffff00>Special request for Aroc. Thanks!\n\n<size=3><#ff0080>PartyExtensions v1.0.0 by Zephyr#9125";
+            temp_stats = "\nNo data for this score.\nPlay this map and set one now!\n\n\n\n<size=3><#ffff00>Special request for Aroc. Thanks!\n\n<size=2.5><#ff0080>http://github.com/zeph-yr/PartyExtensions \nZephyr#9125";
             Stats = "changed";
 
-            temp_mod_hints = "This hasn't been played yet.";
+            temp_mod_hints = "This hasn't been played yet."; //Should never see this, but just in case
             Mod_Hints = temp_mod_hints;
         }
 
