@@ -5,10 +5,12 @@ This mod extends play stats that are saved to the local leaderboard when playing
 
 # How To Use
 - Unzip PartyExtensions.zip in your Beat Saber directory
-- Play a map in Party mode and click on the purple heart-cube icon next to the score
+- Play a map in Party mode and click on the purple heart-cube 💟 icon next to the score
+- Existing scores on the base game Party leaderboard will be without extended data until they are played over
 
 # Scores and Saved Data
 - Scores are saved in `/UserData/PartyExtensions`
+- Existing scores will not contain
 - **Pressing the Trashcan button in Party Mode deletes ALL score data**
 - PartyExtensions backs up your scores at the launch of each game. If you accidentally delete all your scores, you can retrieve them from the `.bak` files in `/UserData/PartyExtensions/`
 - **To restore, you MUST retrieve the .bak files before the next time you launch the game.** Save copies of the `.bak` files to another directory just in case, and rename the files in `/UserData/PartyExtensions/` to without the `.bak` ending.
@@ -18,7 +20,7 @@ This mod extends play stats that are saved to the local leaderboard when playing
 
 <b>Hover over Mod Score for full descriptions of modifiers used.</b>
 
-<img src="https://github.com/zeph-yr/PartyExtensions/blob/master/Screenshots/partyextensions_menu_11_crop.png" width="500"/><img src="https://github.com/zeph-yr/PartyExtensions/blob/master/Screenshots/partyextensions_menu_12.png" width="500" height="363"/>
+<img src="https://github.com/zeph-yr/PartyExtensions/blob/master/Screenshots/partyextensions_menu_11_crop.png" width="480"/><img src="https://github.com/zeph-yr/PartyExtensions/blob/master/Screenshots/partyextensions_menu_12.png" width="480" height="348.6"/>
 
 # About
 Comm'ed by Aroc. Thank you so much again. This mod was a pleasure to write. I hope you will have a great time enjoying the game with your friends and family 💖
