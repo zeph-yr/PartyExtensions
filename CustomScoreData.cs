@@ -167,6 +167,7 @@ namespace PartyExtensions
 
         public long timestamp;
         public string playername;
+        public string modifier_hints;
 
         public CustomScoreData()
         {
@@ -189,11 +190,11 @@ namespace PartyExtensions
             missed = 0;
             bombs = 0;
 
-            timestamp = 0;
-
             //modifiers = null;
             custom_gameplaymodifiers = new bool[16];
-            
+            modifier_hints = "";
+
+            timestamp = 0;
         }
 
         // Called on levelcleared to lock gpms into a bool array before they can do their weird thing
@@ -218,12 +219,15 @@ namespace PartyExtensions
 
             //this.modifiers = modifiers;
             this.custom_gameplaymodifiers = Make_Custom_Gameplaymodifiers(modifiers);
+            this.modifier_hints = Convert_GPM(modifiers);
+            Plugin.Log.Debug("mod hints: " + this.modifier_hints);
+
             this.timestamp = timestamp;
         }
 
 
         [JsonConstructor]
-        public CustomScoreData(string rank, int missed, int good_cuts, int bad_cuts, int bombs, int raw_score, int mod_score, bool fc, float acc, float mod_acc, float left_acc, float right_acc, bool[] modifiers, int longest_combo, long timestamp, string playername)
+        public CustomScoreData(string rank, int missed, int good_cuts, int bad_cuts, int bombs, int raw_score, int mod_score, bool fc, float acc, float mod_acc, float left_acc, float right_acc, bool[] modifiers, int longest_combo, long timestamp, string playername, string modifier_hints)
         {
             this.playername = playername;
             this.raw_score = raw_score;
@@ -244,6 +248,17 @@ namespace PartyExtensions
 
             //this.modifiers = modifiers;
             this.custom_gameplaymodifiers = modifiers;
+
+            if (modifier_hints != null)
+            {
+                this.modifier_hints = modifier_hints;
+            }
+            else
+            {
+                this.modifier_hints = "";
+            }
+            Plugin.Log.Debug("json mod hints: " + modifier_hints);
+
             this.timestamp = timestamp;
         }
 
@@ -353,6 +368,116 @@ namespace PartyExtensions
 
             return custom_gameplaymodifiers;
         }
+
+        internal static string Convert_GPM(GameplayModifiers gameplayModifiers)
+        {
+            string result = "";
+
+            // Fail and Life Modifiers
+            if (gameplayModifiers.noFailOn0Energy)
+            {
+                result += "NoFail, ";
+            }
+
+            if (gameplayModifiers.instaFail)
+            {
+                result += "1-Life, ";
+            }
+
+            switch ((int)gameplayModifiers.energyType)
+            {
+                case 0:
+                    break;
+                case 1:
+                    result += "4-Lives, ";
+                    break;
+                default:
+                    break;
+            }
+
+
+            // Bombs and Walls
+            if (gameplayModifiers.noBombs)
+            {
+                result += "NoBombs, ";
+            }
+
+            switch ((int)gameplayModifiers.enabledObstacleType)
+            {
+                case 0:
+                    break;
+                case 1:
+                    result += "FH, "; // Probably wont show up
+                    break;
+                case 2:
+                    result += "NoObstacles, ";
+                    break;
+                default:
+                    break;
+            }
+
+            // Arrow Modifiers
+            if (gameplayModifiers.noArrows)
+            {
+                result += "NoArrows, ";
+            }
+
+            if (gameplayModifiers.ghostNotes)
+            {
+                result += "GhostNotes, ";
+            }
+
+            if (gameplayModifiers.disappearingArrows)
+            {
+                result += "DisappearingArrows, ";
+            }
+
+
+            // Acc and Block Modifiers
+            if (gameplayModifiers.smallCubes)
+            {
+                result += "SmallCubes, ";
+            }
+
+            if (gameplayModifiers.proMode)
+            {
+                result += "ProMode, ";
+            }
+
+            if (gameplayModifiers.strictAngles)
+            {
+                result += "StrictAngles, ";
+            }
+
+            if (gameplayModifiers.zenMode)
+            {
+                result += "ZenMode, ";
+            }
+
+
+            // Speed Modifiers
+            switch ((int)gameplayModifiers.songSpeed)
+            {
+                case 0:
+                    break;
+                case 1:
+                    result += "FasterSong, ";
+                    break;
+                case 2:
+                    result += "SlowerSong, ";
+                    break;
+                case 3:
+                    result += "SuperFastSong, ";
+                    break;
+                default:
+                    break;
+            }
+
+            Plugin.Log.Debug(result);
+
+            return result.Trim(',', ' ');
+        }
+
 
         internal static string Read_Custom_Gameplaymodifiers(bool[] data)
         {

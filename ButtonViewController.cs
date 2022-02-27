@@ -243,21 +243,10 @@ namespace PartyExtensions
                         "<#b3b3cc>Bomb Hits: <#ffffff>" + temp.map_scores[row].bombs + "\n" +
                         "<#b3b3cc>Modifiers: <#ffffff>" + CustomScoreData.Read_Custom_Gameplaymodifiers(temp.map_scores[row].custom_gameplaymodifiers);
             Stats = "changed";
-
             //Plugin.Log.Debug(temp_stats);
-        }
 
-
-        private static string temp_stats = "";
-
-        [UIValue("stats")]
-        private string Stats
-        {
-            get => temp_stats;
-            set
-            {
-                NotifyPropertyChanged();
-            }
+            temp_mod_hints = temp.map_scores[row].modifier_hints;
+            Mod_Hints = "changed";
         }
 
 
@@ -267,6 +256,8 @@ namespace PartyExtensions
         private string temp_rank = "";
         private string temp_acc = "";
         private string temp_mod_acc = "";
+        private static string temp_stats = "";
+        private static string temp_mod_hints = "";
 
 
         [UIValue("playername")]
@@ -329,6 +320,26 @@ namespace PartyExtensions
             }
         }
 
+        [UIValue("stats")]
+        private string Stats
+        {
+            get => temp_stats;
+            set
+            {
+                NotifyPropertyChanged();
+            }
+        }
+
+        [UIValue("mod_hints")]
+        private string Mod_Hints
+        {
+            get => temp_mod_hints;
+            set
+            {
+                NotifyPropertyChanged();
+            }
+        }
+
         private void Set_Empty_Fields()
         {
             temp_playername = "";
@@ -350,6 +361,9 @@ namespace PartyExtensions
 
             temp_stats = "\nNo data for this score.\nPlay this map and set one now!\n\n\n\n<size=3><#ffff00>Special request for Aroc. Thanks!\n\n<size=3><#ff0080>PartyExtensions v1.0.0 by Zephyr#9125";
             Stats = "changed";
+
+            temp_mod_hints = "";
+            Mod_Hints = "changed";
         }
 
 
@@ -368,114 +382,7 @@ namespace PartyExtensions
         
         // Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"Modifiers: {Convert_GPM(temp.map_scores[row].modifiers)}"));
 
-        /*private static string Convert_GPM(GameplayModifiers gameplayModifiers)
-        {
-            string result = "";
-
-            // Fail and Life Modifiers
-            if (gameplayModifiers.noFailOn0Energy)
-            {
-                result += "NF, ";
-            }
-
-            if (gameplayModifiers.instaFail)
-            {
-                result += "1-L, ";
-            }
-
-            switch ((int)gameplayModifiers.energyType)
-            {
-                case 0:
-                    break;
-                case 1:
-                    result += "4-L, ";
-                    break;
-                default:
-                    break;
-            }
-
-
-            // Bombs and Walls
-            if (gameplayModifiers.noBombs)
-            {
-                result += "NB, ";
-            }
-
-            switch ((int)gameplayModifiers.enabledObstacleType)
-            {
-                case 0:
-                    break;
-                case 1:
-                    result += "FH, "; // Probably wont show up
-                    break;
-                case 2:
-                    result += "NO, ";
-                    break;
-                default:
-                    break;
-            }
-
-            // Arrow Modifiers
-            if (gameplayModifiers.noArrows)
-            {
-                result += "NA, ";
-            }
-
-            if (gameplayModifiers.ghostNotes)
-            {
-                result += "GN, ";
-            }
-
-            if (gameplayModifiers.disappearingArrows)
-            {
-                result += "DA, ";
-            }
-         
-            
-            // Acc and Block Modifiers
-            if (gameplayModifiers.smallCubes)
-            {
-                result += "SC, ";
-            }
-
-            if (gameplayModifiers.proMode)
-            {
-                result += "PM, ";
-            }
-   
-            if (gameplayModifiers.strictAngles)
-            {
-                result += "SA, ";
-            }
-
-            if (gameplayModifiers.zenMode)
-            {
-                result += "ZM, ";
-            }
-
-
-            // Speed Modifiers
-            switch ((int)gameplayModifiers.songSpeed)
-            {
-                case 0:
-                    break;
-                case 1:
-                    result += "FS, ";
-                    break;
-                case 2:
-                    result += "SS, ";
-                    break;
-                case 3:
-                    result += "SFS, ";
-                    break;
-                default:
-                    break;
-            }
-
-            Plugin.Log.Debug(result);
-
-            return result.Trim(',', ' ');
-        }*/
+        
 
 
         /*private void Fill_Modal_Test()

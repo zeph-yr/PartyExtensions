@@ -40,7 +40,7 @@
 					<text text='~acc' font-size ='6' font-color='#00ffffff' align='Center' rich-text='true' hover-hint='Accuracy before modifiers'></text>
 				</horizontal>
 				<horizontal>
-					<text text='~mod_acc' align='Center' rich-text='true'></text>
+					<text text='~mod_acc' align='Center' rich-text='true' hover-hint='~mod_hints'></text>
 				</horizontal>
 			</vertical>
 		</horizontal>
