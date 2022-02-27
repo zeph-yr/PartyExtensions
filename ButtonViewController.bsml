@@ -6,7 +6,7 @@
 		</horizontal>
 	</vertical>
 	
-	<modal id='modal' show-event='open-modal' click-off-closes='true' move-to-center='true' size-delta-x='85' size-delta-y='55'>
+	<modal id='modal' show-event='open-modal' hide-event='close-modal' click-off-closes='true' move-to-center='true' size-delta-x='85' size-delta-y='55'>
 		<horizontal child-expand-width='true'>
 			<vertical>
 				<horizontal pad-left='5' preferred-width='50'>

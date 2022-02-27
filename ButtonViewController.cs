@@ -26,8 +26,8 @@ namespace PartyExtensions
             Set_Modal_Content(row);
             //Fill_Modal_Test();
 
-            // This is absolutely critical!! Not sure why but "button_clicked" doesn't work as show-event
-            parserParams.EmitEvent("open-modal"); // First click results in blank modal
+            parserParams.EmitEvent("close-modal");
+            parserParams.EmitEvent("open-modal"); // This is absolutely critical!! Not sure why but "button_clicked" doesn't work as show-event
 
             Button_List.tableView.ClearSelection(); // Otherwise user has to click away and back if they want to open the same score again
         }
@@ -381,7 +381,7 @@ namespace PartyExtensions
         // Maybe this is a reference and there is a race condition? Not sure so went the enum hardcode route to save time. Not worth figuring out.
         
         // Modal_List.data.Add(new CustomListTableData.CustomCellInfo($"Modifiers: {Convert_GPM(temp.map_scores[row].modifiers)}"));
-
+        // Update: Convert_GPM used to be here. Moved to CustomScoreData for reuse
         
 
 

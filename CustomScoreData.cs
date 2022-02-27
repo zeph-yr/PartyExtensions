@@ -220,7 +220,7 @@ namespace PartyExtensions
             //this.modifiers = modifiers;
             this.custom_gameplaymodifiers = Make_Custom_Gameplaymodifiers(modifiers);
             this.modifier_hints = Convert_GPM(modifiers);
-            Plugin.Log.Debug("mod hints: " + this.modifier_hints);
+            //Plugin.Log.Debug("mod hints: " + this.modifier_hints);
 
             this.timestamp = timestamp;
         }
@@ -249,15 +249,17 @@ namespace PartyExtensions
             //this.modifiers = modifiers;
             this.custom_gameplaymodifiers = modifiers;
 
-            if (modifier_hints != null)
+            // Bandaid for old data before the hints were implemented
+            // Without check, previous map's modifiers will be displayed on the next map clicked if it was played before hints implemented
+            if (modifier_hints == null || modifier_hints == "" || modifier_hints == " ")
             {
-                this.modifier_hints = modifier_hints;
+                this.modifier_hints = "No modifiers used for this play"; // hoverhint strings cannot be empty, will display the last non-empty one
             }
             else
             {
-                this.modifier_hints = "";
+                this.modifier_hints = modifier_hints;
             }
-            Plugin.Log.Debug("json mod hints: " + modifier_hints);
+            //Plugin.Log.Debug("json mod hints: " + modifier_hints);
 
             this.timestamp = timestamp;
         }
@@ -369,6 +371,8 @@ namespace PartyExtensions
             return custom_gameplaymodifiers;
         }
 
+
+        // Repurposed from ButtonViewController
         internal static string Convert_GPM(GameplayModifiers gameplayModifiers)
         {
             string result = "";
@@ -407,7 +411,7 @@ namespace PartyExtensions
                 case 0:
                     break;
                 case 1:
-                    result += "FH, "; // Probably wont show up
+                    result += "FullHeightOnly, "; // Probably wont show up
                     break;
                 case 2:
                     result += "NoObstacles, ";
@@ -473,9 +477,16 @@ namespace PartyExtensions
                     break;
             }
 
-            Plugin.Log.Debug(result);
+            //Plugin.Log.Debug(result);
 
-            return result.Trim(',', ' ');
+            result = result.Trim(',', ' ');
+            if (result != " ")
+            {
+                return result;
+            }
+            return "No modifiers used for this play";
+
+           // return result.Trim(',', ' ');
         }
 
 
