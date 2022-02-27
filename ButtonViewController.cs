@@ -23,10 +23,11 @@ namespace PartyExtensions
         {
             Plugin.Log.Debug("button clicked: " + row);
 
+            parserParams.EmitEvent("close-modal");
+
             Set_Modal_Content(row);
             //Fill_Modal_Test();
 
-            parserParams.EmitEvent("close-modal");
             parserParams.EmitEvent("open-modal"); // This is absolutely critical!! Not sure why but "button_clicked" doesn't work as show-event
 
             Button_List.tableView.ClearSelection(); // Otherwise user has to click away and back if they want to open the same score again
@@ -201,7 +202,8 @@ namespace PartyExtensions
             }
 
             temp_playername = temp.map_scores[row].playername;
-            Playername = "changed";
+            Playername = "change";
+
 
             temp_raw_score = temp.map_scores[row].raw_score.ToString("N0");
             Raw_Score = "changed";
@@ -246,7 +248,7 @@ namespace PartyExtensions
             //Plugin.Log.Debug(temp_stats);
 
             temp_mod_hints = temp.map_scores[row].modifier_hints;
-            Mod_Hints = "changed";
+            Mod_Hints = temp_mod_hints;
         }
 
 
@@ -336,7 +338,8 @@ namespace PartyExtensions
             get => temp_mod_hints;
             set
             {
-                NotifyPropertyChanged();
+                temp_mod_hints = value;
+                NotifyPropertyChanged(nameof(Mod_Hints));
             }
         }
 
@@ -362,8 +365,8 @@ namespace PartyExtensions
             temp_stats = "\nNo data for this score.\nPlay this map and set one now!\n\n\n\n<size=3><#ffff00>Special request for Aroc. Thanks!\n\n<size=3><#ff0080>PartyExtensions v1.0.0 by Zephyr#9125";
             Stats = "changed";
 
-            temp_mod_hints = "";
-            Mod_Hints = "changed";
+            temp_mod_hints = "This hasn't been played yet.";
+            Mod_Hints = temp_mod_hints;
         }
 
 
