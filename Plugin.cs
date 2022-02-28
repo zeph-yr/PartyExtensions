@@ -1,5 +1,4 @@
 ﻿using IPA;
-using IPA.Config;
 using System;
 using System.Reflection;
 using UnityEngine;

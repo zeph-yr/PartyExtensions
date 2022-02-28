@@ -121,8 +121,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ButtonController.cs" />
+    <Compile Include="CustomLeaderBoard.cs" />
     <Compile Include="CustomScoreData.cs" />
     <Compile Include="HarmonyPatches.cs" />
+    <Compile Include="PartyData.cs" />
     <Compile Include="Plugin.cs" />
     <Compile Include="PartyExtensionsController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
