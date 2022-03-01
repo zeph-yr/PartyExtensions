@@ -215,11 +215,12 @@ namespace PartyExtensions
 
             if (PartyData.daily_scores.ContainsKey(leaderboardId))
             {
-                for (int i = PartyData.daily_scores[leaderboardId].map_scores.Count - 1; i >= 0; i--)
+                for (int i = 0; i < PartyData.daily_scores[leaderboardId].map_scores.Count; i++)
                 {
-                    if (PartyData.daily_scores[leaderboardId].map_scores[i].timestamp < num && PartyData.daily_scores[leaderboardId].map_scores[i].timestamp >= 1) // "&& >=1" because don't remove the placeholders
+                    if (PartyData.daily_scores[leaderboardId].map_scores[i].timestamp < num && PartyData.daily_scores[leaderboardId].map_scores[i].timestamp >= 1)
                     {
                         PartyData.daily_scores[leaderboardId].map_scores.RemoveAt(i);
+                        PartyData.daily_scores[leaderboardId].map_scores.Add(new CustomScoreData());
                     }
                 }
             }
