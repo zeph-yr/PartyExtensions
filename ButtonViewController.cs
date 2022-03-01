@@ -241,7 +241,7 @@ namespace PartyExtensions
             temp_stats = "<#b3b3cc>Date Set: <#ffffff>" + Convert_Timestamp(temp.map_scores[row].timestamp) + "\n" + 
                         "<#b3b3cc>Accuracy: <#ff0000>" + String.Format("{0:0.00}", temp.map_scores[row].left_acc) + " <#ffffff>- <#1a53ff>" + String.Format("{0:0.00}", temp.map_scores[row].right_acc) + "\n" +
                         "<#b3b3cc>Max Combo: <#ffffff>" + temp.map_scores[row].longest_combo + "\n" +
-                        "<#b3b3cc>Good Cuts: <#ffffff>" + temp.map_scores[row].longest_combo + "\n" +
+                        "<#b3b3cc>Good Cuts: <#ffffff>" + temp.map_scores[row].good_cuts + "\n" +
                         "<#b3b3cc>Bad Cuts: <#ffffff>" + temp.map_scores[row].bad_cuts + "\n" +
                         "<#b3b3cc>Missed: <#ffffff>" + temp.map_scores[row].missed + "\n" +
                         "<#b3b3cc>Bomb Hits: <#ffffff>" + temp.map_scores[row].bombs + "\n" +
