@@ -1,9 +1,10 @@
 ﻿using Newtonsoft.Json;
+using System.Threading.Tasks;
 using UnityEngine;
 
 namespace PartyExtensions
 {
-    public class PartyExtensionsController : MonoBehaviour, ISaberSwingRatingCounterDidFinishReceiver
+    public class PartyExtensionsController : MonoBehaviour//, ISaberSwingRatingCounterDidFinishReceiver
     {
         public static PartyExtensionsController Instance { get; private set; }
 
@@ -60,26 +61,27 @@ namespace PartyExtensions
 
                 //PartyData.is_written = false;
 
-                BS_Utils.Utilities.BSEvents.noteWasCut += Instance.BSEvents_noteWasCut;
-                BS_Utils.Utilities.BSEvents.levelCleared += BSEvents_levelCleared;
+                //BS_Utils.Utilities.BSEvents.noteWasCut += BSEvents_noteWasCut;
+                BS_Utils.Utilities.BSEvents.levelCleared += BSEvents_levelClearedAsync;
             }
             else
             {
                 //Plugin.Log.Debug("Not Party");
 
-                BS_Utils.Utilities.BSEvents.noteWasCut -= Instance.BSEvents_noteWasCut;
-                BS_Utils.Utilities.BSEvents.levelCleared -= BSEvents_levelCleared;
+                //BS_Utils.Utilities.BSEvents.noteWasCut -= BSEvents_noteWasCut;
+                BS_Utils.Utilities.BSEvents.levelCleared -= BSEvents_levelClearedAsync;
             }
         }
 
-        private static void BSEvents_levelCleared(StandardLevelScenesTransitionSetupDataSO arg1, LevelCompletionResults arg2)
+
+        private static async void BSEvents_levelClearedAsync(StandardLevelScenesTransitionSetupDataSO arg1, LevelCompletionResults arg2)
         {
             Plugin.Log.Debug("Level cleared");
 
             // This might not be what the user wants
             //float total_acc = (left_acc + right_acc) / (left_hits + right_hits);
 
-            int total_cubes = arg2.goodCutsCount + arg2.missedCount + arg2.badCutsCount;
+            /*int total_cubes = arg2.goodCutsCount + arg2.missedCount + arg2.badCutsCount;
             //Plugin.Log.Debug("Total cubes: " + total_cubes);
 
             // Thanks Dennis!
@@ -102,16 +104,27 @@ namespace PartyExtensions
             else // 0 cube
             {
                 max_score = 0.001f;
-            }
+            }*/
 
-            //Plugin.Log.Debug("Max score: " + max_score);
-            float total_acc = arg2.rawScore / max_score * 100;
-            float mod_acc = arg2.modifiedScore / max_score * 100;
+            int max_score = ScoreModel.ComputeMaxMultipliedScoreForBeatmap(await(arg1.difficultyBeatmap.GetBeatmapDataAsync(arg1.environmentInfo)));
+            
+            Plugin.Log.Debug("Max score: " + max_score);
+
+
+            float total_acc = (float)arg2.multipliedScore / max_score * 100; //rawScore / max_score * 100;
+            float mod_acc = (float)arg2.modifiedScore / max_score * 100;
             
             float final_left_acc = left_acc / left_hits;
             float final_right_acc = right_acc / right_hits;
 
-            //Plugin.Log.Debug($"Final: {total_acc} {final_left_acc} {final_right_acc}");
+
+            Plugin.Log.Debug("multiplied score: " + arg2.multipliedScore);
+            Plugin.Log.Debug("modified score: " + arg2.modifiedScore);
+
+            Plugin.Log.Debug("avg cut score: " + arg2.averageCutScoreForNotesWithFullScoreScoringType);
+            Plugin.Log.Debug("total cut score: " + arg2.totalCutScore);
+
+            Plugin.Log.Debug($"Final: {total_acc} {final_left_acc} {final_right_acc}");
 
             /*
             Plugin.Log.Debug("Read Config:");
@@ -139,30 +152,30 @@ namespace PartyExtensions
             Plugin.Log.Debug("map_leaderboard: " + PluginConfig.Instance.map_leaderboard.map_scores[0].left_acc); //This data is stored but not being serialized properly
             */
 
-            PartyData.current_score = new CustomScoreData(arg2.rank.ToString(), arg2.missedCount, arg2.goodCutsCount, arg2.badCutsCount, bomb_hits, arg2.rawScore, arg2.modifiedScore, false, total_acc, mod_acc, final_left_acc, final_right_acc, arg2.gameplayModifiers, arg2.maxCombo, 0 /*DateTime.Now.Ticks*/, "Zeph"); //hehe
+            PartyData.current_score = new CustomScoreData(arg2.rank.ToString(), arg2.missedCount, arg2.goodCutsCount, arg2.badCutsCount, bomb_hits, arg2.multipliedScore, arg2.modifiedScore, false, total_acc, mod_acc, final_left_acc, final_right_acc, arg2.gameplayModifiers, arg2.maxCombo, 0 /*DateTime.Now.Ticks*/, "Zeph"); //hehe
             
             //Plugin.Log.Debug(JsonConvert.SerializeObject(PartyData.current_score));
             //PartyData.Write();
         }
 
-        private static int preswing;
-        private static int postswing;
-        private static int center;
-        private static float dist;
-        private static string color;
+        //private static int preswing;
+        //private static int postswing;
+        //private static int center;
+        //private static float dist;
+        //private static string color;
 
-        private void BSEvents_noteWasCut(NoteData arg1, NoteCutInfo arg2, int arg3) // Must be non-static
+        private static void BSEvents_noteWasCut(NoteController arg1, NoteCutInfo arg2) // Must be non-static
         {
             // Only want the good cuts
             // Need the arg2 check for wrong direction, wrong color, miss, or it will error a lot in the console
-            if (arg1 != null && arg2.allIsOK)
+            /*if (arg1.noteData != null && arg2.allIsOK)
             {
-                if (arg1.colorType == ColorType.ColorA)
+                if (arg1.noteData.colorType == ColorType.ColorA)
                 {
                     color = "A";
                 }
 
-                else if (arg1.colorType == ColorType.ColorB)
+                else if (arg1.noteData.colorType == ColorType.ColorB)
                 {
                     color = "B";
                 }
@@ -171,13 +184,13 @@ namespace PartyExtensions
                 arg2.swingRatingCounter.RegisterDidFinishReceiver(this);
             }
 
-            else if (arg1 != null && arg1.colorType == ColorType.None) // Can even add bombs cut here as a bonus
+            else*/ if (arg1 != null && arg1.noteData.colorType == ColorType.None) // Can even add bombs cut here as a bonus
             {
                 bomb_hits++;
             }
         }
 
-        public void HandleSaberSwingRatingCounterDidFinish(ISaberSwingRatingCounter saberSwingRatingCounter) // Must be public
+        /*public void HandleSaberSwingRatingCounterDidFinish(ISaberSwingRatingCounter saberSwingRatingCounter) // Must be public
         {
             ScoreModel.RawScoreWithoutMultiplier(saberSwingRatingCounter, dist, out preswing, out postswing, out center);
 
@@ -196,7 +209,7 @@ namespace PartyExtensions
             //Plugin.Log.Debug($"-----------------------------------------------------------------------");
             //Plugin.Log.Debug($"left: {left_acc} | {preswing} {postswing} {center} | {left_hits}");
             //Plugin.Log.Debug($"right: {right_acc} | {preswing} {postswing} {center} | {right_hits}");
-        }
+        }*/
 
 
         private void OnDisable()
@@ -204,8 +217,8 @@ namespace PartyExtensions
             BS_Utils.Utilities.BSEvents.lateMenuSceneLoadedFresh -= BSEvents_lateMenuSceneLoadedFresh;
             BS_Utils.Utilities.BSEvents.gameSceneLoaded -= BSEvents_gameSceneLoaded;
 
-            BS_Utils.Utilities.BSEvents.noteWasCut -= BSEvents_noteWasCut;
-            BS_Utils.Utilities.BSEvents.levelCleared -= BSEvents_levelCleared;
+            //BS_Utils.Utilities.BSEvents.noteWasCut -= BSEvents_noteWasCut;
+            BS_Utils.Utilities.BSEvents.levelCleared -= BSEvents_levelClearedAsync;
         }
 
 

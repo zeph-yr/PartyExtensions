@@ -306,6 +306,46 @@ namespace PartyExtensions
             }*/
         }
     }
+
+
+    [HarmonyPatch(typeof(BeatmapObjectExecutionRatingsRecorder), "HandleScoringForNoteDidFinish")]
+    internal class HandleScoringForNoteDidFinishPatch
+    {
+        static void Postfix(ScoringElement scoringElement)
+        {
+
+            if (scoringElement != null)
+            {
+                NoteData noteData = scoringElement.noteData;
+                if (noteData.colorType == ColorType.None)
+                {
+                    PartyExtensionsController.bomb_hits++;
+                }
+
+                GoodCutScoringElement goodCutScoringElement;
+                if ((goodCutScoringElement = (scoringElement as GoodCutScoringElement)) != null)
+                {
+                    if (goodCutScoringElement.noteData.colorType == ColorType.ColorA)
+                    {
+                        PartyExtensionsController.left_acc += goodCutScoringElement.cutScore;
+                        PartyExtensionsController.left_hits++;
+
+                        Plugin.Log.Debug("left: " + goodCutScoringElement.cutScore + " " + PartyExtensionsController.left_hits);
+                    }
+                    if (goodCutScoringElement.noteData.colorType == ColorType.ColorB)
+                    {
+                        PartyExtensionsController.right_acc += goodCutScoringElement.cutScore;
+                        PartyExtensionsController.right_hits++;
+
+                        Plugin.Log.Debug("right: " + goodCutScoringElement.cutScore + " " + PartyExtensionsController.right_hits);
+                    }
+
+                    //cutScoreBuffer.beforeCutScore, cutScoreBuffer.centerDistanceCutScore, cutScoreBuffer.afterCutScore));
+
+                }
+            }
+        }
+    }
 }
 
 
