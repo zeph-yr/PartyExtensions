@@ -313,7 +313,6 @@ namespace PartyExtensions
     {
         static void Postfix(ScoringElement scoringElement)
         {
-
             if (scoringElement != null)
             {
                 NoteData noteData = scoringElement.noteData;
@@ -330,14 +329,14 @@ namespace PartyExtensions
                         PartyExtensionsController.left_acc += goodCutScoringElement.cutScore;
                         PartyExtensionsController.left_hits++;
 
-                        Plugin.Log.Debug("left: " + goodCutScoringElement.cutScore + " " + PartyExtensionsController.left_hits);
+                        //Plugin.Log.Debug("left: " + goodCutScoringElement.cutScore + " " + PartyExtensionsController.left_hits);
                     }
                     if (goodCutScoringElement.noteData.colorType == ColorType.ColorB)
                     {
                         PartyExtensionsController.right_acc += goodCutScoringElement.cutScore;
                         PartyExtensionsController.right_hits++;
 
-                        Plugin.Log.Debug("right: " + goodCutScoringElement.cutScore + " " + PartyExtensionsController.right_hits);
+                        //Plugin.Log.Debug("right: " + goodCutScoringElement.cutScore + " " + PartyExtensionsController.right_hits);
                     }
 
                     //cutScoreBuffer.beforeCutScore, cutScoreBuffer.centerDistanceCutScore, cutScoreBuffer.afterCutScore));
@@ -347,32 +346,3 @@ namespace PartyExtensions
         }
     }
 }
-
-
-// Testing single map's leaderboard
-/*if (! PartyData.is_written)
-{
-    PartyData.test_leaderboard.leaderboard_id = leaderboardData._leaderboardId;
-    PartyData.test_leaderboard.map_scores.Insert(__state, PartyData.test_score);
-    PartyData.test_leaderboard.map_scores.RemoveAt(9);
-
-    PartyData.Write();
-
-    PartyData.is_written = true;
-}*/
-
-// Testing adding to dictionary
-/*if (! PartyData.is_written)
-{
-    CustomLeaderboard temp = new CustomLeaderboard();
-
-    temp.leaderboard_id = leaderboardId;
-    temp.map_scores.Insert(__state, PartyData.test_score);
-    temp.map_scores.RemoveAt(9);
-
-    PartyData.test_dict.Add(leaderboardId, temp);
-
-    PartyData.Write();
-
-    PartyData.is_written = true;
-}*/

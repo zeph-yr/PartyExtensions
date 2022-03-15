@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace PartyExtensions
 {
-    public class PartyExtensionsController : MonoBehaviour//, ISaberSwingRatingCounterDidFinishReceiver
+    public class PartyExtensionsController : MonoBehaviour
     {
         public static PartyExtensionsController Instance { get; private set; }
 
@@ -59,8 +59,6 @@ namespace PartyExtensions
 
                 bomb_hits = 0;
 
-                //PartyData.is_written = false;
-
                 //BS_Utils.Utilities.BSEvents.noteWasCut += BSEvents_noteWasCut;
                 BS_Utils.Utilities.BSEvents.levelCleared += BSEvents_levelClearedAsync;
             }
@@ -106,10 +104,8 @@ namespace PartyExtensions
                 max_score = 0.001f;
             }*/
 
-            int max_score = ScoreModel.ComputeMaxMultipliedScoreForBeatmap(await(arg1.difficultyBeatmap.GetBeatmapDataAsync(arg1.environmentInfo)));
-            
-            Plugin.Log.Debug("Max score: " + max_score);
 
+            int max_score = ScoreModel.ComputeMaxMultipliedScoreForBeatmap(await(arg1.difficultyBeatmap.GetBeatmapDataAsync(arg1.environmentInfo)));
 
             float total_acc = (float)arg2.multipliedScore / max_score * 100; //rawScore / max_score * 100;
             float mod_acc = (float)arg2.modifiedScore / max_score * 100;
@@ -117,40 +113,15 @@ namespace PartyExtensions
             float final_left_acc = left_acc / left_hits;
             float final_right_acc = right_acc / right_hits;
 
+            Plugin.Log.Debug("Max score: " + max_score);
+            Plugin.Log.Debug("Multiplied score: " + arg2.multipliedScore);
+            Plugin.Log.Debug("Modified score: " + arg2.modifiedScore);
 
-            Plugin.Log.Debug("multiplied score: " + arg2.multipliedScore);
-            Plugin.Log.Debug("modified score: " + arg2.modifiedScore);
-
-            Plugin.Log.Debug("avg cut score: " + arg2.averageCutScoreForNotesWithFullScoreScoringType);
-            Plugin.Log.Debug("total cut score: " + arg2.totalCutScore);
+            //Plugin.Log.Debug("avg cut score: " + arg2.averageCutScoreForNotesWithFullScoreScoringType);
+            //Plugin.Log.Debug("total cut score: " + arg2.totalCutScore);
 
             Plugin.Log.Debug($"Final: {total_acc} {final_left_acc} {final_right_acc}");
 
-            /*
-            Plugin.Log.Debug("Read Config:");
-            Plugin.Log.Debug("map_score. left acc:" + PluginConfig.Instance.map_score.left_acc);
-            Plugin.Log.Debug("map_leaderboard. id:" + PluginConfig.Instance.map_leaderboard.leaderboard_id);
-
-
-            CustomScoreData map_score = new CustomScoreData(arg2.rank.ToString(), arg2.missedCount, arg2.goodCutsCount, arg2.badCutsCount, final_left_acc, final_right_acc, arg2.gameplayModifiers, arg2.maxCombo, DateTime.Now.Ticks, "zeph");
-            Plugin.Log.Debug(JsonConvert.SerializeObject(map_score, Formatting.Indented));
-
-            Plugin.Log.Debug("Write map score");
-            PluginConfig.Instance.map_score = map_score;
-
-            //CustomLeaderboard map_leaderboard = new CustomLeaderboard("this map");
-            //map_leaderboard.map_scores.Add(map_score);
-            //Plugin.Log.Debug(JsonConvert.SerializeObject(map_leaderboard, Formatting.Indented));
-
-            Plugin.Log.Debug("Write map leaderboard");
-            //PluginConfig.Instance.map_leaderboard = map_leaderboard;
-
-
-            PluginConfig.Instance.map_leaderboard = new CustomLeaderboard("this map");
-            PluginConfig.Instance.map_leaderboard.map_scores.Add(map_score);
-
-            Plugin.Log.Debug("map_leaderboard: " + PluginConfig.Instance.map_leaderboard.map_scores[0].left_acc); //This data is stored but not being serialized properly
-            */
 
             PartyData.current_score = new CustomScoreData(arg2.rank.ToString(), arg2.missedCount, arg2.goodCutsCount, arg2.badCutsCount, bomb_hits, arg2.multipliedScore, arg2.modifiedScore, false, total_acc, mod_acc, final_left_acc, final_right_acc, arg2.gameplayModifiers, arg2.maxCombo, 0 /*DateTime.Now.Ticks*/, "Zeph"); //hehe
             
@@ -166,50 +137,11 @@ namespace PartyExtensions
 
         private static void BSEvents_noteWasCut(NoteController arg1, NoteCutInfo arg2) // Must be non-static
         {
-            // Only want the good cuts
-            // Need the arg2 check for wrong direction, wrong color, miss, or it will error a lot in the console
-            /*if (arg1.noteData != null && arg2.allIsOK)
-            {
-                if (arg1.noteData.colorType == ColorType.ColorA)
-                {
-                    color = "A";
-                }
-
-                else if (arg1.noteData.colorType == ColorType.ColorB)
-                {
-                    color = "B";
-                }
-
-                dist = arg2.cutDistanceToCenter;
-                arg2.swingRatingCounter.RegisterDidFinishReceiver(this);
-            }
-
-            else*/ if (arg1 != null && arg1.noteData.colorType == ColorType.None) // Can even add bombs cut here as a bonus
+            if (arg1 != null && arg1.noteData.colorType == ColorType.None) // Can even add bombs cut here as a bonus
             {
                 bomb_hits++;
             }
         }
-
-        /*public void HandleSaberSwingRatingCounterDidFinish(ISaberSwingRatingCounter saberSwingRatingCounter) // Must be public
-        {
-            ScoreModel.RawScoreWithoutMultiplier(saberSwingRatingCounter, dist, out preswing, out postswing, out center);
-
-            if (color == "A")
-            {
-                left_acc += (preswing + postswing + center);
-                left_hits++;
-            }
-
-            else if (color == "B")
-            {
-                right_acc += (preswing + postswing + center);
-                right_hits++;
-            }
-
-            //Plugin.Log.Debug($"-----------------------------------------------------------------------");
-            //Plugin.Log.Debug($"left: {left_acc} | {preswing} {postswing} {center} | {left_hits}");
-            //Plugin.Log.Debug($"right: {right_acc} | {preswing} {postswing} {center} | {right_hits}");
-        }*/
 
 
         private void OnDisable()
