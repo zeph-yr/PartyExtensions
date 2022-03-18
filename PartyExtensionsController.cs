@@ -123,15 +123,10 @@ namespace PartyExtensions
             float final_left_mixed_acc = (left_acc + left_slider_acc) / (left_hits + left_slider_hits);
             float final_right_mixed_acc = (right_acc + right_slider_acc) / (right_hits + right_slider_hits);
 
-            Plugin.Log.Debug("Max score: " + max_score);
-            Plugin.Log.Debug("Multiplied score: " + arg2.multipliedScore);
-            Plugin.Log.Debug("Modified score: " + arg2.modifiedScore);
-
-            //Plugin.Log.Debug("avg cut score: " + arg2.averageCutScoreForNotesWithFullScoreScoringType);
-            //Plugin.Log.Debug("total cut score: " + arg2.totalCutScore);
-
-            Plugin.Log.Debug($"Final: {total_acc} {final_left_acc} {final_right_acc}");
-
+            //Plugin.Log.Debug("Max score: " + max_score);
+            //Plugin.Log.Debug("Multiplied score: " + arg2.multipliedScore);
+            //Plugin.Log.Debug("Modified score: " + arg2.modifiedScore);
+            //Plugin.Log.Debug($"Final: {total_acc} {final_left_acc} {final_right_acc}");
 
             PartyData.current_score = new CustomScoreData(arg2.rank.ToString(), arg2.missedCount, arg2.goodCutsCount, arg2.badCutsCount, bomb_hits, arg2.multipliedScore, arg2.modifiedScore, false, total_acc, mod_acc, final_left_acc, final_right_acc, final_left_mixed_acc, final_right_mixed_acc, arg2.gameplayModifiers, arg2.maxCombo, 0 /*DateTime.Now.Ticks*/, "Zeph"); //hehe
             //Plugin.Log.Debug(JsonConvert.SerializeObject(PartyData.current_score));

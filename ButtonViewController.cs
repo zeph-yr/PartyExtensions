@@ -389,7 +389,6 @@ namespace PartyExtensions
         // Update: Convert_GPM used to be here. Moved to CustomScoreData for reuse
         
 
-
         /*private void Fill_Modal_Test()
         {
             Plugin.Log.Debug("Fill Modal");
@@ -407,7 +406,3 @@ namespace PartyExtensions
         }*/
     }
 }
-
-/*	<horizontal pad-top='95' pad-right='6'>
-		<text text='PartyExtensions v1.0.0 by Zephyr#9125' font-color='#ff0080ff' font-size='3' align='Right' hover-hint='Special request for Aroc. Thanks!'></text>
-	</horizontal>*/

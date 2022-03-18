@@ -11,6 +11,7 @@ namespace PartyExtensions
         static void Postfix(string leaderboardId, LocalLeaderboardsModel.LeaderboardType leaderboardType, string playerName, int score, bool fullCombo, ref LocalLeaderboardsModel __instance, int __state)
         {
             //Plugin.Log.Debug("PostFix __state: " + __state);
+            //Plugin.Log.Debug("Score: " + score);
 
             if (__state < 10) //__instance._maxNumberOfScoresInLeaderboard)
             {
@@ -18,10 +19,6 @@ namespace PartyExtensions
                 // If we dont do this (or make a is_written flag), there will be duplicates in the files
 
                 PartyData.current_score.playername = playerName;
-
-                //PartyData.current_score.raw_score = score;
-                //Plugin.Log.Debug("Score: " + score);
-
                 PartyData.current_score.fc = fullCombo;
                 PartyData.current_score.timestamp = __instance.GetCurrentTimestamp(); // Yes this might be microseconds later but good enough
 
