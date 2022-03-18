@@ -3,13 +3,13 @@
     "id": "PartyExtensions",
     "name": "PartyExtensions",
     "author": "Zephyr",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "description": "",
-    "gameVersion": "1.18.0",
+    "gameVersion": "1.20.0",
     "dependsOn": {
-        "BSIPA": "^4.2.0",
-        "BS Utils": "^1.11.0",
-        "BeatSaberMarkupLanguage": "^1.5.11"
+        "BSIPA": "^4.2.2",
+        "BS Utils": "^1.12.0",
+        "BeatSaberMarkupLanguage": "^1.6.2"
     },
     "links": {
         "donate": "https://www.paypal.me/zeph3yr"
