@@ -22,6 +22,10 @@ namespace PartyExtensions
         public float left_acc;
         public float right_acc;
 
+        // BS 1.20.0
+        public float left_mixed_acc;
+        public float right_mixed_acc;
+
         //public GameplayModifiers modifiers;
         public bool[] custom_gameplaymodifiers;
 
@@ -46,6 +50,10 @@ namespace PartyExtensions
 
             left_acc = 0f;
             right_acc = 0f;
+            
+            // BS 1.20.0
+            left_mixed_acc = 0f;
+            right_mixed_acc = 0f;
 
             longest_combo = 0;
             good_cuts = 0;
@@ -62,7 +70,7 @@ namespace PartyExtensions
 
 
         // Called on levelcleared to lock gpms into a bool array before they can do their weird thing
-        public CustomScoreData(string rank, int missed, int good_cuts, int bad_cuts, int bombs, int raw_score, int mod_score, bool fc, float acc, float mod_acc, float left_acc, float right_acc, GameplayModifiers modifiers, int longest_combo, long timestamp, string playername)
+        public CustomScoreData(string rank, int missed, int good_cuts, int bad_cuts, int bombs, int raw_score, int mod_score, bool fc, float acc, float mod_acc, float left_acc, float right_acc, float left_mixed_acc, float right_mixed_acc, GameplayModifiers modifiers, int longest_combo, long timestamp, string playername)
         {
             this.playername = playername;
             this.raw_score = raw_score;
@@ -74,6 +82,10 @@ namespace PartyExtensions
             this.mod_acc = mod_acc;
             this.left_acc = left_acc;
             this.right_acc = right_acc;
+
+            //BS 1.20.0
+            this.left_mixed_acc = left_mixed_acc;
+            this.right_mixed_acc = right_mixed_acc;
 
             this.longest_combo = longest_combo;
             this.good_cuts = good_cuts;
@@ -91,7 +103,7 @@ namespace PartyExtensions
 
 
         [JsonConstructor]
-        public CustomScoreData(string rank, int missed, int good_cuts, int bad_cuts, int bombs, int raw_score, int mod_score, bool fc, float acc, float mod_acc, float left_acc, float right_acc, bool[] modifiers, int longest_combo, long timestamp, string playername, string modifier_hints)
+        public CustomScoreData(string rank, int missed, int good_cuts, int bad_cuts, int bombs, int raw_score, int mod_score, bool fc, float acc, float mod_acc, float left_acc, float right_acc, float left_mixed_acc, float right_mixed_acc, bool[] modifiers, int longest_combo, long timestamp, string playername, string modifier_hints)
         {
             this.playername = playername;
             this.raw_score = raw_score;
@@ -103,6 +115,10 @@ namespace PartyExtensions
             this.mod_acc = mod_acc;
             this.left_acc = left_acc;
             this.right_acc = right_acc;
+
+            //BS 1.20.0
+            this.left_mixed_acc = left_mixed_acc;
+            this.right_mixed_acc = right_mixed_acc;
 
             this.longest_combo = longest_combo;
             this.good_cuts = good_cuts;

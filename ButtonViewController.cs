@@ -204,7 +204,7 @@ namespace PartyExtensions
             }
 
             temp_playername = temp.map_scores[row].playername;
-            Playername = "change";
+            Playername = "changed";
 
 
             temp_raw_score = temp.map_scores[row].raw_score.ToString("N0");
@@ -239,7 +239,7 @@ namespace PartyExtensions
 
 
             temp_stats = "<#b3b3cc>Date Set: <#ffffff>" + Convert_Timestamp(temp.map_scores[row].timestamp) + "\n" + 
-                        "<#b3b3cc>Accuracy: <#ff0000>" + String.Format("{0:0.00}", temp.map_scores[row].left_acc) + " <#ffffff>- <#1a53ff>" + String.Format("{0:0.00}", temp.map_scores[row].right_acc) + "\n" +
+                        "<#b3b3cc>Accuracy: <#ff0000>" + String.Format("{0:0.00}", temp.map_scores[row].left_acc) + " <#ffffff>- <#1a53ff>" + String.Format("{0:0.00}", temp.map_scores[row].right_acc) + "<#ffffff>, " + "<#ff0000>" + String.Format("{0:0.00}", temp.map_scores[row].left_mixed_acc) + " <#ffffff>- <#1a53ff>" + String.Format("{0:0.00}", temp.map_scores[row].right_mixed_acc) + "\n" +
                         "<#b3b3cc>Max Combo: <#ffffff>" + temp.map_scores[row].longest_combo + "\n" +
                         "<#b3b3cc>Good Cuts: <#ffffff>" + temp.map_scores[row].good_cuts + "\n" +
                         "<#b3b3cc>Bad Cuts: <#ffffff>" + temp.map_scores[row].bad_cuts + "\n" +

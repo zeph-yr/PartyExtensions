@@ -326,21 +326,32 @@ namespace PartyExtensions
                 {
                     if (goodCutScoringElement.noteData.colorType == ColorType.ColorA)
                     {
-                        PartyExtensionsController.left_acc += goodCutScoringElement.cutScore;
-                        PartyExtensionsController.left_hits++;
-
+                        if (goodCutScoringElement.maxPossibleCutScore < 115)
+                        {
+                            PartyExtensionsController.left_slider_acc += goodCutScoringElement.cutScore;
+                            PartyExtensionsController.left_slider_hits++;
+                        }
+                        else
+                        {
+                            PartyExtensionsController.left_acc += goodCutScoringElement.cutScore;
+                            PartyExtensionsController.left_hits++;
+                        }
                         //Plugin.Log.Debug("left: " + goodCutScoringElement.cutScore + " " + PartyExtensionsController.left_hits);
                     }
                     if (goodCutScoringElement.noteData.colorType == ColorType.ColorB)
                     {
-                        PartyExtensionsController.right_acc += goodCutScoringElement.cutScore;
-                        PartyExtensionsController.right_hits++;
-
+                        if (goodCutScoringElement.maxPossibleCutScore < 115)
+                        {
+                            PartyExtensionsController.right_slider_acc += goodCutScoringElement.cutScore;
+                            PartyExtensionsController.right_slider_hits++;
+                        }
+                        else
+                        {
+                            PartyExtensionsController.right_acc += goodCutScoringElement.cutScore;
+                            PartyExtensionsController.right_hits++;
+                        }
                         //Plugin.Log.Debug("right: " + goodCutScoringElement.cutScore + " " + PartyExtensionsController.right_hits);
                     }
-
-                    //cutScoreBuffer.beforeCutScore, cutScoreBuffer.centerDistanceCutScore, cutScoreBuffer.afterCutScore));
-
                 }
             }
         }
