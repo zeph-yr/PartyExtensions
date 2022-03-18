@@ -7,19 +7,9 @@ namespace PartyExtensions
 {
     internal class PartyData
     {
-        //internal static bool is_written = false;
-
-        //internal static CustomScoreData test_score;
-        //internal static CustomLeaderboard test_leaderboard;
-        //internal static Dictionary<string, CustomLeaderboard> test_dict;
-
-
         internal static CustomScoreData current_score;
         internal static Dictionary<string, CustomLeaderboard> all_scores;
         internal static Dictionary<string, CustomLeaderboard> daily_scores;
-
-        //internal static string file_path = @"C:\Program Files (x86)\Steam\steamapps\common\Beat Saber\UserData\PartyExtensions\LocalScores.json";
-        //internal static string daily_file_path = @"C:\Program Files (x86)\Steam\steamapps\common\Beat Saber\UserData\PartyExtensions\DailyLocalScores.json";
 
         internal static string alltime_path;
         internal static string daily_path;
@@ -49,11 +39,6 @@ namespace PartyExtensions
             {
                 Plugin.Log.Debug("Create alltime file");
 
-                //test_score = new CustomScoreData();
-                //test_leaderboard = new CustomLeaderboard();
-                //test_dict = new Dictionary<string, CustomLeaderboard>();
-                //test_dict.Add("none", new CustomLeaderboard());
-
                 all_scores = new Dictionary<string, CustomLeaderboard>();
                 Write_All();
             }
@@ -64,13 +49,7 @@ namespace PartyExtensions
                 string json_string = File.ReadAllText(alltime_path);
                 //Plugin.Log.Debug(json_string);
 
-                //test_score = JsonConvert.DeserializeObject<CustomScoreData>(json_string);
-                //test_leaderboard = JsonConvert.DeserializeObject<CustomLeaderboard>(json_string);
-                //test_dict = JsonConvert.DeserializeObject<Dictionary<string, CustomLeaderboard>>(json_string);
-
                 all_scores = JsonConvert.DeserializeObject<Dictionary<string, CustomLeaderboard>>(json_string);
-                //all_scores = JsonConvert.DeserializeObject<Dictionary<string, CustomLeaderboard>>(File.ReadAllText(file_path));
-
 
                 // Extra bonus: Make a backup at the start of each game but ONLY if the file is not an empty dict
                 // Without the condition, the backup would be overwritten when the user launches the game
@@ -109,21 +88,12 @@ namespace PartyExtensions
         internal static void Write_All()
         {
             //Plugin.Log.Debug("Write All");
-
-            //string json_string = JsonConvert.SerializeObject(test_score);
-            //string json_string = JsonConvert.SerializeObject(test_leaderboard);
-            //string json_string = JsonConvert.SerializeObject(test_dict);
-
-            //string json_string = JsonConvert.SerializeObject(all_scores);
-            //Plugin.Log.Debug(json_string);
-
             File.WriteAllText(alltime_path, JsonConvert.SerializeObject(all_scores));
         }
 
         internal static void Write_Daily()
         {
             //Plugin.Log.Debug("Write Daily");
-
             File.WriteAllText(daily_path, JsonConvert.SerializeObject(daily_scores));
         }
     }

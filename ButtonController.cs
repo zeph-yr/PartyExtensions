@@ -33,7 +33,7 @@ namespace PartyExtensions
             {
                 // Make FloatingScreen:
                 Quaternion rotation = new Quaternion(0f, 0f, 0f, 0f);
-                rotation = Quaternion.AngleAxis(65, Vector3.up);
+                rotation = Quaternion.AngleAxis(60, Vector3.up);
 
                 floatingScreen = FloatingScreen.CreateFloatingScreen(new Vector2(120, 98), false, new Vector3(3.55f, 1.25f, 2f), rotation); //Size: 80, 100
                 GameObject.DontDestroyOnLoad(floatingScreen.gameObject);
