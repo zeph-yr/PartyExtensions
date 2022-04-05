@@ -72,7 +72,6 @@ namespace PartyExtensions
             else
             {
                 //Plugin.Log.Debug("Not Party");
-
                 BS_Utils.Utilities.BSEvents.levelCleared -= BSEvents_levelClearedAsync;
             }
         }
@@ -110,8 +109,8 @@ namespace PartyExtensions
                 max_score = 0.001f;
             }*/
 
-
-            int max_score = ScoreModel.ComputeMaxMultipliedScoreForBeatmap(await(arg1.difficultyBeatmap.GetBeatmapDataAsync(arg1.environmentInfo)));
+            PlayerSpecificSettings playerSpecificSettings = BS_Utils.Plugin.LevelData.GameplayCoreSceneSetupData.playerSpecificSettings;
+            int max_score = ScoreModel.ComputeMaxMultipliedScoreForBeatmap(await(arg1.difficultyBeatmap.GetBeatmapDataAsync(arg1.environmentInfo, playerSpecificSettings))); // BS 1.21.0
 
             float total_acc = (float)arg2.multipliedScore / max_score * 100;
             float mod_acc = (float)arg2.modifiedScore / max_score * 100;
