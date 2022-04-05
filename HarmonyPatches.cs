@@ -8,6 +8,29 @@ namespace PartyExtensions
     [HarmonyPatch(typeof(LocalLeaderboardsModel), "AddScore", new Type[] { typeof(string), typeof(LocalLeaderboardsModel.LeaderboardType), typeof(string), typeof(int), typeof(bool) })]
     public class AddScorePatch
     {
+        static void Prefix(string leaderboardId, LocalLeaderboardsModel.LeaderboardType leaderboardType, string playerName, int score, bool fullCombo, ref LocalLeaderboardsModel __instance, out int __state)
+        {
+            LocalLeaderboardsModel.LeaderboardData leaderboardData = __instance.GetLeaderboardData(leaderboardId, leaderboardType);
+            int i = 0;
+            if (leaderboardData != null)
+            {
+                List<LocalLeaderboardsModel.ScoreData> scores = leaderboardData._scores;
+                for (i = 0; i < scores.Count; i++)
+                {
+                    //Plugin.Log.Debug("LeaderboardData: " + scores[i]._score);
+
+                    if (scores[i]._score < score)
+                    {
+                        break;
+                    }
+                }
+            }
+
+            __state = i;
+            //Plugin.Log.Debug("Prefix __state: " + __state);
+        }
+
+
         static void Postfix(string leaderboardId, LocalLeaderboardsModel.LeaderboardType leaderboardType, string playerName, int score, bool fullCombo, ref LocalLeaderboardsModel __instance, int __state)
         {
             //Plugin.Log.Debug("PostFix __state: " + __state);
