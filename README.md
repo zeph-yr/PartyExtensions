@@ -25,4 +25,6 @@
 <img src="https://github.com/zeph-yr/PartyExtensions/blob/master/Screenshots/partyextensions_menu_11_crop.png" width="480"/><img src="https://github.com/zeph-yr/PartyExtensions/blob/master/Screenshots/partyextensions_menu_12.png" width="480" height="348.6"/>
 
 ## About
+Copyright © 2021 - 2023 Zephyr | www.xephai.com
+
 Comm'ed by Aroc. Thank you so much again. This mod was a pleasure to write. I hope you will have a great time enjoying the game with your friends and family 💖
